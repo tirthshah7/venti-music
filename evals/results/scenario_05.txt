@@ -1,0 +1,15 @@
+=== Scenario 5: Productive flow ===
+Vent: got the schema migration working, feeling like i can take on the rest of this sprint
+Context: good momentum, mid-afternoon
+Expected strategy: entertainment
+
+Current emotion:  valence=+0.65, arousal=+0.50
+Target emotion:   valence=+0.70, arousal=+0.55
+Strategy chosen:  entertainment
+Reasoning:        User is riding a genuine productivity high — schema migration win plus confidence about the sprint signals positive valence with moderate-high arousal. Since the mood is already good and they want to sustain momentum through the afternoon, entertainment is the right call: maintain the existing positive state with music that matches and reinforces their confident, energized flow rather than trying to shift anything.
+
+Trajectory waypoints:
+  [1] valence=+0.62, arousal=+0.53
+  [2] valence=+0.68, arousal=+0.47
+  [3] valence=+0.62, arousal=+0.53
+  [4] valence=+0.68, arousal=+0.47

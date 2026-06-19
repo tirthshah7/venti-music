@@ -1,0 +1,15 @@
+=== Scenario 13: Post-burnout return ===
+Vent: first day back after a week off. don't want to be here. don't want to be anywhere else either.
+Context: back at work
+Expected strategy: mental_work / solace
+
+Current emotion:  valence=-0.25, arousal=-0.45
+Target emotion:   valence=+0.05, arousal=-0.20
+Strategy chosen:  mental_work
+Reasoning:        This is textbook ambivalence — not sadness, not boredom, but a flat existential disconnect where neither staying nor leaving feels right. The user isn't depleted by exertion (ruling out revival) or grieving a loss (ruling out solace); they're suspended in a neither-here-nor-there limbo that needs to be sat with, not escaped. Mental work lets reflective, contemplative music give shape to the formlessness and gently move them toward acceptance rather than forcing energy or cheer onto a state that would reject it.
+
+Trajectory waypoints:
+  [1] valence=-0.25, arousal=-0.45
+  [2] valence=-0.19, arousal=-0.40
+  [3] valence=-0.09, arousal=-0.31
+  [4] valence=+0.05, arousal=-0.20

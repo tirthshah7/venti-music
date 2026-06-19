@@ -1,0 +1,15 @@
+=== Scenario 12: Joyful pre-wedding nerves ===
+Vent: wedding in two days. happy but also losing my mind. can't sit still.
+Context: personal milestone
+Expected strategy: revival / entertainment
+
+Current emotion:  valence=+0.50, arousal=+0.85
+Target emotion:   valence=+0.60, arousal=+0.30
+Strategy chosen:  revival
+Reasoning:        The user is in a net-positive state — genuinely happy about the wedding — but the arousal is spiking into frantic, can't-sit-still territory that borders on anxious overwhelm. This maps to the 'anxious, racing thoughts' pattern: revival with a calming target will gently bring the frenetic energy down toward centered, present contentment without dampening the underlying joy. The goal is grounded happiness, not suppressed excitement.
+
+Trajectory waypoints:
+  [1] valence=+0.50, arousal=+0.85
+  [2] valence=+0.52, arousal=+0.74
+  [3] valence=+0.55, arousal=+0.55
+  [4] valence=+0.60, arousal=+0.30

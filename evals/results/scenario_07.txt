@@ -1,0 +1,15 @@
+=== Scenario 7: New parent overwhelm ===
+Vent: haven't slept more than three hours in a row in a month. baby just went down. i should be sleeping but i'm staring at the ceiling.
+Context: 2am, kid asleep
+Expected strategy: revival / solace
+
+Current emotion:  valence=-0.45, arousal=+0.15
+Target emotion:   valence=+0.05, arousal=-0.65
+Strategy chosen:  solace
+Reasoning:        Chronic sleep deprivation with a newborn creates a state of depleted isolation — alone at 2am, too wired-tired to sleep despite exhaustion. The core need isn't energy restoration but comfort: feeling understood in this difficult season rather than pressured to fix it. Solace music that gently validates their experience can release the tension holding them awake and ease the transition toward rest.
+
+Trajectory waypoints:
+  [1] valence=-0.45, arousal=+0.15
+  [2] valence=-0.35, arousal=-0.00
+  [3] valence=-0.18, arousal=-0.29
+  [4] valence=+0.05, arousal=-0.65

@@ -1,0 +1,15 @@
+=== Scenario 10: Saturday boredom ===
+Vent: saturday afternoon, nothing planned, brain feels empty
+Context: weekend
+Expected strategy: entertainment / strong_sensation
+
+Current emotion:  valence=-0.15, arousal=-0.70
+Target emotion:   valence=+0.40, arousal=+0.20
+Strategy chosen:  entertainment
+Reasoning:        Saturday afternoon with nothing planned and an empty brain is classic understimulation — mildly negative valence from listlessness, very low arousal from lack of engagement. Entertainment adds novelty and interest to fill the void rather than just lifting energy. The target is a pleasantly engaged state, not an intense one — enough to make the afternoon feel worth living without overwhelming a brain that's currently idle.
+
+Trajectory waypoints:
+  [1] valence=-0.17, arousal=-0.67
+  [2] valence=-0.12, arousal=-0.72
+  [3] valence=-0.17, arousal=-0.67
+  [4] valence=-0.12, arousal=-0.72

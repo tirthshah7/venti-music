@@ -1,0 +1,18 @@
+[project]
+name = "pulse"
+version = "0.1.0"
+description = "Emotion-aware music intervention, grounded in iso-principle music therapy and Saarikallio's MMR framework."
+requires-python = ">=3.10"
+dependencies = [
+    "spotipy>=2.23.0",
+]
+
+[project.scripts]
+vent = "pulse.cli:main"
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pulse"]

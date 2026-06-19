@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+.Python
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+
+# Claude Code local settings
+.claude/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Spotify OAuth cache — NEVER commit, contains live tokens
+.spotify_cache
+
+# Session data — keep examples only, ignore real sessions
+pulse/data/sessions/*.json
+!pulse/data/sessions/example_*.json
+
+# Build outputs and reports
+reports/

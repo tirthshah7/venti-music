@@ -1,0 +1,15 @@
+=== Scenario 11: Pre-firing dread ===
+Vent: have to fire someone in an hour. logically i know it's the right call. i feel sick.
+Context: management duties
+Expected strategy: revival / mental_work
+
+Current emotion:  valence=-0.55, arousal=+0.45
+Target emotion:   valence=-0.15, arousal=+0.20
+Strategy chosen:  mental_work
+Reasoning:        The user is caught in a clear ambivalence — rational certainty that firing is correct colliding with visceral moral distress about inflicting harm. This is not sadness from a setback or frustration at a blocker; it's unresolved internal conflict between conviction and conscience, with anticipatory dread producing moderate arousal (feeling sick). Mental work lets them sit with and process that weight, moving toward composed resolve rather than trying to escape or discharge something that isn't anger — it's the cost of a hard but right decision.
+
+Trajectory waypoints:
+  [1] valence=-0.55, arousal=+0.45
+  [2] valence=-0.47, arousal=+0.40
+  [3] valence=-0.33, arousal=+0.31
+  [4] valence=-0.15, arousal=+0.20

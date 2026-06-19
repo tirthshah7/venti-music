@@ -1,0 +1,15 @@
+=== Scenario 2: Acute grief ===
+Vent: my dad died last night. flying home tomorrow morning. i don't know what to do with myself right now.
+Context: (none)
+Expected strategy: solace
+
+Current emotion:  valence=-0.85, arousal=-0.20
+Target emotion:   valence=-0.50, arousal=-0.30
+Strategy chosen:  solace
+Reasoning:        The death of a parent is profound grief — the user feels lost, numb, and disoriented, not angry or agitated. Solace is the only appropriate strategy here: music that says 'I see your pain, you are not alone in this.' Any attempt to distract, energize, or reframe would feel dismissive of the magnitude of this loss. Per the ISO principle, the target stays in grief's neighborhood — gently shifting toward feeling held and comforted rather than jumping anywhere near positive.
+
+Trajectory waypoints:
+  [1] valence=-0.85, arousal=-0.20
+  [2] valence=-0.78, arousal=-0.22
+  [3] valence=-0.66, arousal=-0.25
+  [4] valence=-0.50, arousal=-0.30

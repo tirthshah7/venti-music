@@ -1,0 +1,15 @@
+=== Scenario 6: Existential rumination ===
+Vent: i keep thinking about whether i should be doing something more meaningful with my life. been on this for weeks. can't shake it.
+Context: late evening, alone
+Expected strategy: mental_work / solace
+
+Current emotion:  valence=-0.30, arousal=-0.10
+Target emotion:   valence=+0.05, arousal=+0.10
+Strategy chosen:  mental_work
+Reasoning:        Weeks of unresolved existential self-questioning — 'should I be doing something more meaningful' — is textbook ambivalence and ruminative contemplation, not sadness or depletion. The user is grappling with something, not broken by it. Mental work provides music that mirrors and scaffolds that reflective process, letting them sit with the dissonance rather than escaping or suppressing it. Late evening alone amplifies the introspective register, so the target nudges only gently toward acceptance rather than forcing resolution.
+
+Trajectory waypoints:
+  [1] valence=-0.30, arousal=-0.10
+  [2] valence=-0.23, arousal=-0.06
+  [3] valence=-0.11, arousal=+0.01
+  [4] valence=+0.05, arousal=+0.10

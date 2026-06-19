@@ -1,0 +1,15 @@
+=== Scenario 1: Sustained work frustration ===
+Vent: third hour debugging this kafka thing and i can't even tell what's broken anymore
+Context: backend work
+Expected strategy: discharge
+
+Current emotion:  valence=-0.65, arousal=+0.55
+Target emotion:   valence=-0.15, arousal=+0.30
+Strategy chosen:  discharge
+Reasoning:        Three hours deep in a Kafka debug session with mounting frustration and fading clarity is classic coding frustration — negative valence with moderately high arousal that hasn't yet collapsed into resignation. Discharge lets the frustration vent through intense, cathartic music that matches the irritation, rather than forcing a premature mood flip. The ISO-aligned target steps one notch toward neutral focus without pretending the frustration isn't real.
+
+Trajectory waypoints:
+  [1] valence=-0.75, arousal=+0.65
+  [2] valence=-0.65, arousal=+0.50
+  [3] valence=-0.40, arousal=+0.43
+  [4] valence=-0.15, arousal=+0.30

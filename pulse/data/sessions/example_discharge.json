@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-05-01T14:30:00.000000",
+  "trigger_type": "manual",
+  "vent_text": "third hour debugging this kafka consumer and i can't tell what's broken anymore",
+  "context": "backend work, late afternoon",
+  "current_emotion": {"valence": -0.70, "arousal": 0.75},
+  "target_emotion": {"valence": -0.30, "arousal": 0.50},
+  "strategy": "discharge",
+  "reasoning": "Mounting coding frustration with high arousal from repeated failed attempts. Discharge lets the frustration vent cathartically before easing toward calmer focus.",
+  "trajectory": [
+    {"valence": -0.80, "arousal": 0.85},
+    {"valence": -0.70, "arousal": 0.68},
+    {"valence": -0.50, "arousal": 0.62},
+    {"valence": -0.30, "arousal": 0.50}
+  ],
+  "track_ids": ["example_track_1", "example_track_2", "example_track_3", "example_track_4"],
+  "skips": [],
+  "completions": [0, 1, 2, 3],
+  "post_session_rating": 1,
+  "notes": "punk worked, third track was a good bridge back to focus"
+}

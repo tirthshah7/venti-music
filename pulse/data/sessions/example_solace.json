@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-05-03T20:15:00.000000",
+  "trigger_type": "manual",
+  "vent_text": "another rejection email today, fifth one this month, starting to wonder if i'm aiming too high",
+  "context": "job search",
+  "current_emotion": {"valence": -0.65, "arousal": -0.20},
+  "target_emotion": {"valence": -0.30, "arousal": -0.10},
+  "strategy": "solace",
+  "reasoning": "Sadness from accumulated setback. Solace honors the disappointment without forcing positivity. Target stays gently negative — the iso principle suggests meeting the listener where they are.",
+  "trajectory": [
+    {"valence": -0.65, "arousal": -0.20},
+    {"valence": -0.55, "arousal": -0.18},
+    {"valence": -0.40, "arousal": -0.15},
+    {"valence": -0.30, "arousal": -0.10}
+  ],
+  "track_ids": ["example_track_5", "example_track_6", "example_track_7", "example_track_8"],
+  "skips": [],
+  "completions": [0, 1, 2, 3],
+  "post_session_rating": 2,
+  "notes": "felt seen rather than fixed, exactly what i needed"
+}

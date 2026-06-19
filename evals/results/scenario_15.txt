@@ -1,0 +1,15 @@
+=== Scenario 15: Caregiver depletion ===
+Vent: mom's chemo round three tomorrow. i'm holding it together for her but i'm not really holding it together.
+Context: caregiver
+Expected strategy: solace / mental_work
+
+Current emotion:  valence=-0.70, arousal=-0.20
+Target emotion:   valence=-0.30, arousal=-0.30
+Strategy chosen:  solace
+Reasoning:        They are carrying grief and fear while masking it to protect their mother — classic caregiver isolation. The core need is to feel seen and held in pain they can't show anyone else. Solace lets the music say 'I know what you're carrying' without asking them to process or shift energy. ISO principle targets a gentle easing — not happiness, just feeling less alone in it.
+
+Trajectory waypoints:
+  [1] valence=-0.70, arousal=-0.20
+  [2] valence=-0.62, arousal=-0.22
+  [3] valence=-0.48, arousal=-0.25
+  [4] valence=-0.30, arousal=-0.30

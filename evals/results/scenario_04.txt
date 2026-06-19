@@ -1,0 +1,15 @@
+=== Scenario 4: Sustained low energy ===
+Vent: i don't know, just tired. nothing's really wrong. just kind of going through motions.
+Context: tuesday afternoon
+Expected strategy: revival
+
+Current emotion:  valence=-0.20, arousal=-0.55
+Target emotion:   valence=+0.20, arousal=-0.15
+Strategy chosen:  revival
+Reasoning:        This is a flat, low-energy state without a specific negative trigger — classic mid-afternoon depletion where nothing is actively wrong but vitality has drained out. Revival is the right strategy because the goal is a gentle, restorative lift rather than processing a problem (mental_work) or escaping one (diversion). Targeting a modest rise in both valence and arousal honors the iso principle: meet the tiredness first, then nudge toward warm engagement rather than forcing high energy.
+
+Trajectory waypoints:
+  [1] valence=-0.20, arousal=-0.55
+  [2] valence=-0.12, arousal=-0.47
+  [3] valence=+0.02, arousal=-0.33
+  [4] valence=+0.20, arousal=-0.15
