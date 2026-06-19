@@ -120,7 +120,7 @@ Venti is a CLI written in Python. You'll need three things to run it:
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/<your-github>/venti-music.git
+git clone https://github.com/tirthshah7/venti-music.git
 cd venti-music
 python3 -m venv .venv
 source .venv/bin/activate
