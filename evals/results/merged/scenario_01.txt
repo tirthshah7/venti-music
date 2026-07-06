@@ -3,19 +3,19 @@ Vent: third hour debugging this kafka thing and i can't even tell what's broken 
 Context: backend work
 Expected strategy: discharge
 
-Current emotion:  valence=-0.60, arousal=+0.55
-Target emotion:   valence=+0.10, arousal=+0.00
+Current emotion:  valence=-0.55, arousal=+0.60
+Target emotion:   valence=+0.10, arousal=+0.10
 Strategy chosen:  discharge
-Reasoning:        Three hours stuck debugging with mounting confusion is classic work frustration with high arousal, not sadness. Discharge lets that built-up tension release through intense music before gradually settling toward a calmer, more focused state where the user can think clearly again.
+Reasoning:        Three hours deep in a debugging spiral, you're not sad — you're frustrated and wound up, running high on tense energy with nothing to show for it. The move is to let that intensity out first with something driving, then gradually let the tension unclench so you can come back to the problem with a clearer head.
 
 Trajectory waypoints:
-  [1] valence=-0.69, arousal=+0.65
-  [2] valence=-0.60, arousal=+0.50
-  [3] valence=-0.25, arousal=+0.28
-  [4] valence=+0.10, arousal=+0.00
+  [1] valence=-0.63, arousal=+0.70
+  [2] valence=-0.55, arousal=+0.54
+  [3] valence=-0.23, arousal=+0.35
+  [4] valence=+0.10, arousal=+0.10
 
 Queries:
-  [1] hard rock catharsis
-  [2] energetic alt rock
-  [3] driving indie rock
-  [4] focus instrumental calm
+  [1] aggressive rock catharsis
+  [2] driving alt rock
+  [3] melodic post-hardcore
+  [4] calm instrumental focus

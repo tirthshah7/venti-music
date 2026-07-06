@@ -3,19 +3,19 @@ Vent: first day back after a week off. don't want to be here. don't want to be a
 Context: back at work
 Expected strategy: mental_work / solace
 
-Current emotion:  valence=-0.35, arousal=-0.50
-Target emotion:   valence=+0.10, arousal=-0.10
+Current emotion:  valence=-0.40, arousal=-0.50
+Target emotion:   valence=+0.05, arousal=-0.15
 Strategy chosen:  mental_work
-Reasoning:        This isn't simple boredom or depletion — the user is caught in a listless, unresolved ambivalence ('don't want to be here, don't want to be anywhere else'), a stuck existential disconnect rather than an energy deficit. Mental_work fits because the goal is to sit with and process this restless indifference rather than paper over it with a quick energy lift. The contemplative arc gently nudges valence upward while keeping arousal low enough to honor the reflective mood.
+Reasoning:        This isn't just tiredness or boredom — you're sitting in a flat, ambivalent disconnect where nothing feels right in either direction, and that's something to process rather than fix. Rather than forcing energy or cheer, the point here is to sit with the in-between feeling and let it move through you. These tracks give you space to contemplate without demanding you snap out of it.
 
 Trajectory waypoints:
-  [1] valence=-0.35, arousal=-0.50
-  [2] valence=-0.26, arousal=-0.42
-  [3] valence=-0.11, arousal=-0.28
-  [4] valence=+0.10, arousal=-0.10
+  [1] valence=-0.40, arousal=-0.50
+  [2] valence=-0.31, arousal=-0.43
+  [3] valence=-0.16, arousal=-0.31
+  [4] valence=+0.05, arousal=-0.15
 
 Queries:
-  [1] melancholy atmospheric indie
-  [2] ambient post-rock reflective
-  [3] thoughtful contemplative instrumental
-  [4] warm hopeful ambient
+  [1] melancholy ambient indie
+  [2] atmospheric slowcore
+  [3] contemplative post-rock
+  [4] hopeful atmospheric instrumental

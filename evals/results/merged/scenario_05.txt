@@ -4,9 +4,9 @@ Context: good momentum, mid-afternoon
 Expected strategy: entertainment
 
 Current emotion:  valence=+0.60, arousal=+0.50
-Target emotion:   valence=+0.75, arousal=+0.60
+Target emotion:   valence=+0.75, arousal=+0.55
 Strategy chosen:  entertainment
-Reasoning:        The user just solved a hard problem and is riding a wave of positive momentum and confidence heading into more work. Valence is already positive, so the goal is to sustain and reinforce this productive, upbeat mood rather than shift it. Entertainment keeps the good energy going without over-amping them out of a focused flow.
+Reasoning:        You just cleared a real blocker and you're riding that momentum — this is a genuinely good mood worth protecting, not fixing. Entertainment keeps that confident, capable energy flowing so you can carry it into the rest of your sprint without losing steam.
 
 Trajectory waypoints:
   [1] valence=+0.57, arousal=+0.53
@@ -16,6 +16,6 @@ Trajectory waypoints:
 
 Queries:
   [1] upbeat indie pop
-  [2] feel good electronic
-  [3] motivated focus groove
-  [4] confident momentum beats
+  [2] energetic feel good rock
+  [3] motivated productive beats
+  [4] triumphant uplifting anthems

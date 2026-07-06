@@ -4,18 +4,18 @@ Context: late evening, alone
 Expected strategy: mental_work / solace
 
 Current emotion:  valence=-0.30, arousal=-0.20
-Target emotion:   valence=+0.10, arousal=-0.10
+Target emotion:   valence=+0.10, arousal=-0.05
 Strategy chosen:  mental_work
-Reasoning:        The user is stuck in weeks-long existential rumination, grappling with meaning and purpose rather than being merely depleted or sad. This is unresolved self-questioning that needs to be sat with and processed, not fixed or escaped — MENTAL_WORK supports contemplation and reappraisal. The target moves gently toward slight positive valence to allow acceptance and clarity rather than forcing a mood jump.
+Reasoning:        You're not just tired or sad — you're grappling with a real existential question about meaning that's been circling for weeks, and that kind of unresolved self-questioning wants space to be sat with, not fixed or distracted away. Music that's contemplative and open-ended gives you room to actually process the thought instead of suppressing it. The gentle upward lift by the end isn't about answering the question, just about not feeling stuck in the loop.
 
 Trajectory waypoints:
   [1] valence=-0.30, arousal=-0.20
-  [2] valence=-0.22, arousal=-0.18
-  [3] valence=-0.08, arousal=-0.15
-  [4] valence=+0.10, arousal=-0.10
+  [2] valence=-0.22, arousal=-0.17
+  [3] valence=-0.08, arousal=-0.12
+  [4] valence=+0.10, arousal=-0.05
 
 Queries:
-  [1] contemplative ambient post-rock
-  [2] atmospheric instrumental reflective
-  [3] thoughtful indie introspective
-  [4] hopeful ambient clarity
+  [1] atmospheric ambient introspective
+  [2] contemplative post-rock
+  [3] thoughtful indie folk
+  [4] hopeful instrumental reflective

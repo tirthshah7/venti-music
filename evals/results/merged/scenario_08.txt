@@ -3,19 +3,19 @@ Vent: she said she just wants to be friends. it's fine. it's not fine.
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.70, arousal=-0.30
-Target emotion:   valence=-0.10, arousal=-0.10
+Current emotion:  valence=-0.60, arousal=-0.35
+Target emotion:   valence=-0.05, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        This is romantic rejection and heartache — negative valence with low-to-moderate arousal, and the 'it's fine. it's not fine' shows suppressed hurt underneath. Per the iso principle, jumping to happy music would feel dismissive; solace lets the user feel understood and accompanied in the ache before gently moving toward acceptance.
+Reasoning:        That gap between 'it's fine' and 'it's not fine' is the sound of real ache, and rejection like this needs comfort before anything else — not a forced pep talk. You need music that sits with you and makes the hurt feel understood, then slowly walks you toward steadier ground. So we start in the tenderness and ease, gently, toward acceptance.
 
 Trajectory waypoints:
-  [1] valence=-0.70, arousal=-0.30
-  [2] valence=-0.58, arousal=-0.26
-  [3] valence=-0.37, arousal=-0.19
-  [4] valence=-0.10, arousal=-0.10
+  [1] valence=-0.60, arousal=-0.35
+  [2] valence=-0.49, arousal=-0.32
+  [3] valence=-0.30, arousal=-0.27
+  [4] valence=-0.05, arousal=-0.20
 
 Queries:
-  [1] melancholy indie acoustic
-  [2] heartbreak sad folk
-  [3] tender piano ballad
-  [4] bittersweet warm indie
+  [1] sad indie acoustic
+  [2] melancholy folk heartbreak
+  [3] warm bittersweet indie
+  [4] hopeful acoustic gentle

@@ -67,7 +67,7 @@ code fences, no explanation outside the JSON, no preamble:
   "target_valence": float,
   "target_arousal": float,
   "strategy": "one of: entertainment, revival, strong_sensation, diversion, discharge, mental_work, solace",
-  "reasoning": "2-3 sentences explaining why this strategy fits THIS context",
+  "reasoning": "2-3 sentences explaining why this strategy fits THIS context — spoken directly to the person as 'you' (second person); never 'the user', never third person",
   "queries": ["query 1", "query 2", "query 3", "query 4"]
 }"""
 

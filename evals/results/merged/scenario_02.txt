@@ -3,19 +3,19 @@ Vent: my dad died last night. flying home tomorrow morning. i don't know what to
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.90, arousal=-0.50
-Target emotion:   valence=-0.40, arousal=-0.40
+Current emotion:  valence=-0.85, arousal=-0.45
+Target emotion:   valence=-0.40, arousal=-0.50
 Strategy chosen:  solace
-Reasoning:        This is fresh grief from the loss of a parent — deep negative valence with a numb, heavy low-arousal quality rather than agitation. Solace is the right strategy: the user needs to feel accompanied and understood, not cheered up or fixed. Following the iso principle, we stay close to the sorrow and move only gently toward a slightly less raw, more held place.
+Reasoning:        Losing your dad is a profound grief, and right now you don't need to be lifted out of it or fixed — you need to feel held and understood. This music won't rush you toward feeling okay; it will simply sit beside you in the ache, gently, so you're not so alone in it tonight. Take it slow, and be kind to yourself.
 
 Trajectory waypoints:
-  [1] valence=-0.90, arousal=-0.50
-  [2] valence=-0.80, arousal=-0.48
-  [3] valence=-0.63, arousal=-0.45
-  [4] valence=-0.40, arousal=-0.40
+  [1] valence=-0.85, arousal=-0.45
+  [2] valence=-0.76, arousal=-0.46
+  [3] valence=-0.61, arousal=-0.48
+  [4] valence=-0.40, arousal=-0.50
 
 Queries:
-  [1] grief piano solo
-  [2] melancholy folk mourning
-  [3] tender acoustic comfort
-  [4] gentle healing ambient
+  [1] grief piano quiet
+  [2] melancholy folk comfort
+  [3] sad acoustic tender
+  [4] gentle healing instrumental

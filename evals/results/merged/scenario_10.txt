@@ -4,9 +4,9 @@ Context: weekend
 Expected strategy: entertainment / strong_sensation
 
 Current emotion:  valence=-0.20, arousal=-0.60
-Target emotion:   valence=+0.50, arousal=+0.40
+Target emotion:   valence=+0.40, arousal=+0.30
 Strategy chosen:  entertainment
-Reasoning:        An empty, unplanned afternoon with a blank-feeling brain signals boredom and understimulation — slightly negative valence with very low arousal, not sadness. The right move is to inject novelty and interest, so entertainment/strong_sensation adds color and momentum rather than just soothing depleted energy.
+Reasoning:        You're not sad, just understimulated with an open Saturday and a foggy brain — that empty feeling is boredom, not distress. Rather than just lifting your energy, the fix is novelty and interest: music that catches your attention and makes the afternoon feel like it has some texture to it. These queries add color and momentum without demanding anything from you.
 
 Trajectory waypoints:
   [1] valence=-0.23, arousal=-0.57
@@ -15,7 +15,7 @@ Trajectory waypoints:
   [4] valence=-0.18, arousal=-0.62
 
 Queries:
-  [1] mellow indie chill
+  [1] chill indie afternoon
   [2] feel good indie pop
-  [3] upbeat funk groove
-  [4] energetic dance pop
+  [3] upbeat indie groove
+  [4] sunny playful pop

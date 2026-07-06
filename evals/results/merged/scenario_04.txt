@@ -6,7 +6,7 @@ Expected strategy: revival
 Current emotion:  valence=-0.30, arousal=-0.50
 Target emotion:   valence=+0.30, arousal=+0.10
 Strategy chosen:  revival
-Reasoning:        The user reports low energy and a flat, going-through-the-motions feeling without any acute distress — a depleted, mildly-negative low-arousal state rather than active sadness or conflict. Revival fits: a gentle lift to restore energy and warmth without forcing an abrupt jump to high-energy positivity, honoring the iso principle.
+Reasoning:        You're not in crisis — nothing's wrong, you're just running on empty and moving through the day on autopilot. That flat, depleted feeling calls for a gentle restoration rather than a jolt, so this arc starts soft and slowly warms you back into a little brightness and energy without forcing it.
 
 Trajectory waypoints:
   [1] valence=-0.30, arousal=-0.50
@@ -16,6 +16,6 @@ Trajectory waypoints:
 
 Queries:
   [1] mellow indie acoustic
-  [2] warm indie folk
-  [3] hopeful acoustic morning
-  [4] uplifting indie pop
+  [2] warm folk morning
+  [3] hopeful indie pop
+  [4] uplifting sunny indie

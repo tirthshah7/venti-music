@@ -11,7 +11,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from venti_core.models import EmotionState, MMRStrategy
 from venti_core.llm.base import LLMError
-from venti_core.llm.vent_pipeline import run_vent, VentResult, VentPipelineError
+from venti_core.llm.vent_pipeline import (
+    MERGED_PROMPT_TEMPLATE,
+    run_vent,
+    VentResult,
+    VentPipelineError,
+)
 
 
 def _valid(**overrides) -> str:
@@ -121,6 +126,28 @@ def test_retry_then_fail():
     print("✅ retry-then-fail raises after exactly two attempts")
 
 
+def test_merged_prompt_has_second_person_voice_instruction():
+    # T4.3: the reasoning line is shown to the person as the reveal
+    # headline — it must speak to them, not about them.
+    assert "spoken directly to the person as 'you' (second person)" in MERGED_PROMPT_TEMPLATE
+    assert "never 'the user', never third person" in MERGED_PROMPT_TEMPLATE
+    print("✅ merged prompt instructs second-person reasoning voice")
+
+
+def test_voice_instruction_lives_in_bridge_text_not_sliced_rules():
+    # The sliced blocks must remain verbatim substrings of their source
+    # templates — additions like T4.3 belong to the bridge text only.
+    from venti_core.inference import INFERENCE_PROMPT_TEMPLATE
+    from venti_core.query_generator import QUERY_PROMPT_TEMPLATE
+    from venti_core.llm import vent_pipeline as vp
+
+    assert vp._PSYCH_RULES in INFERENCE_PROMPT_TEMPLATE
+    assert vp._QUERY_RULES in QUERY_PROMPT_TEMPLATE
+    assert "never 'the user'" not in vp._PSYCH_RULES
+    assert "never 'the user'" not in vp._QUERY_RULES
+    print("✅ sliced rule blocks untouched; voice instruction is bridge-only")
+
+
 if __name__ == "__main__":
     test_valid_parse()
     test_va_clamped_via_emotionstate()
@@ -128,4 +155,6 @@ if __name__ == "__main__":
     test_strategy_enum_validation()
     test_retry_then_success()
     test_retry_then_fail()
+    test_merged_prompt_has_second_person_voice_instruction()
+    test_voice_instruction_lives_in_bridge_text_not_sliced_rules()
     print("\n🎉 All vent pipeline tests passed.")

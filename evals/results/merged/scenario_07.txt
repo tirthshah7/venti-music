@@ -4,18 +4,18 @@ Context: 2am, kid asleep
 Expected strategy: revival / solace
 
 Current emotion:  valence=-0.30, arousal=-0.20
-Target emotion:   valence=+0.10, arousal=-0.70
+Target emotion:   valence=+0.20, arousal=-0.70
 Strategy chosen:  revival
-Reasoning:        The user is profoundly sleep-deprived and depleted but wired — lying awake with racing wakefulness despite exhaustion. Revival with a calming target fits: gently lower arousal to help them wind down while offering a soft, restorative lift rather than confronting the frustration head-on.
+Reasoning:        You're running on empty after a month of broken sleep, and your body is so wired from constant vigilance that even now, with a rare window to rest, you can't switch off. This isn't sadness to sit in — it's depletion plus a racing nervous system that needs to be gently coaxed down toward stillness. A soft descent into calm can help unclench you and let sleep actually come.
 
 Trajectory waypoints:
   [1] valence=-0.30, arousal=-0.20
-  [2] valence=-0.22, arousal=-0.30
-  [3] valence=-0.08, arousal=-0.47
-  [4] valence=+0.10, arousal=-0.70
+  [2] valence=-0.20, arousal=-0.30
+  [3] valence=-0.03, arousal=-0.47
+  [4] valence=+0.20, arousal=-0.70
 
 Queries:
-  [1] warm ambient wind down
-  [2] gentle acoustic calm
-  [3] soft piano rest
-  [4] sleep ambient soothing
+  [1] warm ambient acoustic
+  [2] soft indie folk calm
+  [3] gentle piano rest
+  [4] sleep ambient drift

@@ -6,7 +6,7 @@ Expected strategy: solace
 Current emotion:  valence=-0.60, arousal=-0.40
 Target emotion:   valence=-0.10, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        The user feels deep loneliness and is missing their family — a state of isolation and quiet grief with negative valence and low arousal. Per the iso principle, solace is the right fit: warm, comforting music that makes them feel understood rather than abruptly cheered up.
+Reasoning:        You're feeling deeply lonely and missing your family, which is a low-arousal, heavy-hearted kind of sadness. Rather than forcing cheerfulness, you need music that sits with you and makes you feel understood, gently reminding you that you're not alone. These warm, tender songs meet you where you are and slowly ease the ache.
 
 Trajectory waypoints:
   [1] valence=-0.60, arousal=-0.40
@@ -15,7 +15,7 @@ Trajectory waypoints:
   [4] valence=-0.10, arousal=-0.20
 
 Queries:
-  [1] lonely hindi acoustic
-  [2] nostalgic ghar yaad
-  [3] warm bollywood ballad
-  [4] comforting hopeful indie
+  [1] melancholy hindi acoustic
+  [2] lonely soft ghazal
+  [3] warm nostalgic indie
+  [4] comforting hindi folk
