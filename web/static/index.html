@@ -1,13 +1,622 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Venti</title>
-  </head>
-  <body>
-    <!-- Placeholder so the "/" static mount has something to serve.
-         The real single-page UI is Phase 4 (T4.1). -->
-    <p>Venti — coming soon.</p>
-  </body>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#16171a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)" />
+<title>venti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%239db8a1'/%3E%3C/svg%3E" />
+<style>
+  /* Muted, calm, dark-first. The person arriving is frustrated or low —
+     this page is an exhale, not a product. */
+  :root {
+    --bg: #16171a;
+    --panel: #1d1f23;
+    --ink: #e7e4dd;
+    --muted: #8f8d86;
+    --faint: #55544f;
+    --accent: #9db8a1;
+    --accent-ink: #14161a;
+    --line: #2b2d33;
+    --soft-error: #c99a8b;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f4f2ec;
+      --panel: #fbfaf6;
+      --ink: #26251f;
+      --muted: #7a786f;
+      --faint: #c0beb4;
+      --accent: #5f7f68;
+      --accent-ink: #f7f6f1;
+      --line: #e2dfd6;
+      --soft-error: #a6604c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.55;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: flex; flex-direction: column; flex: 1; animation: fade-up .55s ease both; }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .wordmark {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    letter-spacing: .04em;
+    color: var(--ink);
+  }
+
+  /* ---- State 1 · arrival ---- */
+  #screen-vent { justify-content: center; gap: 0; }
+  #screen-vent .wordmark { font-size: 2.6rem; text-align: center; margin: 0 0 10px; font-weight: 400; }
+  .tagline { text-align: center; color: var(--muted); margin: 0 0 44px; font-size: 1.02rem; }
+
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    resize: vertical;
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    font: inherit;
+    font-size: 1.05rem;
+    outline: none;
+    transition: border-color .3s ease;
+  }
+  textarea:focus-visible { border-color: var(--accent); }
+  textarea::placeholder { color: var(--faint); }
+  textarea:disabled { opacity: .55; }
+
+  .under-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    margin-top: 16px;
+    gap: 16px;
+  }
+  #counter { color: var(--muted); font-size: .85rem; visibility: hidden; }
+  #counter.warn { visibility: visible; }
+
+  button { font: inherit; cursor: pointer; }
+  .primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: none;
+    border-radius: 999px;
+    padding: 12px 32px;
+    font-size: 1rem;
+    transition: opacity .25s ease, transform .15s ease;
+  }
+  .primary:hover:not(:disabled) { transform: translateY(-1px); }
+  .primary:disabled { opacity: .4; cursor: default; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---- State 2 · processing ---- */
+  #processing { display: none; align-items: center; gap: 12px; color: var(--muted); }
+  #processing.active { display: flex; }
+  .pulse-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); flex: none;
+    animation: breathe 1.9s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(.8); opacity: .45; }
+    50%      { transform: scale(1);  opacity: 1; }
+  }
+  #processing-line { transition: opacity .45s ease; }
+  #processing-line.dim { opacity: 0; }
+
+  .soft-error { color: var(--soft-error); font-size: .95rem; margin: 14px 2px 0; min-height: 1.4em; }
+
+  /* ---- State 3 · reveal ---- */
+  #screen-result { padding-top: 8px; gap: 0; }
+  .top-mark { font-size: 1.15rem; color: var(--muted); margin: 0 0 34px; }
+  #headline {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.35;
+    margin: 0;
+  }
+  #headline:focus { outline: none; }
+  #reasoning-rest { color: var(--muted); margin: 12px 0 0; }
+
+  .arc-wrap { margin: 36px 0 8px; }
+  .arc-wrap svg { display: block; width: 100%; max-width: 280px; height: auto; }
+  .arc-caption { color: var(--faint); font-size: .82rem; margin: 8px 0 0 2px; }
+
+  #tracks { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .track {
+    position: relative;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid var(--line);
+  }
+  /* Fallback card renders first; the Spotify embed fades in over it once
+     (and only if) it loads. No embed → the card simply stays. */
+  .track-fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px;
+    color: inherit; text-decoration: none;
+  }
+  .track-fallback img { width: 54px; height: 54px; border-radius: 8px; object-fit: cover; background: var(--line); }
+  .track-fallback .art-blank { width: 54px; height: 54px; border-radius: 8px; background: var(--line); flex: none; }
+  .track-meta { min-width: 0; }
+  .track-name { margin: 0; font-size: .98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track-artist { margin: 0; color: var(--muted); font-size: .86rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track-out { margin-left: auto; color: var(--faint); font-size: .9rem; flex: none; }
+  .track iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 80px; border: 0;
+    opacity: 0; transition: opacity .4s ease;
+    pointer-events: none;
+  }
+  .track.embed-loaded iframe { opacity: 1; pointer-events: auto; }
+  .track.embed-loaded .track-fallback { visibility: hidden; }
+
+  /* ---- save / State 4 ---- */
+  #save-area { margin: 40px 0 24px; }
+  #save-area .primary { width: 100%; padding: 15px 20px; }
+  .save-note { color: var(--muted); font-size: .88rem; margin: 12px 2px 0; }
+
+  #saved-area h2 {
+    font-family: Georgia, serif; font-style: italic; font-weight: 400;
+    font-size: 1.5rem; margin: 0 0 18px;
+  }
+  .open-playlist {
+    display: inline-block;
+    background: var(--accent); color: var(--accent-ink);
+    text-decoration: none; border-radius: 999px;
+    padding: 13px 30px;
+  }
+  #rating-block { margin-top: 44px; }
+  #rating-block p { color: var(--muted); margin: 0 0 16px; }
+  .rating-row { display: flex; align-items: center; gap: 10px; }
+  .rating-row .edge { color: var(--faint); font-size: .82rem; }
+  .rate {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--panel); color: var(--muted);
+    border: 1px solid var(--line);
+    transition: all .2s ease;
+  }
+  .rate:hover { border-color: var(--accent); color: var(--ink); }
+  #rating-done { color: var(--muted); margin-top: 20px; }
+  .quiet {
+    background: none; border: none; color: var(--muted);
+    text-decoration: underline; text-underline-offset: 4px;
+    padding: 4px 2px; font-size: .95rem;
+  }
+  .quiet:hover { color: var(--ink); }
+
+  footer { text-align: center; color: var(--faint); font-size: .78rem; padding: 18px; }
+
+  [hidden] { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- States 1 + 2 -->
+  <section id="screen-vent" class="screen active" aria-label="vent">
+    <h1 class="wordmark">venti</h1>
+    <p class="tagline">Tell it like it is. Get music that actually helps.</p>
+
+    <textarea id="vent-text" maxlength="1000" placeholder="what's going on?"
+              aria-label="what's going on?"></textarea>
+
+    <div class="under-box">
+      <span id="counter" aria-hidden="true"></span>
+      <button id="vent-btn" class="primary" disabled>vent</button>
+      <div id="processing" role="status">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span id="processing-line">listening…</span>
+      </div>
+    </div>
+    <p id="vent-error" class="soft-error" aria-live="polite"></p>
+  </section>
+
+  <!-- States 3 + 4 -->
+  <section id="screen-result" class="screen" aria-label="your music">
+    <p class="top-mark wordmark">venti</p>
+
+    <h1 id="headline" tabindex="-1"></h1>
+    <p id="reasoning-rest" hidden></p>
+
+    <div class="arc-wrap">
+      <svg id="arc" viewBox="0 0 240 140" role="img" aria-label="the emotional arc of the four songs"></svg>
+      <p class="arc-caption">four songs, from here to there</p>
+    </div>
+
+    <ul id="tracks"></ul>
+
+    <div id="save-area">
+      <button id="save-btn" class="primary">save this as a playlist → connect spotify</button>
+      <p id="save-note" class="save-note" aria-live="polite"></p>
+    </div>
+
+    <div id="saved-area" hidden>
+      <h2>saved.</h2>
+      <a id="open-playlist" class="open-playlist" href="#" target="_blank" rel="noopener">open your playlist</a>
+
+      <div id="rating-block">
+        <p>did the music move you?</p>
+        <div class="rating-row" id="rating-row">
+          <span class="edge">worse</span>
+          <!-- rating buttons injected -->
+          <span class="edge">better</span>
+        </div>
+        <div id="rating-done" hidden>
+          <p>noted. come back whenever.</p>
+        </div>
+      </div>
+    </div>
+
+    <p><button id="reset-btn" class="quiet" hidden>vent again</button></p>
+  </section>
+
+</main>
+<footer>nothing you write here is stored.</footer>
+
+<script>
+"use strict";
+
+/* ---------- tiny dom helpers (textContent only — never innerHTML with data) */
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;
+  return node;
+};
+
+const COPY = {
+  rateLimited: "you've vented a lot this hour — give it a minute",
+  serverError: "something broke on our end. your words weren't stored.",
+  saveRateLimited: "a lot of saving this hour — give it a minute",
+  saveFailed: "couldn't save — try again in a moment.",
+  notConnected: "spotify didn't connect — the songs are still here whenever.",
+};
+
+const PROCESSING_LINES = ["listening…", "sitting with it…", "finding the arc…", "choosing the songs…"];
+const STASH_KEY = "venti.pending"; // vent RESULT only — never the vent text
+
+let current = null;         // the last /api/vent response
+let processingTimer = null;
+
+/* ---------- state 1: arrival ---------- */
+const ventText = $("vent-text");
+const ventBtn = $("vent-btn");
+const counter = $("counter");
+
+ventText.addEventListener("input", () => {
+  ventBtn.disabled = ventText.value.trim().length === 0;
+  const len = ventText.value.length;
+  counter.textContent = `${len} / 1000`;
+  counter.classList.toggle("warn", len > 800);
+});
+
+ventBtn.addEventListener("click", submitVent);
+ventText.addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && !ventBtn.disabled) submitVent();
+});
+
+/* ---------- state 2: processing ---------- */
+function startProcessing() {
+  ventBtn.hidden = true;
+  ventText.disabled = true;
+  $("vent-error").textContent = "";
+  $("processing").classList.add("active");
+  const line = $("processing-line");
+  let i = 0;
+  line.textContent = PROCESSING_LINES[0];
+  processingTimer = setInterval(() => {
+    line.classList.add("dim");
+    setTimeout(() => {
+      i = (i + 1) % PROCESSING_LINES.length;
+      line.textContent = PROCESSING_LINES[i];
+      line.classList.remove("dim");
+    }, 450);
+  }, 2400);
+}
+
+function stopProcessing() {
+  clearInterval(processingTimer);
+  $("processing").classList.remove("active");
+  ventBtn.hidden = false;
+  ventText.disabled = false;
+}
+
+async function submitVent() {
+  startProcessing();
+  let data = null;
+  try {
+    const resp = await fetch("/api/vent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: ventText.value }),
+    });
+    if (resp.status === 429) throw { copy: COPY.rateLimited };
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => null);
+      // 413 carries its own friendly line; anything else gets the honest one.
+      throw { copy: (resp.status === 413 && body && body.detail) || COPY.serverError };
+    }
+    data = await resp.json();
+  } catch (err) {
+    stopProcessing();
+    $("vent-error").textContent = err.copy || COPY.serverError;
+    return;
+  }
+  stopProcessing();
+  current = data;
+  renderReveal(data);
+}
+
+/* ---------- state 3: the reveal ---------- */
+function splitReasoning(reasoning) {
+  const match = reasoning.match(/^.*?[.!?…](?=["')\]]?\s|["')\]]?$)/s);
+  if (!match) return [reasoning, ""];
+  return [match[0].trim(), reasoning.slice(match[0].length).trim()];
+}
+
+function renderReveal(data) {
+  const [first, rest] = splitReasoning(data.reasoning || "");
+  $("headline").textContent = first;
+  $("reasoning-rest").textContent = rest;
+  $("reasoning-rest").hidden = !rest;
+
+  drawArc(data.trajectory || []);
+  renderTracks(data.tracks || []);
+
+  $("save-area").hidden = false;
+  $("save-btn").disabled = false;
+  $("save-note").textContent = "";
+  $("saved-area").hidden = true;
+  $("reset-btn").hidden = false;
+
+  setScreen("screen-result");
+  $("headline").focus({ preventScroll: false });
+  window.scrollTo({ top: 0 });
+}
+
+function drawArc(waypoints) {
+  const svg = $("arc");
+  svg.textContent = "";
+  if (waypoints.length < 2) return;
+  const NS = "http://www.w3.org/2000/svg";
+  const X = (v) => 18 + ((v + 1) / 2) * 204;          // valence → x
+  const Y = (a) => 18 + (1 - (a + 1) / 2) * 104;      // arousal → y (up = intense)
+  const pts = waypoints.map((w) => ({ x: X(w.valence), y: Y(w.arousal) }));
+
+  const axis = (x1, y1, x2, y2) => {
+    const line = document.createElementNS(NS, "line");
+    line.setAttribute("x1", x1); line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+    line.setAttribute("stroke", "currentColor");
+    line.setAttribute("stroke-width", "1");
+    line.setAttribute("opacity", "0.12");
+    line.setAttribute("stroke-dasharray", "2 5");
+    svg.appendChild(line);
+  };
+  axis(120, 12, 120, 128);  // valence midline
+  axis(12, 70, 228, 70);    // arousal midline
+
+  // Catmull-Rom → cubic béziers, so the arc reads as a path, not a zigzag.
+  let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    d += ` C ${(p1.x + (p2.x - p0.x) / 6).toFixed(1)} ${(p1.y + (p2.y - p0.y) / 6).toFixed(1)},`
+       + ` ${(p2.x - (p3.x - p1.x) / 6).toFixed(1)} ${(p2.y - (p3.y - p1.y) / 6).toFixed(1)},`
+       + ` ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+  }
+  const path = document.createElementNS(NS, "path");
+  path.setAttribute("d", d);
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "var(--accent)");
+  path.setAttribute("stroke-width", "1.6");
+  path.setAttribute("stroke-linecap", "round");
+  path.setAttribute("opacity", "0.75");
+  svg.appendChild(path);
+
+  pts.forEach((p, i) => {
+    const dot = document.createElementNS(NS, "circle");
+    dot.setAttribute("cx", p.x.toFixed(1));
+    dot.setAttribute("cy", p.y.toFixed(1));
+    dot.setAttribute("r", i === pts.length - 1 ? "4.4" : "3.2");
+    dot.setAttribute("fill", "var(--accent)");
+    dot.setAttribute("opacity", String(0.35 + (0.65 * i) / (pts.length - 1)));
+    svg.appendChild(dot);
+  });
+}
+
+function renderTracks(tracks) {
+  const list = $("tracks");
+  list.textContent = "";
+  tracks.forEach((t) => {
+    const item = el("li", "track");
+
+    // Static card first — it IS the experience if the embed never arrives.
+    const card = el("a", "track-fallback");
+    card.href = t.external_url || "#";
+    card.target = "_blank";
+    card.rel = "noopener";
+    if (t.album_art_url) {
+      const art = el("img");
+      art.src = t.album_art_url;
+      art.alt = "";
+      art.loading = "lazy";
+      card.appendChild(art);
+    } else {
+      card.appendChild(el("span", "art-blank"));
+    }
+    const meta = el("div", "track-meta");
+    meta.appendChild(el("p", "track-name", t.name || ""));
+    meta.appendChild(el("p", "track-artist", t.artist || ""));
+    card.appendChild(meta);
+    card.appendChild(el("span", "track-out", "↗"));
+    item.appendChild(card);
+
+    // Spotify embed upgrades the card in place when it loads.
+    if (t.id && /^[0-9A-Za-z]+$/.test(t.id)) {
+      const frame = document.createElement("iframe");
+      frame.src = `https://open.spotify.com/embed/track/${t.id}`;
+      frame.loading = "lazy";
+      frame.title = `${t.name || "track"} — ${t.artist || ""}`;
+      frame.allow = "encrypted-media; fullscreen; picture-in-picture";
+      frame.addEventListener("load", () => item.classList.add("embed-loaded"));
+      item.appendChild(frame);
+    }
+    list.appendChild(item);
+  });
+}
+
+/* ---------- save → oauth → state 4 ---------- */
+$("save-btn").addEventListener("click", () => savePlaylist({ redirectOn401: true }));
+
+async function savePlaylist({ redirectOn401 }) {
+  if (!current) return;
+  const btn = $("save-btn");
+  btn.disabled = true;
+  $("save-note").textContent = "saving…";
+  try {
+    const resp = await fetch("/api/playlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        track_uris: current.tracks.map((t) => t.uri),
+        strategy_label: current.strategy_label,
+      }),
+    });
+    if (resp.status === 401) {
+      if (redirectOn401) {
+        // Park the RESULT (never the vent text) so the reveal survives
+        // the round-trip to Spotify, then go connect.
+        sessionStorage.setItem(STASH_KEY, JSON.stringify(current));
+        window.location.href = "/api/auth/login";
+        return;
+      }
+      btn.disabled = false;
+      $("save-note").textContent = COPY.notConnected;
+      return;
+    }
+    if (resp.status === 429) throw { copy: COPY.saveRateLimited };
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => null);
+      throw { copy: (body && typeof body.detail === "string" && body.detail) || COPY.saveFailed };
+    }
+    const data = await resp.json();
+    showSaved(data.playlist_url);
+  } catch (err) {
+    btn.disabled = false;
+    $("save-note").textContent = err.copy || COPY.saveFailed;
+  }
+}
+
+function showSaved(playlistUrl) {
+  sessionStorage.removeItem(STASH_KEY);
+  $("save-area").hidden = true;
+  $("open-playlist").href = playlistUrl;
+  $("saved-area").hidden = false;
+}
+
+/* ---------- rating ---------- */
+(function buildRatingRow() {
+  const row = $("rating-row");
+  const better = row.querySelector(".edge:last-child");
+  const words = { "-2": "much worse", "-1": "a little worse", "0": "no change", "1": "a little better", "2": "much better" };
+  for (let value = -2; value <= 2; value++) {
+    const btn = el("button", "rate", value > 0 ? `+${value}` : String(value));
+    btn.setAttribute("aria-label", words[String(value)]);
+    btn.addEventListener("click", () => submitRating(value));
+    row.insertBefore(btn, better);
+  }
+})();
+
+async function submitRating(value) {
+  document.querySelectorAll(".rate").forEach((b) => (b.disabled = true));
+  try {
+    await fetch("/api/rating", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rating: value, strategy: current && current.strategy }),
+    });
+  } catch (err) { /* best-effort — never make the person retry a feeling */ }
+  $("rating-row").hidden = true;
+  $("rating-block").querySelector("p").hidden = true;
+  $("rating-done").hidden = false;
+}
+
+/* ---------- reset ---------- */
+$("reset-btn").addEventListener("click", () => {
+  current = null;
+  sessionStorage.removeItem(STASH_KEY);
+  ventText.value = "";
+  ventText.dispatchEvent(new Event("input"));
+  $("vent-error").textContent = "";
+  setScreen("screen-vent");
+  ventText.focus();
+});
+
+function setScreen(id) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+  $(id).classList.add("active");
+}
+
+/* ---------- returning from spotify ---------- */
+(function handleOAuthReturn() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("connected")) return;
+  const connected = params.get("connected") === "1";
+  window.history.replaceState({}, "", "/");
+
+  let stash = null;
+  try { stash = JSON.parse(sessionStorage.getItem(STASH_KEY)); } catch (err) { /* stale */ }
+  if (!stash || !Array.isArray(stash.tracks)) return; // nothing to restore
+
+  current = stash;
+  renderReveal(stash);
+  if (connected) {
+    savePlaylist({ redirectOn401: false }); // clicking save is what sent them away
+  } else {
+    $("save-note").textContent = COPY.notConnected;
+  }
+})();
+</script>
+</body>
 </html>
