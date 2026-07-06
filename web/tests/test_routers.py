@@ -80,7 +80,7 @@ def _token(expires_at):
     )
 
 
-def _connect_spotify(client, monkeypatch, token):
+def _connect_spotify(client, monkeypatch, token, callback_path="/api/auth/callback"):
     """Run the real login/callback flow with a stubbed code exchange, so
     the client's session cookie ends up holding `token`."""
     from web.app.spotify import user_client
@@ -91,7 +91,7 @@ def _connect_spotify(client, monkeypatch, token):
 
     monkeypatch.setattr(user_client, "exchange_code", lambda code: token)
     callback = client.get(
-        f"/api/auth/callback?code=fake-code&state={state}",
+        f"{callback_path}?code=fake-code&state={state}",
         follow_redirects=False,
     )
     assert callback.status_code == 302
@@ -219,6 +219,38 @@ def test_callback_state_is_single_use(client, monkeypatch):
         follow_redirects=False,
     )
     assert replay.status_code == 403
+
+
+def test_callback_alias_is_the_same_handler(main_module):
+    # T4.4: /callback (grandfathered local-dev redirect URI) must be the
+    # SAME function object as /api/auth/callback — not a copy. Asserted
+    # on auth.router (stable across FastAPI's include_router internals);
+    # the alias flow tests below prove the app actually serves both.
+    from web.app.routers import auth
+
+    endpoints = {
+        route.path: route.endpoint
+        for route in auth.router.routes
+        if route.path in ("/callback", "/api/auth/callback")
+    }
+    assert set(endpoints) == {"/callback", "/api/auth/callback"}
+    assert endpoints["/callback"] is endpoints["/api/auth/callback"]
+
+
+def test_callback_alias_full_flow(client, monkeypatch):
+    _connect_spotify(
+        client, monkeypatch, _token(int(time.time()) + 3600),
+        callback_path="/callback",
+    )
+
+
+def test_callback_alias_rejects_state_mismatch(client):
+    client.get("/api/auth/login", follow_redirects=False)
+    response = client.get(
+        "/callback?code=fake-code&state=not-the-state",
+        follow_redirects=False,
+    )
+    assert response.status_code == 403
 
 
 def test_callback_user_declined(client):

@@ -60,6 +60,13 @@ def login(request: Request) -> RedirectResponse:
 
 
 @router.get("/api/auth/callback")
+# Local-dev alias (T4.4): the Spotify app still has the CLI-era redirect
+# URI http://127.0.0.1:8888/callback registered (see .env.example), so a
+# dev pointing SPOTIFY_REDIRECT_URI at it lands on /callback instead of
+# /api/auth/callback. Same function object → identical logic by
+# construction; hidden from the OpenAPI schema because it isn't API
+# surface, just a grandfathered path.
+@router.get("/callback", include_in_schema=False)
 def callback(
     request: Request,
     code: Optional[str] = None,
