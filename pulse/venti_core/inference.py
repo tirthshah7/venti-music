@@ -1,22 +1,19 @@
 """
 Emotion inference: vent text → (current VA, target VA, MMR strategy).
 
-Uses Claude Code (`claude -p`) in headless mode as the inference engine,
-which means inference runs against the user's Max plan rather than API
-credits. The prompt encodes the psychology research so Claude acts as a
-trained mood-regulation reasoner, not a generic sentiment classifier.
-
-Trade-offs vs direct API:
-- Pro: free under Max plan, no API key needed
-- Pro: same model quality as API
-- Con: slightly higher latency (subprocess startup ~1-2s)
-- Con: requires `claude` CLI installed and authenticated
+Inference runs through a pluggable LLMBackend (see web/app/llm): the `claude`
+CLI for free local dev on a Max plan, or the Anthropic API for hosting. The
+prompt encodes the psychology research so the model acts as a trained
+mood-regulation reasoner, not a generic sentiment classifier.
 """
-import json
-import shutil
-import subprocess
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .models import EmotionState, MMRStrategy
+
+if TYPE_CHECKING:
+    from web.app.llm.base import LLMBackend
 
 
 INFERENCE_PROMPT_TEMPLATE = """You are an emotion-inference engine grounded in music psychology research.
@@ -78,64 +75,41 @@ VENT: {vent_text}
 CONTEXT (what they're working on, recent themes): {context}"""
 
 
-class ClaudeCodeNotFoundError(RuntimeError):
-    """Raised when the `claude` CLI is not installed or not on PATH."""
-
-
 class InferenceError(RuntimeError):
-    """Raised when Claude Code returns something we can't parse."""
+    """Raised when the model's response is missing keys or fails validation."""
 
 
 class EmotionInference:
     """
-    Emotion inference using Claude Code as the LLM transport.
+    Emotion inference over a pluggable LLM backend.
 
-    Calls `claude -p <prompt>` which runs in headless (print) mode,
-    returning the model's response to stdout. No API key needed —
-    auth is handled by Claude Code's existing login.
+    Routes the inference prompt through an LLMBackend (the `claude` CLI or the
+    Anthropic API). Pass a backend explicitly for testing / dependency
+    injection; by default it's chosen from the LLM_BACKEND env var via
+    get_backend().
     """
 
-    def __init__(self, claude_binary: str | None = None):
-        self.claude_binary = claude_binary or shutil.which("claude")
-        if not self.claude_binary:
-            raise ClaudeCodeNotFoundError(
-                "Could not find `claude` CLI on PATH. "
-                "Install Claude Code from https://docs.claude.com/claude-code "
-                "and run `claude login` first."
-            )
+    def __init__(self, backend: "LLMBackend | None" = None):
+        if backend is None:
+            from web.app.llm.base import get_backend
+            backend = get_backend()
+        self.backend = backend
 
     def infer(self, vent_text: str, context: str = "") -> dict:
         """
         Returns dict with: current_emotion, target_emotion, strategy, reasoning.
-        Raises InferenceError if Claude Code's output can't be parsed.
+        Raises LLMError if the backend fails or its output can't be parsed;
+        InferenceError if the parsed JSON is missing keys or names a bad strategy.
         """
+        from web.app.llm.base import extract_json
+
         prompt = INFERENCE_PROMPT_TEMPLATE.format(
             vent_text=vent_text,
             context=context or "none provided",
         )
 
-        # Run claude -p in headless mode. The prompt goes in via stdin to
-        # avoid command-line length limits and shell escaping issues.
-        try:
-            result = subprocess.run(
-                [self.claude_binary, "-p"],
-                input=prompt,
-                capture_output=True,
-                text=True,
-                timeout=60,
-                check=True,
-            )
-        except subprocess.TimeoutExpired:
-            raise InferenceError("Claude Code timed out after 60 seconds.")
-        except subprocess.CalledProcessError as e:
-            raise InferenceError(
-                f"Claude Code exited with code {e.returncode}.\n"
-                f"stderr: {e.stderr}\n"
-                f"Run `claude login` if this is an auth issue."
-            )
-
-        raw = result.stdout.strip()
-        parsed = self._extract_json(raw)
+        raw = self.backend.complete(prompt)
+        parsed = extract_json(raw)
 
         # Validate required keys
         required = {"current_valence", "current_arousal", "target_valence",
@@ -166,44 +140,3 @@ class EmotionInference:
             "strategy": strategy,
             "reasoning": parsed["reasoning"],
         }
-
-    @staticmethod
-    def _extract_json(raw: str) -> dict:
-        """
-        Robustly pull a JSON object out of Claude's response.
-
-        Claude Code in -p mode usually returns clean JSON when prompted,
-        but it sometimes wraps it in markdown fences or adds preamble.
-        We handle both cases.
-        """
-        text = raw.strip()
-
-        # Strip markdown code fences if present
-        if text.startswith("```"):
-            lines = text.split("\n")
-            lines = lines[1:]  # drop opening fence
-            if lines and lines[-1].strip().startswith("```"):
-                lines = lines[:-1]  # drop closing fence
-            text = "\n".join(lines).strip()
-
-        # Try direct parse first
-        try:
-            return json.loads(text)
-        except json.JSONDecodeError:
-            pass
-
-        # Fallback: find the first {...} block
-        start = text.find("{")
-        end = text.rfind("}")
-        if start == -1 or end == -1 or end <= start:
-            raise InferenceError(
-                f"Could not find JSON object in Claude Code response:\n{raw!r}"
-            )
-
-        try:
-            return json.loads(text[start:end + 1])
-        except json.JSONDecodeError as e:
-            raise InferenceError(
-                f"Failed to parse JSON from Claude Code response: {e}\n"
-                f"Raw output:\n{raw!r}"
-            )

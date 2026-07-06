@@ -7,8 +7,11 @@ import sys
 import os
 from pathlib import Path
 
-# Add pulse/ to the Python path so we can import venti_core modules
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pulse"))
+# Add pulse/ (for venti_core) and the repo root (for the sibling `web` package,
+# which venti_core routes LLM calls through) to the Python path.
+_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_ROOT / "pulse"))
+sys.path.insert(0, str(_ROOT))
 
 from venti_core.inference import EmotionInference
 from venti_core.trajectory import generate_trajectory

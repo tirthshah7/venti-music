@@ -1,0 +1,10 @@
+# Venti web layer dependencies.
+# The venti_core engine is installed separately (pip install -e pulse/).
+anthropic
+fastapi
+uvicorn[standard]
+slowapi
+itsdangerous
+pydantic-settings
+spotipy>=2.26,<3
+httpx

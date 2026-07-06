@@ -1,6 +1,7 @@
 """
 Query generator: translates trajectory waypoints + strategy into natural-language
-Spotify search queries, using Claude Code as the translator.
+Spotify search queries, using a pluggable LLMBackend (see web/app/llm) as the
+translator.
 
 Background: Spotify deprecated the /recommendations endpoint and audio-features
 in November 2024, so we can no longer ask "give me a song with valence=X,
@@ -8,11 +9,14 @@ energy=Y." Instead, we use the LLM to convert each waypoint into search terms
 that approximate that emotional coordinate, and use Spotify's plain /search
 endpoint (which is not deprecated and still works for new apps).
 """
-import json
-import shutil
-import subprocess
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from .models import EmotionState, MMRStrategy
+
+if TYPE_CHECKING:
+    from web.app.llm.base import LLMBackend
 
 
 QUERY_PROMPT_TEMPLATE = """You are a music search query generator.
@@ -67,13 +71,11 @@ class QueryGenerationError(RuntimeError):
 
 
 class QueryGenerator:
-    def __init__(self, claude_binary: str | None = None):
-        self.claude_binary = claude_binary or shutil.which("claude")
-        if not self.claude_binary:
-            raise QueryGenerationError(
-                "Could not find `claude` CLI on PATH. "
-                "Install Claude Code and run `claude login` first."
-            )
+    def __init__(self, backend: "LLMBackend | None" = None):
+        if backend is None:
+            from web.app.llm.base import get_backend
+            backend = get_backend()
+        self.backend = backend
 
     def generate_queries(
         self,
@@ -81,6 +83,8 @@ class QueryGenerator:
         strategy: MMRStrategy,
     ) -> list[str]:
         """Returns one search query string per waypoint."""
+        from web.app.llm.base import extract_json
+
         waypoints_text = "\n".join(
             f"  Waypoint {i+1}: valence={wp.valence:+.2f}, arousal={wp.arousal:+.2f}"
             for i, wp in enumerate(trajectory)
@@ -92,24 +96,8 @@ class QueryGenerator:
             waypoints_text=waypoints_text,
         )
 
-        try:
-            result = subprocess.run(
-                [self.claude_binary, "-p"],
-                input=prompt,
-                capture_output=True,
-                text=True,
-                timeout=60,
-                check=True,
-            )
-        except subprocess.TimeoutExpired:
-            raise QueryGenerationError("Claude Code timed out after 60 seconds.")
-        except subprocess.CalledProcessError as e:
-            raise QueryGenerationError(
-                f"Claude Code exited with code {e.returncode}.\nstderr: {e.stderr}"
-            )
-
-        raw = result.stdout.strip()
-        parsed = self._extract_json(raw)
+        raw = self.backend.complete(prompt)
+        parsed = extract_json(raw)
 
         queries = parsed.get("queries", [])
         if not isinstance(queries, list) or len(queries) != len(trajectory):
@@ -118,27 +106,3 @@ class QueryGenerator:
             )
 
         return queries
-
-    @staticmethod
-    def _extract_json(raw: str) -> dict:
-        text = raw.strip()
-        if text.startswith("```"):
-            lines = text.split("\n")
-            lines = lines[1:]
-            if lines and lines[-1].strip().startswith("```"):
-                lines = lines[:-1]
-            text = "\n".join(lines).strip()
-
-        try:
-            return json.loads(text)
-        except json.JSONDecodeError:
-            pass
-
-        start = text.find("{")
-        end = text.rfind("}")
-        if start == -1 or end == -1:
-            raise QueryGenerationError(f"No JSON found in: {raw!r}")
-        try:
-            return json.loads(text[start:end + 1])
-        except json.JSONDecodeError as e:
-            raise QueryGenerationError(f"Bad JSON: {e}\nRaw: {raw!r}")
