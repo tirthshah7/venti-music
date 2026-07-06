@@ -3,10 +3,10 @@ Venti web app — FastAPI skeleton + guardrails (build spec T3.1).
 
 Wires up, in order of appearance: fail-fast settings, structured JSON
 logging to stdout (Railway's log capture is the beta's entire analytics
-system), a slowapi rate limiter keyed by client IP (per-route limits
-arrive with the T3.2 routers), an itsdangerous-signed session cookie
-(HttpOnly, Secure, SameSite=Lax) hard-limited to four keys, GET /healthz,
-and the static frontend at "/".
+system), a slowapi rate limiter keyed by client IP, an itsdangerous-signed
+session cookie (HttpOnly, Secure, SameSite=Lax) hard-limited to four keys,
+GET /healthz, the four T3.2 routers (vent, auth, playlist, rating), and
+the static frontend at "/".
 
 Privacy invariant (build rule 5): raw vent text never touches a log line
 or disk on the server. The logger is event-shaped on purpose — handlers
@@ -20,12 +20,12 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from slowapi.util import get_remote_address
 from starlette.middleware.sessions import SessionMiddleware
 
 from web.app.config import MissingConfigError, get_settings
+from web.app.rate_limit import limiter
 
 try:
     settings = get_settings()
@@ -122,9 +122,8 @@ class SessionKeyAllowlistMiddleware:
 
 app = FastAPI(title="Venti")
 
-# Per-route limits (@limiter.limit) come with the T3.2 routers; the
-# limiter itself and the 429 handler are wired here.
-limiter = Limiter(key_func=get_remote_address)
+# Per-route limits (@limiter.limit) live on the routers; the limiter
+# itself (web.app.rate_limit) and the 429 handler are wired here.
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -145,7 +144,16 @@ def healthz() -> dict:
     return {"status": "ok"}
 
 
-# Mounted last so explicit routes above win; everything else falls through
+# Imported here, not at the top, so the fail-fast settings check above
+# runs before the routers' import chain (venti_core, spotipy, anthropic).
+from web.app.routers import auth, playlist, rating, vent  # noqa: E402
+
+app.include_router(vent.router)
+app.include_router(auth.router)
+app.include_router(playlist.router)
+app.include_router(rating.router)
+
+# Mounted last so the routes above win; everything else falls through
 # to the single-page frontend (real UI lands in Phase 4).
 _STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 app.mount("/", StaticFiles(directory=_STATIC_DIR, html=True), name="static")

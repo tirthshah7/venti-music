@@ -1,7 +1,7 @@
 """
 T3.1 skeleton tests: fail-fast config, /healthz, static frontend, session
-cookie guardrails, JSON logging. Endpoint behavior (rate limits, OAuth
-state, char cap) is T3.2's test suite.
+cookie guardrails, JSON logging. Endpoint behavior lives in
+test_routers.py (T3.2).
 """
 import json
 import logging
@@ -14,60 +14,32 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
-REQUIRED_ENV = {
-    "ANTHROPIC_API_KEY": "test-anthropic-key",
-    "SPOTIFY_CLIENT_ID": "test-client-id",
-    "SPOTIFY_CLIENT_SECRET": "test-client-secret",
-    "SPOTIFY_REDIRECT_URI": "http://127.0.0.1:8000/api/auth/callback",
-    "APP_SECRET": "test-app-secret-long-enough",
-}
-
-
-@pytest.fixture()
-def main_module(monkeypatch):
-    for key, value in REQUIRED_ENV.items():
-        monkeypatch.setenv(key, value)
-    from web.app import main  # module-level settings resolve on first import
-
-    return main
-
-
-@pytest.fixture()
-def client(main_module):
-    # https base URL so the TestClient cookie jar accepts Secure cookies.
-    return TestClient(main_module.app, base_url="https://testserver")
-
-
 # --- config.py ---------------------------------------------------------------
 
 
-def test_missing_env_vars_listed_in_startup_error(monkeypatch):
+def test_missing_env_vars_listed_in_startup_error(required_env, monkeypatch):
     from web.app import config
 
-    for key in REQUIRED_ENV:
-        monkeypatch.delenv(key, raising=False)
+    for key in required_env:
+        monkeypatch.delenv(key)
     with pytest.raises(config.MissingConfigError) as exc_info:
         config.load_settings()
     message = str(exc_info.value)
-    for key in REQUIRED_ENV:
+    for key in required_env:
         assert key in message
 
 
-def test_empty_env_var_treated_as_missing(monkeypatch):
+def test_empty_env_var_treated_as_missing(required_env, monkeypatch):
     from web.app import config
 
-    for key, value in REQUIRED_ENV.items():
-        monkeypatch.setenv(key, value)
     monkeypatch.setenv("APP_SECRET", "")
     with pytest.raises(config.MissingConfigError, match="APP_SECRET"):
         config.load_settings()
 
 
-def test_optional_defaults(monkeypatch):
+def test_optional_defaults(required_env, monkeypatch):
     from web.app import config
 
-    for key, value in REQUIRED_ENV.items():
-        monkeypatch.setenv(key, value)
     monkeypatch.delenv("LLM_BACKEND", raising=False)
     monkeypatch.delenv("ANTHROPIC_MODEL", raising=False)
     settings = config.load_settings()
@@ -75,13 +47,11 @@ def test_optional_defaults(monkeypatch):
     assert settings.anthropic_model is None
 
 
-def test_invalid_llm_backend_rejected(monkeypatch):
+def test_invalid_llm_backend_rejected(required_env, monkeypatch):
     from pydantic import ValidationError
 
     from web.app import config
 
-    for key, value in REQUIRED_ENV.items():
-        monkeypatch.setenv(key, value)
     monkeypatch.setenv("LLM_BACKEND", "carrier-pigeon")
     with pytest.raises(ValidationError):
         config.load_settings()
