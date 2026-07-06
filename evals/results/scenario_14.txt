@@ -3,13 +3,13 @@ Vent: stripe just held our payouts again, third time this quarter, support is us
 Context: founder, cash flow stressed
 Expected strategy: discharge
 
-Current emotion:  valence=-0.75, arousal=+0.75
-Target emotion:   valence=-0.25, arousal=+0.45
+Current emotion:  valence=-0.70, arousal=+0.70
+Target emotion:   valence=-0.20, arousal=+0.40
 Strategy chosen:  discharge
-Reasoning:        Repeated payout holds with unresponsive support is sustained anger at an external entity compounded by founder cash-flow stakes — classic discharge territory. They need music that matches and validates that combative frustration before it can come down, not a premature calm-down. Target nudges one step toward relief without pretending the situation is resolved.
+Reasoning:        This is a recurring external injustice (third time this quarter) hitting a cash-flow-stressed founder, producing negative valence with high arousal — frustration bordering on anger, not sadness. Discharge lets that charged frustration out cathartically rather than bottling it, and the iso-principle target steps down the arousal toward a calmer, less negative state so they can re-engage the problem clearly.
 
 Trajectory waypoints:
-  [1] valence=-0.86, arousal=+0.85
-  [2] valence=-0.75, arousal=+0.68
-  [3] valence=-0.50, arousal=+0.60
-  [4] valence=-0.25, arousal=+0.45
+  [1] valence=-0.80, arousal=+0.80
+  [2] valence=-0.70, arousal=+0.63
+  [3] valence=-0.45, arousal=+0.55
+  [4] valence=-0.20, arousal=+0.40

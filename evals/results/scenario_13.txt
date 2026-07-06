@@ -3,13 +3,13 @@ Vent: first day back after a week off. don't want to be here. don't want to be a
 Context: back at work
 Expected strategy: mental_work / solace
 
-Current emotion:  valence=-0.25, arousal=-0.45
-Target emotion:   valence=+0.05, arousal=-0.20
+Current emotion:  valence=-0.35, arousal=-0.50
+Target emotion:   valence=-0.05, arousal=-0.20
 Strategy chosen:  mental_work
-Reasoning:        This is textbook ambivalence — not sadness, not boredom, but a flat existential disconnect where neither staying nor leaving feels right. The user isn't depleted by exertion (ruling out revival) or grieving a loss (ruling out solace); they're suspended in a neither-here-nor-there limbo that needs to be sat with, not escaped. Mental work lets reflective, contemplative music give shape to the formlessness and gently move them toward acceptance rather than forcing energy or cheer onto a state that would reject it.
+Reasoning:        This isn't simple boredom or energy depletion — the phrase 'don't want to be anywhere else either' signals an unresolved, ambivalent disconnect rather than a fixable mood dip. The low arousal and flat negative valence point to a listless, stuck state where they're quietly grappling with meaning and belonging. Mental_work lets them sit with and process the ambivalence rather than papering over it with a false energy lift, nudging gently toward neutral.
 
 Trajectory waypoints:
-  [1] valence=-0.25, arousal=-0.45
-  [2] valence=-0.19, arousal=-0.40
-  [3] valence=-0.09, arousal=-0.31
-  [4] valence=+0.05, arousal=-0.20
+  [1] valence=-0.35, arousal=-0.50
+  [2] valence=-0.29, arousal=-0.44
+  [3] valence=-0.19, arousal=-0.34
+  [4] valence=-0.05, arousal=-0.20

@@ -3,13 +3,13 @@ Vent: i don't know, just tired. nothing's really wrong. just kind of going throu
 Context: tuesday afternoon
 Expected strategy: revival
 
-Current emotion:  valence=-0.20, arousal=-0.55
-Target emotion:   valence=+0.20, arousal=-0.15
+Current emotion:  valence=-0.20, arousal=-0.50
+Target emotion:   valence=+0.30, arousal=+0.10
 Strategy chosen:  revival
-Reasoning:        This is a flat, low-energy state without a specific negative trigger — classic mid-afternoon depletion where nothing is actively wrong but vitality has drained out. Revival is the right strategy because the goal is a gentle, restorative lift rather than processing a problem (mental_work) or escaping one (diversion). Targeting a modest rise in both valence and arousal honors the iso principle: meet the tiredness first, then nudge toward warm engagement rather than forcing high energy.
+Reasoning:        The user reports low energy and emotional flatness without any acute distress — a depleted, going-through-the-motions state rather than active rumination or grief. Revival fits because they need a gentle lift to restore energy and re-engagement, meeting them in their low-arousal slump and nudging valence and arousal upward toward mild positivity. A midweek afternoon lull calls for restoration, not catharsis or deep processing.
 
 Trajectory waypoints:
-  [1] valence=-0.20, arousal=-0.55
-  [2] valence=-0.12, arousal=-0.47
-  [3] valence=+0.02, arousal=-0.33
-  [4] valence=+0.20, arousal=-0.15
+  [1] valence=-0.20, arousal=-0.50
+  [2] valence=-0.10, arousal=-0.38
+  [3] valence=+0.07, arousal=-0.17
+  [4] valence=+0.30, arousal=+0.10

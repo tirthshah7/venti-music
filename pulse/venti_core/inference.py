@@ -7,7 +7,7 @@ prompt encodes the psychology research so the model acts as a trained
 mood-regulation reasoner, not a generic sentiment classifier.
 """
 from .models import EmotionState, MMRStrategy
-from .llm.base import LLMBackend, extract_json, get_backend
+from .llm.base import LLMBackend, LLMError, extract_json, get_backend
 
 
 INFERENCE_PROMPT_TEMPLATE = """You are an emotion-inference engine grounded in music psychology research.
@@ -89,15 +89,27 @@ class EmotionInference:
     def infer(self, vent_text: str, context: str = "") -> dict:
         """
         Returns dict with: current_emotion, target_emotion, strategy, reasoning.
-        Raises LLMError if the backend fails or its output can't be parsed;
-        InferenceError if the parsed JSON is missing keys or names a bad strategy.
+
+        On a parse or validation failure the call is retried once; if the second
+        attempt also fails, the error is raised. Backend transport errors (a
+        timeout or auth failure) propagate immediately — a retry won't fix them.
         """
         prompt = INFERENCE_PROMPT_TEMPLATE.format(
             vent_text=vent_text,
             context=context or "none provided",
         )
 
-        raw = self.backend.complete(prompt)
+        last_err = None
+        for _ in range(2):  # initial attempt + one retry on bad/unparseable output
+            raw = self.backend.complete(prompt)
+            try:
+                return self._parse(raw)
+            except (InferenceError, LLMError) as e:
+                last_err = e
+        raise last_err
+
+    def _parse(self, raw: str) -> dict:
+        """Parse + validate one raw response. Raises InferenceError / LLMError."""
         parsed = extract_json(raw)
 
         # Validate required keys

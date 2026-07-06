@@ -3,13 +3,13 @@ Vent: my dad died last night. flying home tomorrow morning. i don't know what to
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.85, arousal=-0.20
-Target emotion:   valence=-0.50, arousal=-0.30
+Current emotion:  valence=-0.90, arousal=-0.40
+Target emotion:   valence=-0.50, arousal=-0.50
 Strategy chosen:  solace
-Reasoning:        The death of a parent is profound grief — the user feels lost, numb, and disoriented, not angry or agitated. Solace is the only appropriate strategy here: music that says 'I see your pain, you are not alone in this.' Any attempt to distract, energize, or reframe would feel dismissive of the magnitude of this loss. Per the ISO principle, the target stays in grief's neighborhood — gently shifting toward feeling held and comforted rather than jumping anywhere near positive.
+Reasoning:        The sudden loss of a parent is acute grief — deeply negative valence with a numb, disoriented low-to-moderate arousal ('don't know what to do with myself'). This is not a moment to fix or lift the mood; the iso principle calls for music that meets the grief, offers comfort, and helps them feel understood and less alone in the hours before traveling. Solace validates the sorrow while gently easing the restless disorientation toward a quieter, more settled calm.
 
 Trajectory waypoints:
-  [1] valence=-0.85, arousal=-0.20
-  [2] valence=-0.78, arousal=-0.22
-  [3] valence=-0.66, arousal=-0.25
-  [4] valence=-0.50, arousal=-0.30
+  [1] valence=-0.90, arousal=-0.40
+  [2] valence=-0.82, arousal=-0.42
+  [3] valence=-0.68, arousal=-0.45
+  [4] valence=-0.50, arousal=-0.50

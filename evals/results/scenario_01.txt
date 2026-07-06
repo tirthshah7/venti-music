@@ -3,13 +3,13 @@ Vent: third hour debugging this kafka thing and i can't even tell what's broken 
 Context: backend work
 Expected strategy: discharge
 
-Current emotion:  valence=-0.65, arousal=+0.55
-Target emotion:   valence=-0.15, arousal=+0.30
+Current emotion:  valence=-0.55, arousal=+0.60
+Target emotion:   valence=-0.10, arousal=+0.35
 Strategy chosen:  discharge
-Reasoning:        Three hours deep in a Kafka debug session with mounting frustration and fading clarity is classic coding frustration — negative valence with moderately high arousal that hasn't yet collapsed into resignation. Discharge lets the frustration vent through intense, cathartic music that matches the irritation, rather than forcing a premature mood flip. The ISO-aligned target steps one notch toward neutral focus without pretending the frustration isn't real.
+Reasoning:        Three hours stuck on a Kafka bug signals classic coding frustration — negative valence paired with high, agitated arousal, not low-energy sadness. Discharge lets that built-up tension release cathartically through driving, intense music rather than suppressing it. The target nudges toward neutral valence and slightly lower arousal so they can regain clarity without an abrupt, unbelievable jump to calm or happy.
 
 Trajectory waypoints:
-  [1] valence=-0.75, arousal=+0.65
-  [2] valence=-0.65, arousal=+0.50
-  [3] valence=-0.40, arousal=+0.43
-  [4] valence=-0.15, arousal=+0.30
+  [1] valence=-0.63, arousal=+0.70
+  [2] valence=-0.55, arousal=+0.54
+  [3] valence=-0.33, arousal=+0.47
+  [4] valence=-0.10, arousal=+0.35

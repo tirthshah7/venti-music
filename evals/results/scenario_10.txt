@@ -3,13 +3,13 @@ Vent: saturday afternoon, nothing planned, brain feels empty
 Context: weekend
 Expected strategy: entertainment / strong_sensation
 
-Current emotion:  valence=-0.15, arousal=-0.70
+Current emotion:  valence=-0.20, arousal=-0.60
 Target emotion:   valence=+0.40, arousal=+0.20
 Strategy chosen:  entertainment
-Reasoning:        Saturday afternoon with nothing planned and an empty brain is classic understimulation — mildly negative valence from listlessness, very low arousal from lack of engagement. Entertainment adds novelty and interest to fill the void rather than just lifting energy. The target is a pleasantly engaged state, not an intense one — enough to make the afternoon feel worth living without overwhelming a brain that's currently idle.
+Reasoning:        The user isn't distressed or depleted — they're understimulated and restless with an empty afternoon and no plans. This is classic boredom (slightly negative valence, low arousal), so the goal is to add novelty and interest rather than provide comfort or restore energy. Entertainment introduces engaging, fresh music to fill the void and lift the flat, empty feeling into something more vivid and pleasant.
 
 Trajectory waypoints:
-  [1] valence=-0.17, arousal=-0.67
-  [2] valence=-0.12, arousal=-0.72
-  [3] valence=-0.17, arousal=-0.67
-  [4] valence=-0.12, arousal=-0.72
+  [1] valence=-0.23, arousal=-0.57
+  [2] valence=-0.18, arousal=-0.62
+  [3] valence=-0.23, arousal=-0.57
+  [4] valence=-0.18, arousal=-0.62

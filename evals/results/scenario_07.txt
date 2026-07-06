@@ -3,13 +3,13 @@ Vent: haven't slept more than three hours in a row in a month. baby just went do
 Context: 2am, kid asleep
 Expected strategy: revival / solace
 
-Current emotion:  valence=-0.45, arousal=+0.15
-Target emotion:   valence=+0.05, arousal=-0.65
-Strategy chosen:  solace
-Reasoning:        Chronic sleep deprivation with a newborn creates a state of depleted isolation — alone at 2am, too wired-tired to sleep despite exhaustion. The core need isn't energy restoration but comfort: feeling understood in this difficult season rather than pressured to fix it. Solace music that gently validates their experience can release the tension holding them awake and ease the transition toward rest.
+Current emotion:  valence=-0.30, arousal=+0.40
+Target emotion:   valence=+0.10, arousal=-0.50
+Strategy chosen:  revival
+Reasoning:        This is chronic sleep deprivation with a wired, can't-wind-down nervous system — negative valence but elevated arousal from being unable to settle despite exhaustion. Revival fits: gently lower the racing arousal toward calm and restore a little positive feeling so the body can actually release into sleep, rather than discharging energy or adding stimulation they don't need at 2am.
 
 Trajectory waypoints:
-  [1] valence=-0.45, arousal=+0.15
-  [2] valence=-0.35, arousal=-0.00
-  [3] valence=-0.18, arousal=-0.29
-  [4] valence=+0.05, arousal=-0.65
+  [1] valence=-0.30, arousal=+0.40
+  [2] valence=-0.22, arousal=+0.23
+  [3] valence=-0.08, arousal=-0.09
+  [4] valence=+0.10, arousal=-0.50

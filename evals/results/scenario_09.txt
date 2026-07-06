@@ -4,12 +4,12 @@ Context: missing home
 Expected strategy: solace
 
 Current emotion:  valence=-0.60, arousal=-0.40
-Target emotion:   valence=-0.20, arousal=-0.15
+Target emotion:   valence=-0.10, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        The user is experiencing deep homesickness and loneliness — missing family is a form of grief-adjacent isolation with low arousal and clearly negative valence. Solace is the right strategy here: they need music that mirrors their longing and makes them feel understood, not music that tries to cheer them up or distract. Per the iso principle, the target gently moves one step toward neutral without invalidating the genuine ache of missing home.
+Reasoning:        The user expresses loneliness and deep longing for family, which is a low-arousal negative state rooted in isolation and homesickness. Solace is the right fit because they need to feel understood and comforted rather than energized or distracted. Following the iso principle, we move gently toward neutral without forcing an artificial happy mood.
 
 Trajectory waypoints:
   [1] valence=-0.60, arousal=-0.40
-  [2] valence=-0.52, arousal=-0.35
-  [3] valence=-0.38, arousal=-0.26
-  [4] valence=-0.20, arousal=-0.15
+  [2] valence=-0.50, arousal=-0.36
+  [3] valence=-0.33, arousal=-0.29
+  [4] valence=-0.10, arousal=-0.20

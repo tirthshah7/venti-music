@@ -3,13 +3,13 @@ Vent: presentation in 20 minutes, hands shaking, can't remember any of my openin
 Context: important client meeting
 Expected strategy: revival / mental_work
 
-Current emotion:  valence=-0.60, arousal=+0.70
+Current emotion:  valence=-0.50, arousal=+0.85
 Target emotion:   valence=+0.15, arousal=+0.20
 Strategy chosen:  revival
-Reasoning:        Pre-performance anxiety with physical symptoms (shaking hands) and cognitive interference (blanking on lines) places this firmly in the high-arousal, negative-valence quadrant. Per the strategy rules, anxious racing thoughts call for revival with a calming target — the goal is to downregulate arousal enough to restore executive function without sedating them before a presentation. The target sits in the calm-focus zone: slightly positive valence with moderate-low arousal, giving them grounded confidence rather than either panic or lethargy.
+Reasoning:        This is acute performance anxiety — negative valence with very high arousal and racing, panicked thoughts right before a high-stakes moment. The user doesn't need catharsis or processing; they need to down-regulate arousal into a calm, composed, mildly positive state so they can recall their lines. Revival with a calming target uses the iso principle to meet the intensity and gently guide them toward centered focus.
 
 Trajectory waypoints:
-  [1] valence=-0.60, arousal=+0.70
-  [2] valence=-0.46, arousal=+0.60
-  [3] valence=-0.19, arousal=+0.43
+  [1] valence=-0.50, arousal=+0.85
+  [2] valence=-0.37, arousal=+0.72
+  [3] valence=-0.15, arousal=+0.50
   [4] valence=+0.15, arousal=+0.20

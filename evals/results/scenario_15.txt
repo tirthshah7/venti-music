@@ -4,12 +4,12 @@ Context: caregiver
 Expected strategy: solace / mental_work
 
 Current emotion:  valence=-0.70, arousal=-0.20
-Target emotion:   valence=-0.30, arousal=-0.30
+Target emotion:   valence=-0.35, arousal=-0.35
 Strategy chosen:  solace
-Reasoning:        They are carrying grief and fear while masking it to protect their mother — classic caregiver isolation. The core need is to feel seen and held in pain they can't show anyone else. Solace lets the music say 'I know what you're carrying' without asking them to process or shift energy. ISO principle targets a gentle easing — not happiness, just feeling less alone in it.
+Reasoning:        This is anticipatory grief and the isolation of caregiving — holding it together for someone else while quietly falling apart underneath. Solace fits because they don't need to be fixed or cheered up; they need to feel understood and permitted to feel the weight they're carrying. The target moves gently toward a calmer, slightly less crushing place without pretending everything is fine.
 
 Trajectory waypoints:
   [1] valence=-0.70, arousal=-0.20
-  [2] valence=-0.62, arousal=-0.22
-  [3] valence=-0.48, arousal=-0.25
-  [4] valence=-0.30, arousal=-0.30
+  [2] valence=-0.63, arousal=-0.23
+  [3] valence=-0.51, arousal=-0.28
+  [4] valence=-0.35, arousal=-0.35

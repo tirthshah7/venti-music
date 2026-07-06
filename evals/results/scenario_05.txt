@@ -3,13 +3,13 @@ Vent: got the schema migration working, feeling like i can take on the rest of t
 Context: good momentum, mid-afternoon
 Expected strategy: entertainment
 
-Current emotion:  valence=+0.65, arousal=+0.50
-Target emotion:   valence=+0.70, arousal=+0.55
+Current emotion:  valence=+0.60, arousal=+0.40
+Target emotion:   valence=+0.75, arousal=+0.55
 Strategy chosen:  entertainment
-Reasoning:        User is riding a genuine productivity high — schema migration win plus confidence about the sprint signals positive valence with moderate-high arousal. Since the mood is already good and they want to sustain momentum through the afternoon, entertainment is the right call: maintain the existing positive state with music that matches and reinforces their confident, energized flow rather than trying to shift anything.
+Reasoning:        The user is already in a positive, energized state after a concrete win and wants to ride that momentum through the rest of the sprint. Since valence is clearly positive, entertainment is the right MMR strategy to sustain and gently amplify the existing good mood rather than restore or process anything.
 
 Trajectory waypoints:
-  [1] valence=+0.62, arousal=+0.53
-  [2] valence=+0.68, arousal=+0.47
-  [3] valence=+0.62, arousal=+0.53
-  [4] valence=+0.68, arousal=+0.47
+  [1] valence=+0.57, arousal=+0.43
+  [2] valence=+0.62, arousal=+0.38
+  [3] valence=+0.57, arousal=+0.43
+  [4] valence=+0.62, arousal=+0.38

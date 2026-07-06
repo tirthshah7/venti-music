@@ -3,13 +3,13 @@ Vent: i keep thinking about whether i should be doing something more meaningful 
 Context: late evening, alone
 Expected strategy: mental_work / solace
 
-Current emotion:  valence=-0.30, arousal=-0.10
-Target emotion:   valence=+0.05, arousal=+0.10
+Current emotion:  valence=-0.35, arousal=-0.20
+Target emotion:   valence=-0.05, arousal=-0.10
 Strategy chosen:  mental_work
-Reasoning:        Weeks of unresolved existential self-questioning — 'should I be doing something more meaningful' — is textbook ambivalence and ruminative contemplation, not sadness or depletion. The user is grappling with something, not broken by it. Mental work provides music that mirrors and scaffolds that reflective process, letting them sit with the dissonance rather than escaping or suppressing it. Late evening alone amplifies the introspective register, so the target nudges only gently toward acceptance rather than forcing resolution.
+Reasoning:        This is unresolved existential questioning — the user is grappling with meaning, not merely depleted or sad, and has been stuck in it for weeks. Mental_work supports contemplation and reappraisal, letting them sit with and process the question rather than escaping or artificially lifting mood. The late-evening solitude is conducive to reflective, introspective listening that honors the weight of the rumination while nudging valence gently toward neutral.
 
 Trajectory waypoints:
-  [1] valence=-0.30, arousal=-0.10
-  [2] valence=-0.23, arousal=-0.06
-  [3] valence=-0.11, arousal=+0.01
-  [4] valence=+0.05, arousal=+0.10
+  [1] valence=-0.35, arousal=-0.20
+  [2] valence=-0.29, arousal=-0.18
+  [3] valence=-0.19, arousal=-0.15
+  [4] valence=-0.05, arousal=-0.10

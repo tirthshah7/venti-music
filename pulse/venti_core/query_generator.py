@@ -10,7 +10,7 @@ that approximate that emotional coordinate, and use Spotify's plain /search
 endpoint (which is not deprecated and still works for new apps).
 """
 from .models import EmotionState, MMRStrategy
-from .llm.base import LLMBackend, extract_json, get_backend
+from .llm.base import LLMBackend, LLMError, extract_json, get_backend
 
 
 QUERY_PROMPT_TEMPLATE = """You are a music search query generator.
@@ -73,7 +73,13 @@ class QueryGenerator:
         trajectory: list[EmotionState],
         strategy: MMRStrategy,
     ) -> list[str]:
-        """Returns one search query string per waypoint."""
+        """
+        Returns one search query string per waypoint.
+
+        On a parse or validation failure the call is retried once; if the second
+        attempt also fails, the error is raised. Backend transport errors
+        propagate immediately.
+        """
         waypoints_text = "\n".join(
             f"  Waypoint {i+1}: valence={wp.valence:+.2f}, arousal={wp.arousal:+.2f}"
             for i, wp in enumerate(trajectory)
@@ -85,13 +91,23 @@ class QueryGenerator:
             waypoints_text=waypoints_text,
         )
 
-        raw = self.backend.complete(prompt)
+        last_err = None
+        for _ in range(2):  # initial attempt + one retry on bad/unparseable output
+            raw = self.backend.complete(prompt)
+            try:
+                return self._parse(raw, len(trajectory))
+            except (QueryGenerationError, LLMError) as e:
+                last_err = e
+        raise last_err
+
+    def _parse(self, raw: str, n_waypoints: int) -> list[str]:
+        """Parse + validate one raw response. Raises QueryGenerationError / LLMError."""
         parsed = extract_json(raw)
 
         queries = parsed.get("queries", [])
-        if not isinstance(queries, list) or len(queries) != len(trajectory):
+        if not isinstance(queries, list) or len(queries) != n_waypoints:
             raise QueryGenerationError(
-                f"Expected {len(trajectory)} queries, got {len(queries)}: {queries}"
+                f"Expected {n_waypoints} queries, got {len(queries)}: {queries}"
             )
 
         return queries

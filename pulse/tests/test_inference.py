@@ -29,6 +29,29 @@ class _FakeBackend:
         return self.response
 
 
+class _ScriptedBackend:
+    """Returns queued responses in order (clamping to the last)."""
+
+    def __init__(self, responses):
+        self.responses = list(responses)
+        self.prompts: list[str] = []
+
+    def complete(self, prompt: str, timeout: int = 60) -> str:
+        self.prompts.append(prompt)
+        return self.responses[min(len(self.prompts) - 1, len(self.responses) - 1)]
+
+
+class _RaisingBackend:
+    """Simulates a backend transport failure on every call."""
+
+    def __init__(self):
+        self.calls = 0
+
+    def complete(self, prompt: str, timeout: int = 60) -> str:
+        self.calls += 1
+        raise LLMError("simulated transport failure")
+
+
 def test_clean_json():
     """Ideal case: model returns just JSON."""
     raw = '{"current_valence": -0.7, "current_arousal": 0.6, "target_valence": 0.2, "target_arousal": 0.1, "strategy": "discharge", "reasoning": "test"}'
@@ -113,6 +136,32 @@ def test_inference_rejects_bad_strategy():
         print("✅ EmotionInference rejects unknown strategy")
 
 
+def test_inference_retries_then_succeeds():
+    """A first response missing target keys (the scenario-1 failure mode) is retried."""
+    incomplete = '{"current_valence": -0.6, "current_arousal": 0.5, "strategy": "discharge", "reasoning": "x"}'
+    valid = (
+        '{"current_valence": -0.6, "current_arousal": 0.5, "target_valence": 0.2, '
+        '"target_arousal": 0.1, "strategy": "discharge", "reasoning": "x"}'
+    )
+    b = _ScriptedBackend([incomplete, valid])
+    r = EmotionInference(backend=b).infer("third hour debugging")
+    assert r["strategy"].value == "discharge"
+    assert len(b.prompts) == 2  # retried once after the missing-keys response
+    print("✅ EmotionInference retries once on a bad response, then succeeds")
+
+
+def test_inference_transport_error_fails_fast():
+    """Backend transport errors are not retried."""
+    b = _RaisingBackend()
+    try:
+        EmotionInference(backend=b).infer("x")
+        assert False, "should have raised"
+    except LLMError:
+        pass
+    assert b.calls == 1  # propagated immediately, no retry
+    print("✅ EmotionInference does not retry transport errors")
+
+
 def test_get_backend_rejects_unknown():
     """An unrecognized LLM_BACKEND value fails fast (no backend import)."""
     prev = os.environ.get("LLM_BACKEND")
@@ -137,5 +186,7 @@ if __name__ == "__main__":
     test_unparseable_raises()
     test_inference_routes_through_backend()
     test_inference_rejects_bad_strategy()
+    test_inference_retries_then_succeeds()
+    test_inference_transport_error_fails_fast()
     test_get_backend_rejects_unknown()
     print("\n🎉 All inference + backend tests passed.")
