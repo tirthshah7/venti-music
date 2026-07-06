@@ -42,6 +42,11 @@ class AnthropicAPIBackend(LLMBackend):
 
     def complete(self, prompt: str, timeout: int = 60) -> str:
         try:
+            # Sampling params (temperature / top_p / top_k) are intentionally NOT
+            # set: the Claude 4.x models — including claude-sonnet-4-6 — reject them
+            # with a 400 ("temperature is deprecated for this model"). Determinism
+            # and reasoning depth are governed by the model + effort, not a
+            # temperature knob, so there is nothing to tune here.
             message = self.client.messages.create(
                 model=self.model,
                 max_tokens=MAX_TOKENS,

@@ -91,6 +91,7 @@ neurodivergent framing, etc.).
 **Context:** "management duties"
 **Expected strategy:** revival (calm the somatic anxiety) or mental_work (steady focus)
 **Watch for:** This is high arousal + negative valence, but discharge would be deeply wrong — this person needs to walk into a hard conversation regulated, not amped up. Tests whether the LLM reads situational context (what's about to happen) and not just emotional snapshot.
+**Note — known dual-defensible case:** On the API backend (`claude-sonnet-4-6`) this scenario's strategy varies between `solace` and `mental_work` across runs. Both are clinically reasonable readings of anticipatory dread before a hard-but-necessary act — solace (help them feel the weight is understood) and mental_work (process the ambivalence and steady resolve). `solace` sits outside the expected set above, so it can cost this scenario one point on any given run. This is accepted model variance, not a prompt defect; the expected-strategy set and the prompt are left unchanged by policy. Verbatim reasoning from multiple runs is recorded under `evals/results/` (see `SUMMARY_api_backend.md` and `merged/SUMMARY.md`).
 
 ### 12. Joyful but anxious anticipation
 **Vent:** "wedding in two days. happy but also losing my mind. can't sit still."
