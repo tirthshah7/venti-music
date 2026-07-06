@@ -6,7 +6,7 @@ Expected strategy: mental_work / solace
 Current emotion:  valence=-0.40, arousal=-0.20
 Target emotion:   valence=+0.10, arousal=+0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not depleted or escaping something acute — you're stuck in a slow, persistent loop of self-questioning that's been circling for weeks, which is a classic sign that you need to sit with it rather than distract from it. Diversion would just delay what your mind is clearly trying to work through, and jumping to something uplifting would feel hollow against something this unresolved. Music that mirrors that contemplative, searching quality can give the rumination somewhere to breathe and move, rather than just spin.
+Reasoning:        You're not depleted or angry — you're stuck in a slow, circling kind of questioning that's been running for weeks, which is the hallmark of unresolved existential ambivalence. Trying to escape it or cheer you out of it would just push it underground, so the right move is to sit with it and let music give that restlessness a shape. The goal isn't resolution — it's the feeling of being accompanied through the question itself.
 
 Trajectory waypoints:
   [1] valence=-0.40, arousal=-0.20
@@ -15,7 +15,7 @@ Trajectory waypoints:
   [4] valence=+0.10, arousal=+0.10
 
 Queries:
-  [1] melancholy ambient introspective
-  [2] atmospheric post-rock searching
-  [3] thoughtful indie folk existential
-  [4] hopeful instrumental contemplative
+  [1] introspective indie folk
+  [2] contemplative ambient folk
+  [3] atmospheric post-rock thoughtful
+  [4] hopeful ambient instrumental

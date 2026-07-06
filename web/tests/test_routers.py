@@ -147,6 +147,37 @@ def test_vent_success_never_logs_text(client, vent_mocks, caplog):
     assert isinstance(vent_line.latency_ms, int)
 
 
+def test_vent_crisis_declines_playlist_and_logs_only_the_event(
+    client, main_module, monkeypatch, caplog
+):
+    # T5.1: crisis triage → distinct response, no Spotify contact, and a log
+    # line carrying nothing but the event name (the record brings its own ts).
+    from venti_core.llm.vent_pipeline import CrisisIndicated
+    from web.app.routers import vent as vent_router
+
+    class MustNotSearch:
+        def find_tracks_for_queries(self, queries):
+            raise AssertionError("crisis path must never reach Spotify")
+
+    monkeypatch.setattr(vent_router, "get_llm_backend", lambda: None)
+    monkeypatch.setattr(vent_router, "get_app_client", lambda: MustNotSearch())
+    monkeypatch.setattr(vent_router, "run_vent", lambda text, backend: CrisisIndicated())
+
+    with caplog.at_level(logging.DEBUG):
+        response = client.post("/api/vent", json={"text": MARKER})
+
+    assert response.status_code == 200
+    assert response.json() == {"crisis": True}
+
+    crisis_line = next(r for r in caplog.records if r.getMessage() == "crisis_declined")
+    # Only the event: no strategy, no latency, and never the text.
+    assert not hasattr(crisis_line, "strategy")
+    assert not hasattr(crisis_line, "latency_ms")
+    assert not any(r.getMessage() == "vent" for r in caplog.records)
+    for record in caplog.records:
+        assert MARKER not in str(record.__dict__)
+
+
 def test_vent_error_path_never_leaks_text(client, main_module, monkeypatch, caplog):
     from web.app.routers import vent as vent_router
 

@@ -1,7 +1,8 @@
 """
 Tests for the merged single-call vent pipeline (venti_core/llm/vent_pipeline.py).
 The backend is mocked — no real LLM calls. Covers valid parse, VA clamping,
-query-count + strategy-enum validation, retry-then-success, and retry-then-fail.
+query-count + strategy-enum validation, retry-then-success, retry-then-fail,
+and the T5.1 crisis triage path.
 """
 import json
 import os
@@ -13,6 +14,7 @@ from venti_core.models import EmotionState, MMRStrategy
 from venti_core.llm.base import LLMError
 from venti_core.llm.vent_pipeline import (
     MERGED_PROMPT_TEMPLATE,
+    CrisisIndicated,
     run_vent,
     VentResult,
     VentPipelineError,
@@ -126,6 +128,37 @@ def test_retry_then_fail():
     print("✅ retry-then-fail raises after exactly two attempts")
 
 
+def test_crisis_true_returns_crisis_indicated():
+    # T5.1: {"crisis": true} short-circuits — no validation, no retry.
+    b = _FixedBackend('{"crisis": true}')
+    r = run_vent("crisis-level vent", b)
+    assert isinstance(r, CrisisIndicated)
+    assert b.calls == 1
+    print("✅ crisis:true returns CrisisIndicated on the first call")
+
+
+def test_crisis_false_takes_normal_path():
+    # A model that volunteers crisis:false alongside the normal schema
+    # must not be mistaken for a triage hit.
+    b = _FixedBackend(_valid(crisis=False))
+    r = run_vent("x", b)
+    assert isinstance(r, VentResult)
+    assert r.strategy is MMRStrategy.DISCHARGE
+    print("✅ crisis:false goes through the normal flow")
+
+
+def test_triage_rule_sits_above_all_strategy_rules():
+    # T5.1: the triage rule must come BEFORE the frameworks and the
+    # strategy selection rules — it outranks them by position, not just words.
+    triage = MERGED_PROMPT_TEMPLATE.index("CRISIS TRIAGE")
+    assert triage < MERGED_PROMPT_TEMPLATE.index("You use two frameworks:")
+    assert triage < MERGED_PROMPT_TEMPLATE.index("STRATEGY SELECTION RULES")
+    assert '{"crisis": true}' in MERGED_PROMPT_TEMPLATE
+    # The near-miss carve-out rides along with the rule.
+    assert "NOT a crisis" in MERGED_PROMPT_TEMPLATE
+    print("✅ triage rule sits above frameworks and strategy rules")
+
+
 def test_merged_prompt_has_second_person_voice_instruction():
     # T4.3: the reasoning line is shown to the person as the reveal
     # headline — it must speak to them, not about them.
@@ -145,7 +178,10 @@ def test_voice_instruction_lives_in_bridge_text_not_sliced_rules():
     assert vp._QUERY_RULES in QUERY_PROMPT_TEMPLATE
     assert "never 'the user'" not in vp._PSYCH_RULES
     assert "never 'the user'" not in vp._QUERY_RULES
-    print("✅ sliced rule blocks untouched; voice instruction is bridge-only")
+    # T5.1's triage rule is bridge-only too.
+    assert "crisis" not in vp._PSYCH_RULES.lower()
+    assert "crisis" not in vp._QUERY_RULES.lower()
+    print("✅ sliced rule blocks untouched; voice + triage additions are bridge-only")
 
 
 if __name__ == "__main__":
@@ -155,6 +191,9 @@ if __name__ == "__main__":
     test_strategy_enum_validation()
     test_retry_then_success()
     test_retry_then_fail()
+    test_crisis_true_returns_crisis_indicated()
+    test_crisis_false_takes_normal_path()
+    test_triage_rule_sits_above_all_strategy_rules()
     test_merged_prompt_has_second_person_voice_instruction()
     test_voice_instruction_lives_in_bridge_text_not_sliced_rules()
     print("\n🎉 All vent pipeline tests passed.")

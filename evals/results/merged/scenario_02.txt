@@ -3,19 +3,19 @@ Vent: my dad died last night. flying home tomorrow morning. i don't know what to
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.85, arousal=-0.30
-Target emotion:   valence=-0.45, arousal=-0.50
+Current emotion:  valence=-0.85, arousal=-0.55
+Target emotion:   valence=-0.45, arousal=-0.30
 Strategy chosen:  solace
-Reasoning:        You're in acute grief — a heavy, disorienting kind of pain where jumping to anything uplifting would feel jarring and wrong. What you need right now isn't to feel better, it's to feel less alone in this, to have something sit with you in the dark. Solace music meets you exactly where you are and quietly says: this is real, you're not the only one who has felt this, and it's okay to just be here for now.
+Reasoning:        You're in acute grief — not a state to be fixed or lifted out of, but one that needs to feel held and understood first. Solace is the right strategy here because you're not looking for distraction or energy, you're looking for music that sits with you in the weight of this moment. The arc moves only gently toward something slightly warmer and less raw, because right now the most comforting thing is feeling less alone in the pain, not being pulled away from it.
 
 Trajectory waypoints:
-  [1] valence=-0.85, arousal=-0.30
-  [2] valence=-0.77, arousal=-0.34
+  [1] valence=-0.85, arousal=-0.55
+  [2] valence=-0.77, arousal=-0.50
   [3] valence=-0.63, arousal=-0.41
-  [4] valence=-0.45, arousal=-0.50
+  [4] valence=-0.45, arousal=-0.30
 
 Queries:
-  [1] grief piano instrumental
-  [2] sad orchestral strings slow
-  [3] melancholy acoustic folk loss
-  [4] quiet tender folk warmth
+  [1] grief stricken orchestral piano
+  [2] melancholy acoustic folk loss
+  [3] quiet sad indie strings
+  [4] gentle somber ambient warmth

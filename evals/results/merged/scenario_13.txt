@@ -4,18 +4,18 @@ Context: back at work
 Expected strategy: mental_work / solace
 
 Current emotion:  valence=-0.40, arousal=-0.50
-Target emotion:   valence=+0.20, arousal=+0.10
+Target emotion:   valence=+0.10, arousal=-0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not depleted from exertion, not burning with frustration — you're caught in a strange in-between, where nowhere feels right and nothing feels wanted. That ambivalence and low-grade existential flatness isn't something to fix or escape; it needs space to breathe and be sat with. Mental work fits here because you're grappling with something unresolved, not just tired, and the right music can help you process that grey feeling rather than paper over it.
+Reasoning:        You're not burned out or devastated — you're caught in a quiet, restless ambivalence, not quite wanting this but not wanting anything else either. That kind of suspended, low-energy disconnection isn't something energy or distraction can fix; it needs space to just sit with itself. Music that contemplates and drifts alongside you is more honest to where you are than anything that tries to cheer you up.
 
 Trajectory waypoints:
   [1] valence=-0.40, arousal=-0.50
-  [2] valence=-0.28, arousal=-0.38
-  [3] valence=-0.07, arousal=-0.17
-  [4] valence=+0.20, arousal=+0.10
+  [2] valence=-0.30, arousal=-0.42
+  [3] valence=-0.13, arousal=-0.28
+  [4] valence=+0.10, arousal=-0.10
 
 Queries:
-  [1] melancholy ambient drift
-  [2] contemplative indie piano
-  [3] atmospheric slow post-rock
-  [4] thoughtful indie folk warmth
+  [1] ambient melancholy instrumental
+  [2] slow atmospheric post-rock
+  [3] contemplative indie folk
+  [4] gentle thoughtful indie

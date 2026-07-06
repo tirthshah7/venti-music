@@ -34,6 +34,22 @@ def test_spec_copy_present(source):
         assert line in source, f"missing spec copy: {line!r}"
 
 
+def test_crisis_screen_copy_and_resources(source):
+    # T5.1: acknowledgment first, then the resources — pinned here so a
+    # frontend rewrite can't silently drop the one screen that must not break.
+    for line in [
+        "that sounds genuinely heavy — and it deserves more than a playlist.",
+        "988 Suicide &amp; Crisis Lifeline",
+        'href="tel:988"',
+        "1-833-456-4566",
+        "findahelpline.com",
+    ]:
+        assert line in source, f"missing crisis copy: {line!r}"
+    # The crisis branch bails out before any music mechanics render.
+    assert "data.crisis" in source
+    assert 'setScreen("screen-crisis")' in source
+
+
 def test_uses_spotify_embeds_lazily(source):
     assert "open.spotify.com/embed/track/" in source
     assert 'loading = "lazy"' in source or 'loading="lazy"' in source

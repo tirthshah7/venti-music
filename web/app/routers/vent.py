@@ -1,11 +1,13 @@
 """
 POST /api/vent — the core loop, no auth: text in, strategy + reasoning +
-trajectory + tracks out.
+trajectory + tracks out. Crisis-triaged vents (T5.1) get {"crisis": true}
+back instead — no playlist, the frontend shows resources.
 
 Privacy invariant (build rule 5): the vent text exists only in this
 request's memory. The success log line carries strategy, n_tracks and
-latency_ms; the failure line carries the exception class name. Never the
-text, never the IP beyond what the rate limiter keys on.
+latency_ms; the failure line carries the exception class name; the crisis
+line carries the event name alone. Never the text, never the IP beyond
+what the rate limiter keys on.
 """
 import logging
 import time
@@ -15,7 +17,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from venti_core.llm.base import LLMBackend, get_backend
-from venti_core.llm.vent_pipeline import run_vent
+from venti_core.llm.vent_pipeline import CrisisIndicated, run_vent
 from venti_core.models import MMRStrategy
 
 from web.app.rate_limit import limiter
@@ -72,6 +74,11 @@ def vent(request: Request, body: VentRequest) -> dict:
     started = time.perf_counter()
     try:
         result = run_vent(text, get_llm_backend())
+        if isinstance(result, CrisisIndicated):
+            # T5.1: event name + the record's own timestamp, nothing else —
+            # no strategy, no latency, and (as everywhere here) never the text.
+            log.info("crisis_declined")
+            return {"crisis": True}
         tracks = get_app_client().find_tracks_for_queries(result.queries)
     except Exception as exc:
         # Class name only: LLM error messages can quote model output,

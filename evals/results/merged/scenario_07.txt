@@ -4,18 +4,18 @@ Context: 2am, kid asleep
 Expected strategy: revival / solace
 
 Current emotion:  valence=-0.40, arousal=-0.60
-Target emotion:   valence=+0.10, arousal=-0.85
+Target emotion:   valence=+0.10, arousal=-0.80
 Strategy chosen:  revival
-Reasoning:        You're not sad exactly, and you're not wired — you're somewhere in that hollow, dissociated exhaustion where your body is done but your nervous system forgot to clock out. The goal isn't to make you feel happy, it's to gently coax your system down from that low-grade vigilance hum and let sleep feel safe again. Revival here means a soft, unhurried lift — music that says 'it's okay to let go now' rather than pushing you anywhere.
+Reasoning:        You're not sad or angry — you're hollowed out, running on empty in that particular way only prolonged sleep deprivation creates. The ceiling-staring tells me your nervous system is too wired-but-depleted to simply switch off, so the goal isn't excitement or catharsis — it's a gentle, warm coaxing downward into rest. This playlist moves from soft acknowledgment of your exhaustion toward something calm and enveloping enough to finally let your body surrender.
 
 Trajectory waypoints:
   [1] valence=-0.40, arousal=-0.60
-  [2] valence=-0.30, arousal=-0.65
-  [3] valence=-0.13, arousal=-0.74
-  [4] valence=+0.10, arousal=-0.85
+  [2] valence=-0.30, arousal=-0.64
+  [3] valence=-0.13, arousal=-0.71
+  [4] valence=+0.10, arousal=-0.80
 
 Queries:
-  [1] tired ambient drone
-  [2] quiet sparse piano
-  [3] warm ambient sleep
-  [4] gentle instrumental lullaby
+  [1] tired ambient piano
+  [2] gentle acoustic lullaby adult
+  [3] warm ambient sleep drift
+  [4] soft instrumental nocturne calm

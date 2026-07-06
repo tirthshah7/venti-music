@@ -3,19 +3,19 @@ Vent: stripe just held our payouts again, third time this quarter, support is us
 Context: founder, cash flow stressed
 Expected strategy: discharge
 
-Current emotion:  valence=-0.75, arousal=+0.82
-Target emotion:   valence=-0.10, arousal=+0.20
+Current emotion:  valence=-0.75, arousal=+0.78
+Target emotion:   valence=-0.15, arousal=+0.20
 Strategy chosen:  discharge
-Reasoning:        You're not just frustrated — you're genuinely angry at a system that keeps failing you, and that high-arousal rage needs somewhere to go before you can think clearly again. Jumping straight to calm or happy music would feel dismissive of something that's legitimately infuriating, so the playlist starts by meeting that anger head-on with cathartic intensity. From there it gradually bleeds off the tension, landing you somewhere steady enough to actually problem-solve.
+Reasoning:        You're dealing with repeated, systemic frustration from something outside your control that directly affects your livelihood — that's not just annoyance, it's high-arousal anger with a legitimate target. Discharge lets you ride that intensity out through music rather than swallow it, so the energy has somewhere to go. From there the arc walks you down to something steadier, where you can think clearly again instead of stewing.
 
 Trajectory waypoints:
-  [1] valence=-0.86, arousal=+0.92
-  [2] valence=-0.75, arousal=+0.74
-  [3] valence=-0.42, arousal=+0.51
-  [4] valence=-0.10, arousal=+0.20
+  [1] valence=-0.86, arousal=+0.88
+  [2] valence=-0.75, arousal=+0.70
+  [3] valence=-0.45, arousal=+0.49
+  [4] valence=-0.15, arousal=+0.20
 
 Queries:
-  [1] hard rock rage
-  [2] aggressive punk frustration
-  [3] driving alt rock release
-  [4] grunge wind down
+  [1] hard rock frustration
+  [2] aggressive punk drive
+  [3] gritty indie rock
+  [4] mellow indie chill

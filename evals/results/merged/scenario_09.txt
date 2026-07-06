@@ -4,18 +4,18 @@ Context: missing home
 Expected strategy: solace
 
 Current emotion:  valence=-0.70, arousal=-0.50
-Target emotion:   valence=-0.10, arousal=-0.20
+Target emotion:   valence=-0.10, arousal=-0.10
 Strategy chosen:  solace
-Reasoning:        आप जो महसूस कर रहे हैं वो अकेलापन और घर की याद है — यह एक गहरी, शांत उदासी है जिसे तुरंत खुशी से नहीं भरा जा सकता। Solace strategy यहाँ सबसे सही है क्योंकि आपको fix की नहीं, बल्कि यह feeling कि 'कोई समझता है' — उसकी ज़रूरत है। यह playlist धीरे-धीरे आपको उस दर्द के साथ बैठने देगी और फिर हल्के से एक गर्म, सुकून भरी जगह की तरफ ले जाएगी।
+Reasoning:        You're feeling a deep, quiet loneliness and missing the people you love most — that kind of ache sits low and heavy, and it deserves to be felt, not rushed past. Solace works best here because you don't need distraction or energy right now; you need music that understands exactly how you feel and sits with you in it. Gradually, the playlist will move you toward a gentler warmth — not erasing the longing, but softening its edges a little.
 
 Trajectory waypoints:
   [1] valence=-0.70, arousal=-0.50
-  [2] valence=-0.58, arousal=-0.44
-  [3] valence=-0.37, arousal=-0.34
-  [4] valence=-0.10, arousal=-0.20
+  [2] valence=-0.58, arousal=-0.42
+  [3] valence=-0.37, arousal=-0.28
+  [4] valence=-0.10, arousal=-0.10
 
 Queries:
   [1] sad hindi acoustic longing
-  [2] melancholy indian folk vocals
+  [2] melancholy indian folk gentle
   [3] warm nostalgic hindi indie
-  [4] gentle soothing hindi soft pop
+  [4] soft hopeful hindustani folk

@@ -10,6 +10,11 @@ and asks for emotion + strategy + reasoning + 4 queries as a single JSON object.
 The model is only told to *assume* a standard 4-waypoint ISO arc when writing
 queries; the real trajectory for display is still computed server-side with
 venti_core.trajectory.generate_trajectory.
+
+T5.1: a crisis-triage rule sits ABOVE all strategy rules. Crisis-level vents
+(self-harm, harm to others, acute abuse) make the model return {"crisis": true}
+instead of the normal schema; run_vent surfaces that as CrisisIndicated so the
+web layer can decline the playlist and show resources instead.
 """
 from dataclasses import dataclass
 
@@ -45,6 +50,19 @@ do BOTH of the following in one step: (a) infer their current and target
 emotional state and the best mood-regulation strategy, and (b) generate Spotify
 search queries for a short playlist that carries out that strategy.
 
+CRISIS TRIAGE — apply this BEFORE any rule below; it outranks all of them:
+If the vent indicates crisis-level content — self-harm or suicidal ideation,
+intent to harm another person, or acute abuse (the writer or someone else is
+in danger) — do NOT infer emotions or generate queries. Output exactly this
+JSON and NOTHING ELSE:
+{"crisis": true}
+A playlist is the wrong response to a crisis; when you are genuinely unsure
+whether the line is crossed, choose over-caution and return {"crisis": true}.
+Everyday venting is NOT a crisis and MUST go through the normal flow below:
+frustration, sadness, anger, burnout, exhaustion, loneliness, grief, and
+dark-but-ordinary hyperbole (e.g. "this deadline is killing me", "I'm dead
+inside after this week") are the vents this product exists for.
+
 """
 
 _MERGED_MID = """
@@ -59,8 +77,9 @@ to the waypoint nearest the target.
 
 _MERGED_TAIL = """
 
-Output STRICT JSON with this exact shape and NOTHING ELSE — no markdown, no
-code fences, no explanation outside the JSON, no preamble:
+Unless the crisis triage rule at the top applies (in which case output exactly
+{"crisis": true}), output STRICT JSON with this exact shape and NOTHING ELSE —
+no markdown, no code fences, no explanation outside the JSON, no preamble:
 {
   "current_valence": float,
   "current_arousal": float,
@@ -72,6 +91,13 @@ code fences, no explanation outside the JSON, no preamble:
 }"""
 
 MERGED_PROMPT_TEMPLATE = _MERGED_HEAD + _PSYCH_RULES + _MERGED_MID + _QUERY_RULES + _MERGED_TAIL
+
+
+@dataclass(frozen=True)
+class CrisisIndicated:
+    """The model triaged the vent as crisis-level (self-harm, harm to others,
+    or acute abuse). No emotions, no queries, no playlist — the caller must
+    show crisis resources instead of music."""
 
 
 @dataclass
@@ -130,9 +156,10 @@ def _build_result(parsed: dict) -> VentResult:
     )
 
 
-def run_vent(text: str, backend: LLMBackend) -> VentResult:
+def run_vent(text: str, backend: LLMBackend) -> VentResult | CrisisIndicated:
     """
-    One LLM call → emotion + strategy + reasoning + 4 queries → VentResult.
+    One LLM call → emotion + strategy + reasoning + 4 queries → VentResult,
+    or CrisisIndicated when the model's triage rule fires ({"crisis": true}).
 
     On a parse or validation failure the call is retried once; if the second
     attempt also fails, the error is raised. Backend transport errors propagate
@@ -144,7 +171,10 @@ def run_vent(text: str, backend: LLMBackend) -> VentResult:
     for _ in range(2):  # initial attempt + one retry
         raw = backend.complete(prompt)
         try:
-            return _build_result(extract_json(raw))
+            parsed = extract_json(raw)
+            if parsed.get("crisis") is True:
+                return CrisisIndicated()
+            return _build_result(parsed)
         except LLMError as e:  # unparseable JSON (extract_json) or failed validation
             last_err = e
     raise last_err

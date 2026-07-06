@@ -3,19 +3,19 @@ Vent: she said she just wants to be friends. it's fine. it's not fine.
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.60, arousal=-0.30
+Current emotion:  valence=-0.65, arousal=-0.30
 Target emotion:   valence=-0.10, arousal=+0.10
 Strategy chosen:  solace
-Reasoning:        You're not raging or panicking — you're quietly hurting, and that 'it's fine' is doing a lot of heavy lifting for a lot of pain. Jumping to anything energetic or upbeat right now would feel hollow and wrong, so the move is to sit with music that already knows what this feels like. Solace lets you feel seen and understood first, and only gently nudges you toward steadier ground once the ache has had some room to breathe.
+Reasoning:        That quiet contradiction — 'it's fine, it's not fine' — is grief doing its thing, and the last thing you need is someone trying to cheer you up right now. You're sitting with a low, heavy ache, not rage, so the iso principle says meet you exactly there before nudging anywhere else. Solace lets you feel genuinely understood rather than talked out of something real.
 
 Trajectory waypoints:
-  [1] valence=-0.60, arousal=-0.30
-  [2] valence=-0.50, arousal=-0.22
-  [3] valence=-0.33, arousal=-0.08
+  [1] valence=-0.65, arousal=-0.30
+  [2] valence=-0.54, arousal=-0.22
+  [3] valence=-0.35, arousal=-0.08
   [4] valence=-0.10, arousal=+0.10
 
 Queries:
-  [1] sad indie heartbreak
-  [2] melancholy acoustic folk
-  [3] quiet emotional singer-songwriter
-  [4] gentle hopeful indie
+  [1] heartbreak sad indie
+  [2] melancholy acoustic longing
+  [3] bittersweet indie folk
+  [4] gentle hopeful acoustic

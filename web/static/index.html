@@ -220,6 +220,21 @@
   }
   .quiet:hover { color: var(--ink); }
 
+  /* ---- crisis (T5.1) — warm, quiet, no product mechanics ---- */
+  #screen-crisis { padding-top: 8px; }
+  #crisis-head {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.35;
+    margin: 0;
+  }
+  #crisis-head:focus { outline: none; }
+  .crisis-lines { margin: 30px 0 0; display: flex; flex-direction: column; gap: 14px; }
+  .crisis-lines p { margin: 0; }
+  .crisis-lines a { color: var(--accent); text-underline-offset: 4px; }
+  .crisis-quiet { color: var(--muted); margin: 34px 0 0; }
+
   footer { text-align: center; color: var(--faint); font-size: .78rem; padding: 18px; }
 
   [hidden] { display: none !important; }
@@ -288,6 +303,26 @@
     </div>
 
     <p><button id="reset-btn" class="quiet" hidden>vent again</button></p>
+  </section>
+
+  <!-- Crisis (T5.1) — no playlist, no music mechanics -->
+  <section id="screen-crisis" class="screen" aria-label="support">
+    <p class="top-mark wordmark">venti</p>
+
+    <h1 id="crisis-head" tabindex="-1">that sounds genuinely heavy — and it deserves more than a playlist.</h1>
+
+    <div class="crisis-lines">
+      <p>a real person would be better at this than music. if you're in the US or Canada,
+         the <strong>988 Suicide &amp; Crisis Lifeline</strong> is there right now —
+         call or text <a href="tel:988">988</a>, any hour. in Canada you can also call
+         <a href="tel:+18334564566">1-833-456-4566</a>.</p>
+      <p>somewhere else? <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>
+         lists free, confidential helplines for nearly every country.</p>
+    </div>
+
+    <p class="crisis-quiet">nothing you wrote was stored. venti will be here after — whenever that is.</p>
+
+    <p><button id="crisis-back" class="quiet">back</button></p>
   </section>
 
 </main>
@@ -384,9 +419,23 @@ async function submitVent() {
     return;
   }
   stopProcessing();
+  if (data.crisis) {
+    // T5.1: no playlist, no save, no rating — resources instead.
+    current = null;
+    setScreen("screen-crisis");
+    $("crisis-head").focus({ preventScroll: false });
+    window.scrollTo({ top: 0 });
+    return;
+  }
   current = data;
   renderReveal(data);
 }
+
+/* Their words stay in the textarea — "back" just returns to them. */
+$("crisis-back").addEventListener("click", () => {
+  setScreen("screen-vent");
+  ventText.focus();
+});
 
 /* ---------- state 3: the reveal ---------- */
 function splitReasoning(reasoning) {

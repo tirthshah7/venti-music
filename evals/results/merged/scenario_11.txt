@@ -4,18 +4,18 @@ Context: management duties
 Expected strategy: revival / mental_work
 
 Current emotion:  valence=-0.60, arousal=+0.30
-Target emotion:   valence=+0.10, arousal=-0.20
+Target emotion:   valence=-0.10, arousal=+0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not angry or depleted — you're carrying the weight of a hard, clear-eyed decision that still costs you something emotionally, which is a different kind of burden. This isn't something to discharge or escape; the sick feeling is moral seriousness, and it deserves to be sat with rather than drowned out. Mental work gives you space to stay present with the difficulty, process the tension between knowing and feeling, and arrive at the conversation grounded rather than numb.
+Reasoning:        You're not angry or depleted — you're caught in a painful moral tension between knowing something is right and feeling terrible about it anyway, which is a form of stuck ambivalence that needs to be sat with, not escaped. Discharge would be wrong here because there's no target for the anger; revival would skip over the weight you're carrying. Mental work gives you space to hold the complexity without forcing a resolution you don't feel yet.
 
 Trajectory waypoints:
   [1] valence=-0.60, arousal=+0.30
-  [2] valence=-0.47, arousal=+0.20
-  [3] valence=-0.22, arousal=+0.03
-  [4] valence=+0.10, arousal=-0.20
+  [2] valence=-0.50, arousal=+0.26
+  [3] valence=-0.33, arousal=+0.19
+  [4] valence=-0.10, arousal=+0.10
 
 Queries:
-  [1] somber piano introspective
-  [2] melancholy ambient instrumental
-  [3] contemplative indie folk
-  [4] quiet atmospheric calm
+  [1] somber orchestral tension
+  [2] contemplative piano minor
+  [3] reflective indie acoustic
+  [4] quiet ambient resolve

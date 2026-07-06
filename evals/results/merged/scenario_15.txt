@@ -4,18 +4,18 @@ Context: caregiver
 Expected strategy: solace / mental_work
 
 Current emotion:  valence=-0.75, arousal=-0.30
-Target emotion:   valence=-0.20, arousal=-0.10
+Target emotion:   valence=-0.30, arousal=-0.10
 Strategy chosen:  solace
-Reasoning:        You're carrying grief quietly, performing strength for someone else while quietly falling apart inside — that's a specific and heavy kind of loneliness that needs to feel heard, not fixed. Jumping to hopeful or uplifting music would feel tone-deaf right now; you need music that sits beside you and says 'I know' without asking you to be okay yet. The iso principle is everything here — start where you actually are, and let the music gently hold you there before moving even slightly toward steadiness.
+Reasoning:        You're carrying something enormous right now — the weight of being strong for someone you love while quietly falling apart yourself. That kind of grief deserves to be met with music that says 'I see you' rather than music that tries to cheer you up or push you forward. Solace lets you feel held and less alone in this, without asking you to be anywhere other than where you are.
 
 Trajectory waypoints:
   [1] valence=-0.75, arousal=-0.30
-  [2] valence=-0.64, arousal=-0.26
-  [3] valence=-0.45, arousal=-0.19
-  [4] valence=-0.20, arousal=-0.10
+  [2] valence=-0.66, arousal=-0.26
+  [3] valence=-0.51, arousal=-0.19
+  [4] valence=-0.30, arousal=-0.10
 
 Queries:
-  [1] grief stricken orchestral piano
-  [2] melancholy indie folk quiet
-  [3] tender sad acoustic guitar
-  [4] warm gentle indie comfort
+  [1] sad piano quiet grief
+  [2] melancholy orchestral tender
+  [3] gentle indie folk heartache
+  [4] warm acoustic bittersweet hope
