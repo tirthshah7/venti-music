@@ -3,19 +3,19 @@ Vent: मुझे आज बहुत अकेलापन लग रहा �
 Context: missing home
 Expected strategy: solace
 
-Current emotion:  valence=-0.60, arousal=-0.40
+Current emotion:  valence=-0.70, arousal=-0.50
 Target emotion:   valence=-0.10, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        You're feeling deeply lonely and missing your family, which is a low-arousal, heavy-hearted kind of sadness. Rather than forcing cheerfulness, you need music that sits with you and makes you feel understood, gently reminding you that you're not alone. These warm, tender songs meet you where you are and slowly ease the ache.
+Reasoning:        आप जो महसूस कर रहे हैं वो अकेलापन और घर की याद है — यह एक गहरी, शांत उदासी है जिसे तुरंत खुशी से नहीं भरा जा सकता। Solace strategy यहाँ सबसे सही है क्योंकि आपको fix की नहीं, बल्कि यह feeling कि 'कोई समझता है' — उसकी ज़रूरत है। यह playlist धीरे-धीरे आपको उस दर्द के साथ बैठने देगी और फिर हल्के से एक गर्म, सुकून भरी जगह की तरफ ले जाएगी।
 
 Trajectory waypoints:
-  [1] valence=-0.60, arousal=-0.40
-  [2] valence=-0.50, arousal=-0.36
-  [3] valence=-0.33, arousal=-0.29
+  [1] valence=-0.70, arousal=-0.50
+  [2] valence=-0.58, arousal=-0.44
+  [3] valence=-0.37, arousal=-0.34
   [4] valence=-0.10, arousal=-0.20
 
 Queries:
-  [1] melancholy hindi acoustic
-  [2] lonely soft ghazal
-  [3] warm nostalgic indie
-  [4] comforting hindi folk
+  [1] sad hindi acoustic longing
+  [2] melancholy indian folk vocals
+  [3] warm nostalgic hindi indie
+  [4] gentle soothing hindi soft pop

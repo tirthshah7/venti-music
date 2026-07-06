@@ -3,19 +3,19 @@ Vent: got the schema migration working, feeling like i can take on the rest of t
 Context: good momentum, mid-afternoon
 Expected strategy: entertainment
 
-Current emotion:  valence=+0.60, arousal=+0.50
-Target emotion:   valence=+0.75, arousal=+0.55
+Current emotion:  valence=+0.65, arousal=+0.55
+Target emotion:   valence=+0.75, arousal=+0.45
 Strategy chosen:  entertainment
-Reasoning:        You just cleared a real blocker and you're riding that momentum — this is a genuinely good mood worth protecting, not fixing. Entertainment keeps that confident, capable energy flowing so you can carry it into the rest of your sprint without losing steam.
+Reasoning:        You're already riding a solid win — that post-breakthrough energy is real and worth sustaining. The goal isn't to amplify or redirect it, just keep you in that confident, focused flow state as you push through the rest of the sprint. The playlist leans into your current momentum and gently settles it into something you can work to.
 
 Trajectory waypoints:
-  [1] valence=+0.57, arousal=+0.53
-  [2] valence=+0.62, arousal=+0.47
-  [3] valence=+0.57, arousal=+0.53
-  [4] valence=+0.62, arousal=+0.47
+  [1] valence=+0.62, arousal=+0.58
+  [2] valence=+0.68, arousal=+0.53
+  [3] valence=+0.62, arousal=+0.58
+  [4] valence=+0.68, arousal=+0.53
 
 Queries:
-  [1] upbeat indie pop
-  [2] energetic feel good rock
-  [3] motivated productive beats
-  [4] triumphant uplifting anthems
+  [1] confident indie pop
+  [2] feel good indie rock
+  [3] upbeat electronic focus
+  [4] smooth indie flow

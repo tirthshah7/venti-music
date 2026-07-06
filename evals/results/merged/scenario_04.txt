@@ -3,19 +3,19 @@ Vent: i don't know, just tired. nothing's really wrong. just kind of going throu
 Context: tuesday afternoon
 Expected strategy: revival
 
-Current emotion:  valence=-0.30, arousal=-0.50
-Target emotion:   valence=+0.30, arousal=+0.10
-Strategy chosen:  revival
-Reasoning:        You're not in crisis — nothing's wrong, you're just running on empty and moving through the day on autopilot. That flat, depleted feeling calls for a gentle restoration rather than a jolt, so this arc starts soft and slowly warms you back into a little brightness and energy without forcing it.
+Current emotion:  valence=-0.30, arousal=-0.60
+Target emotion:   valence=+0.20, arousal=-0.10
+Strategy chosen:  mental_work
+Reasoning:        You're not depleted by effort or crushed by grief — you're stuck in a kind of low-grade existential drift, going through motions without feeling connected to them. That ambivalence and quiet disconnection calls for music that sits with you in that space and gently helps you reflect on it, rather than cheerfully pulling you somewhere you don't feel. The goal is to ease you toward a more present, grounded state — not to fix the feeling, but to help you move through it.
 
 Trajectory waypoints:
-  [1] valence=-0.30, arousal=-0.50
-  [2] valence=-0.18, arousal=-0.38
-  [3] valence=+0.03, arousal=-0.17
-  [4] valence=+0.30, arousal=+0.10
+  [1] valence=-0.30, arousal=-0.60
+  [2] valence=-0.20, arousal=-0.50
+  [3] valence=-0.03, arousal=-0.33
+  [4] valence=+0.20, arousal=-0.10
 
 Queries:
-  [1] mellow indie acoustic
-  [2] warm folk morning
-  [3] hopeful indie pop
-  [4] uplifting sunny indie
+  [1] melancholy ambient instrumental
+  [2] quiet contemplative indie
+  [3] reflective acoustic folk
+  [4] warm gentle indie pop

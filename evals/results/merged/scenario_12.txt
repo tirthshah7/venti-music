@@ -3,19 +3,19 @@ Vent: wedding in two days. happy but also losing my mind. can't sit still.
 Context: personal milestone
 Expected strategy: revival / entertainment
 
-Current emotion:  valence=+0.50, arousal=+0.80
-Target emotion:   valence=+0.70, arousal=+0.30
+Current emotion:  valence=+0.50, arousal=+0.85
+Target emotion:   valence=+0.70, arousal=+0.20
 Strategy chosen:  revival
-Reasoning:        You're genuinely happy but your energy is spiking so high you can't sit still — that's pre-wedding adrenaline more than distress. Rather than pump you up further, this arc keeps the joy but gently brings your arousal down so you can actually breathe and enjoy the moment. You'll land somewhere warm and settled instead of buzzing.
+Reasoning:        You're in a high-arousal positive state — excited but frantic, which is its own kind of overwhelm. The goal isn't to dampen your joy but to gently bring your nervous system down from the ceiling so you can actually be present for one of the biggest moments of your life. A gradual arc from buzzing energy toward warm, grounded calm is exactly what you need right now.
 
 Trajectory waypoints:
-  [1] valence=+0.50, arousal=+0.80
-  [2] valence=+0.54, arousal=+0.70
-  [3] valence=+0.61, arousal=+0.53
-  [4] valence=+0.70, arousal=+0.30
+  [1] valence=+0.50, arousal=+0.85
+  [2] valence=+0.54, arousal=+0.72
+  [3] valence=+0.61, arousal=+0.50
+  [4] valence=+0.70, arousal=+0.20
 
 Queries:
-  [1] upbeat feel good pop
-  [2] warm indie happy
-  [3] mellow acoustic joy
-  [4] calm hopeful folk
+  [1] euphoric indie pop upbeat
+  [2] feel-good acoustic pop
+  [3] warm folk gentle joy
+  [4] peaceful ambient acoustic

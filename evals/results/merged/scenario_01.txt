@@ -3,19 +3,19 @@ Vent: third hour debugging this kafka thing and i can't even tell what's broken 
 Context: backend work
 Expected strategy: discharge
 
-Current emotion:  valence=-0.55, arousal=+0.60
-Target emotion:   valence=+0.10, arousal=+0.10
+Current emotion:  valence=-0.70, arousal=+0.75
+Target emotion:   valence=-0.10, arousal=+0.20
 Strategy chosen:  discharge
-Reasoning:        Three hours deep in a debugging spiral, you're not sad — you're frustrated and wound up, running high on tense energy with nothing to show for it. The move is to let that intensity out first with something driving, then gradually let the tension unclench so you can come back to the problem with a clearer head.
+Reasoning:        You're deep in that specific kind of high-arousal frustration where the problem has stopped making sense and your brain is just spinning — that's not sadness, it's pent-up cognitive tension that needs somewhere to go before you can think clearly again. Jumping straight to calm focus music would fight your nervous system rather than work with it, so we start by letting the anger out first. The arc moves from cathartic intensity down toward a quieter, focused headspace where debugging might actually feel approachable again.
 
 Trajectory waypoints:
-  [1] valence=-0.63, arousal=+0.70
-  [2] valence=-0.55, arousal=+0.54
-  [3] valence=-0.23, arousal=+0.35
-  [4] valence=+0.10, arousal=+0.10
+  [1] valence=-0.80, arousal=+0.85
+  [2] valence=-0.70, arousal=+0.68
+  [3] valence=-0.40, arousal=+0.47
+  [4] valence=-0.10, arousal=+0.20
 
 Queries:
-  [1] aggressive rock catharsis
-  [2] driving alt rock
-  [3] melodic post-hardcore
-  [4] calm instrumental focus
+  [1] hard rock frustration
+  [2] heavy metal rage
+  [3] driving alternative rock
+  [4] ambient focus instrumental

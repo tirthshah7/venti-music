@@ -3,19 +3,19 @@ Vent: mom's chemo round three tomorrow. i'm holding it together for her but i'm 
 Context: caregiver
 Expected strategy: solace / mental_work
 
-Current emotion:  valence=-0.70, arousal=-0.30
-Target emotion:   valence=-0.20, arousal=-0.20
+Current emotion:  valence=-0.75, arousal=-0.30
+Target emotion:   valence=-0.20, arousal=-0.10
 Strategy chosen:  solace
-Reasoning:        You're carrying an enormous weight and putting on a brave face for your mom, but underneath you're grieving and scared and running on empty. You don't need to be pushed toward false cheerfulness right now — you need music that sits with you, that lets you feel understood and lets some of that held-back weight loosen. This is about comfort and permission to not be okay, not about fixing anything.
+Reasoning:        You're carrying grief quietly, performing strength for someone else while quietly falling apart inside — that's a specific and heavy kind of loneliness that needs to feel heard, not fixed. Jumping to hopeful or uplifting music would feel tone-deaf right now; you need music that sits beside you and says 'I know' without asking you to be okay yet. The iso principle is everything here — start where you actually are, and let the music gently hold you there before moving even slightly toward steadiness.
 
 Trajectory waypoints:
-  [1] valence=-0.70, arousal=-0.30
-  [2] valence=-0.60, arousal=-0.28
-  [3] valence=-0.43, arousal=-0.25
-  [4] valence=-0.20, arousal=-0.20
+  [1] valence=-0.75, arousal=-0.30
+  [2] valence=-0.64, arousal=-0.26
+  [3] valence=-0.45, arousal=-0.19
+  [4] valence=-0.20, arousal=-0.10
 
 Queries:
-  [1] melancholy piano solo
-  [2] sad indie acoustic
-  [3] comforting folk warmth
-  [4] gentle hopeful strings
+  [1] grief stricken orchestral piano
+  [2] melancholy indie folk quiet
+  [3] tender sad acoustic guitar
+  [4] warm gentle indie comfort

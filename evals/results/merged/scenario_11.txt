@@ -4,18 +4,18 @@ Context: management duties
 Expected strategy: revival / mental_work
 
 Current emotion:  valence=-0.60, arousal=+0.30
-Target emotion:   valence=-0.10, arousal=-0.10
+Target emotion:   valence=+0.10, arousal=-0.20
 Strategy chosen:  mental_work
-Reasoning:        You're caught between what your logic tells you is right and the sick feeling in your gut — that's not something to fix or drown out, it's something to sit with and make peace with before you walk in. These tracks give you contemplative space to hold both the necessity and the weight of it, so you can steady yourself rather than numb out.
+Reasoning:        You're not angry or depleted — you're carrying the weight of a hard, clear-eyed decision that still costs you something emotionally, which is a different kind of burden. This isn't something to discharge or escape; the sick feeling is moral seriousness, and it deserves to be sat with rather than drowned out. Mental work gives you space to stay present with the difficulty, process the tension between knowing and feeling, and arrive at the conversation grounded rather than numb.
 
 Trajectory waypoints:
   [1] valence=-0.60, arousal=+0.30
-  [2] valence=-0.50, arousal=+0.22
-  [3] valence=-0.33, arousal=+0.08
-  [4] valence=-0.10, arousal=-0.10
+  [2] valence=-0.47, arousal=+0.20
+  [3] valence=-0.22, arousal=+0.03
+  [4] valence=+0.10, arousal=-0.20
 
 Queries:
-  [1] heavy hearted indie
-  [2] contemplative post-rock
-  [3] atmospheric instrumental reflection
-  [4] calm resolved ambient
+  [1] somber piano introspective
+  [2] melancholy ambient instrumental
+  [3] contemplative indie folk
+  [4] quiet atmospheric calm

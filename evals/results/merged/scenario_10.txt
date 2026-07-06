@@ -3,19 +3,19 @@ Vent: saturday afternoon, nothing planned, brain feels empty
 Context: weekend
 Expected strategy: entertainment / strong_sensation
 
-Current emotion:  valence=-0.20, arousal=-0.60
-Target emotion:   valence=+0.40, arousal=+0.30
+Current emotion:  valence=-0.20, arousal=-0.70
+Target emotion:   valence=+0.60, arousal=+0.40
 Strategy chosen:  entertainment
-Reasoning:        You're not sad, just understimulated with an open Saturday and a foggy brain — that empty feeling is boredom, not distress. Rather than just lifting your energy, the fix is novelty and interest: music that catches your attention and makes the afternoon feel like it has some texture to it. These queries add color and momentum without demanding anything from you.
+Reasoning:        You're not depleted or sad — you're understimulated, drifting in that flat, directionless Saturday haze where nothing feels interesting enough to start. The goal isn't to restore you or process anything heavy, it's to inject novelty and pleasure into a brain that's just craving something to latch onto. A gradual build from low-key groovy to genuinely fun will coax you out of the empty feeling without forcing it.
 
 Trajectory waypoints:
-  [1] valence=-0.23, arousal=-0.57
-  [2] valence=-0.18, arousal=-0.62
-  [3] valence=-0.23, arousal=-0.57
-  [4] valence=-0.18, arousal=-0.62
+  [1] valence=-0.23, arousal=-0.67
+  [2] valence=-0.18, arousal=-0.72
+  [3] valence=-0.23, arousal=-0.67
+  [4] valence=-0.18, arousal=-0.72
 
 Queries:
-  [1] chill indie afternoon
-  [2] feel good indie pop
-  [3] upbeat indie groove
-  [4] sunny playful pop
+  [1] lazy sunday indie pop
+  [2] chill groovy bedroom pop
+  [3] feel good indie funk
+  [4] upbeat summer pop

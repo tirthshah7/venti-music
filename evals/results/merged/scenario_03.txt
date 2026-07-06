@@ -3,19 +3,19 @@ Vent: presentation in 20 minutes, hands shaking, can't remember any of my openin
 Context: important client meeting
 Expected strategy: revival / mental_work
 
-Current emotion:  valence=-0.50, arousal=+0.85
-Target emotion:   valence=+0.20, arousal=+0.10
+Current emotion:  valence=-0.60, arousal=+0.85
+Target emotion:   valence=+0.20, arousal=+0.40
 Strategy chosen:  revival
-Reasoning:        Your hands are shaking and your mind's gone blank because your arousal is spiking into full pre-performance anxiety. Right now you don't need more energy — you need to bring that racing intensity down and settle into a grounded, steady calm so your opening lines can surface again. These tracks start close to your current keyed-up state and gradually guide you toward composed, quietly confident focus before you walk in.
+Reasoning:        You're not frustrated or angry — you're in acute pre-performance anxiety, which is high arousal but with a panicked, destabilizing quality rather than an outward-directed charge. What you need isn't to discharge or process, but to bring your nervous system down just enough to feel grounded and capable without killing the edge that will actually carry you through the presentation. A gentle arc from tense energy down to focused calm is exactly what the next 20 minutes call for.
 
 Trajectory waypoints:
-  [1] valence=-0.50, arousal=+0.85
-  [2] valence=-0.37, arousal=+0.71
-  [3] valence=-0.12, arousal=+0.44
-  [4] valence=+0.20, arousal=+0.10
+  [1] valence=-0.60, arousal=+0.85
+  [2] valence=-0.45, arousal=+0.76
+  [3] valence=-0.16, arousal=+0.61
+  [4] valence=+0.20, arousal=+0.40
 
 Queries:
-  [1] calming indie pop
-  [2] steady acoustic breathe
-  [3] warm mellow focus
-  [4] grounded ambient confidence
+  [1] tense cinematic tension build
+  [2] urgent driving indie focus
+  [3] warm confident indie pop
+  [4] calm focused instrumental

@@ -3,19 +3,19 @@ Vent: stripe just held our payouts again, third time this quarter, support is us
 Context: founder, cash flow stressed
 Expected strategy: discharge
 
-Current emotion:  valence=-0.60, arousal=+0.70
-Target emotion:   valence=+0.10, arousal=+0.20
+Current emotion:  valence=-0.75, arousal=+0.82
+Target emotion:   valence=-0.10, arousal=+0.20
 Strategy chosen:  discharge
-Reasoning:        Getting your payouts frozen for the third time with useless support is a high-arousal, blood-boiling frustration — this is anger, not sadness. You need to let that heat out first with something aggressive before easing down toward a steadier place where you can actually think about next steps.
+Reasoning:        You're not just frustrated — you're genuinely angry at a system that keeps failing you, and that high-arousal rage needs somewhere to go before you can think clearly again. Jumping straight to calm or happy music would feel dismissive of something that's legitimately infuriating, so the playlist starts by meeting that anger head-on with cathartic intensity. From there it gradually bleeds off the tension, landing you somewhere steady enough to actually problem-solve.
 
 Trajectory waypoints:
-  [1] valence=-0.69, arousal=+0.80
-  [2] valence=-0.60, arousal=+0.63
-  [3] valence=-0.25, arousal=+0.45
-  [4] valence=+0.10, arousal=+0.20
+  [1] valence=-0.86, arousal=+0.92
+  [2] valence=-0.75, arousal=+0.74
+  [3] valence=-0.42, arousal=+0.51
+  [4] valence=-0.10, arousal=+0.20
 
 Queries:
-  [1] aggressive rock anger
-  [2] hard rock catharsis
-  [3] driving alt rock
-  [4] steady indie rock
+  [1] hard rock rage
+  [2] aggressive punk frustration
+  [3] driving alt rock release
+  [4] grunge wind down
