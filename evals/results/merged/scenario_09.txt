@@ -1,0 +1,21 @@
+=== Scenario 9: Hindi loneliness ===
+Vent: मुझे आज बहुत अकेलापन लग रहा है, घर वालों की बहुत याद आ रही है
+Context: missing home
+Expected strategy: solace
+
+Current emotion:  valence=-0.60, arousal=-0.40
+Target emotion:   valence=-0.10, arousal=-0.20
+Strategy chosen:  solace
+Reasoning:        The user feels deep loneliness and is missing their family — a state of isolation and quiet grief with negative valence and low arousal. Per the iso principle, solace is the right fit: warm, comforting music that makes them feel understood rather than abruptly cheered up.
+
+Trajectory waypoints:
+  [1] valence=-0.60, arousal=-0.40
+  [2] valence=-0.50, arousal=-0.36
+  [3] valence=-0.33, arousal=-0.29
+  [4] valence=-0.10, arousal=-0.20
+
+Queries:
+  [1] lonely hindi acoustic
+  [2] nostalgic ghar yaad
+  [3] warm bollywood ballad
+  [4] comforting hopeful indie

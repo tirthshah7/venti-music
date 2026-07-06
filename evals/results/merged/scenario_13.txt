@@ -1,0 +1,21 @@
+=== Scenario 13: Post-burnout return ===
+Vent: first day back after a week off. don't want to be here. don't want to be anywhere else either.
+Context: back at work
+Expected strategy: mental_work / solace
+
+Current emotion:  valence=-0.35, arousal=-0.50
+Target emotion:   valence=+0.10, arousal=-0.10
+Strategy chosen:  mental_work
+Reasoning:        This isn't simple boredom or depletion — the user is caught in a listless, unresolved ambivalence ('don't want to be here, don't want to be anywhere else'), a stuck existential disconnect rather than an energy deficit. Mental_work fits because the goal is to sit with and process this restless indifference rather than paper over it with a quick energy lift. The contemplative arc gently nudges valence upward while keeping arousal low enough to honor the reflective mood.
+
+Trajectory waypoints:
+  [1] valence=-0.35, arousal=-0.50
+  [2] valence=-0.26, arousal=-0.42
+  [3] valence=-0.11, arousal=-0.28
+  [4] valence=+0.10, arousal=-0.10
+
+Queries:
+  [1] melancholy atmospheric indie
+  [2] ambient post-rock reflective
+  [3] thoughtful contemplative instrumental
+  [4] warm hopeful ambient

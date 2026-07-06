@@ -1,0 +1,21 @@
+=== Scenario 1: Sustained work frustration ===
+Vent: third hour debugging this kafka thing and i can't even tell what's broken anymore
+Context: backend work
+Expected strategy: discharge
+
+Current emotion:  valence=-0.60, arousal=+0.55
+Target emotion:   valence=+0.10, arousal=+0.00
+Strategy chosen:  discharge
+Reasoning:        Three hours stuck debugging with mounting confusion is classic work frustration with high arousal, not sadness. Discharge lets that built-up tension release through intense music before gradually settling toward a calmer, more focused state where the user can think clearly again.
+
+Trajectory waypoints:
+  [1] valence=-0.69, arousal=+0.65
+  [2] valence=-0.60, arousal=+0.50
+  [3] valence=-0.25, arousal=+0.28
+  [4] valence=+0.10, arousal=+0.00
+
+Queries:
+  [1] hard rock catharsis
+  [2] energetic alt rock
+  [3] driving indie rock
+  [4] focus instrumental calm

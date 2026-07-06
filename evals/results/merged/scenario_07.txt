@@ -1,0 +1,21 @@
+=== Scenario 7: New parent overwhelm ===
+Vent: haven't slept more than three hours in a row in a month. baby just went down. i should be sleeping but i'm staring at the ceiling.
+Context: 2am, kid asleep
+Expected strategy: revival / solace
+
+Current emotion:  valence=-0.30, arousal=-0.20
+Target emotion:   valence=+0.10, arousal=-0.70
+Strategy chosen:  revival
+Reasoning:        The user is profoundly sleep-deprived and depleted but wired — lying awake with racing wakefulness despite exhaustion. Revival with a calming target fits: gently lower arousal to help them wind down while offering a soft, restorative lift rather than confronting the frustration head-on.
+
+Trajectory waypoints:
+  [1] valence=-0.30, arousal=-0.20
+  [2] valence=-0.22, arousal=-0.30
+  [3] valence=-0.08, arousal=-0.47
+  [4] valence=+0.10, arousal=-0.70
+
+Queries:
+  [1] warm ambient wind down
+  [2] gentle acoustic calm
+  [3] soft piano rest
+  [4] sleep ambient soothing

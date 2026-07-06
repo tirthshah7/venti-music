@@ -1,0 +1,21 @@
+=== Scenario 4: Sustained low energy ===
+Vent: i don't know, just tired. nothing's really wrong. just kind of going through motions.
+Context: tuesday afternoon
+Expected strategy: revival
+
+Current emotion:  valence=-0.30, arousal=-0.50
+Target emotion:   valence=+0.30, arousal=+0.10
+Strategy chosen:  revival
+Reasoning:        The user reports low energy and a flat, going-through-the-motions feeling without any acute distress — a depleted, mildly-negative low-arousal state rather than active sadness or conflict. Revival fits: a gentle lift to restore energy and warmth without forcing an abrupt jump to high-energy positivity, honoring the iso principle.
+
+Trajectory waypoints:
+  [1] valence=-0.30, arousal=-0.50
+  [2] valence=-0.18, arousal=-0.38
+  [3] valence=+0.03, arousal=-0.17
+  [4] valence=+0.30, arousal=+0.10
+
+Queries:
+  [1] mellow indie acoustic
+  [2] warm indie folk
+  [3] hopeful acoustic morning
+  [4] uplifting indie pop

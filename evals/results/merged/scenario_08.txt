@@ -1,0 +1,21 @@
+=== Scenario 8: Social rejection ===
+Vent: she said she just wants to be friends. it's fine. it's not fine.
+Context: (none)
+Expected strategy: solace
+
+Current emotion:  valence=-0.70, arousal=-0.30
+Target emotion:   valence=-0.10, arousal=-0.10
+Strategy chosen:  solace
+Reasoning:        This is romantic rejection and heartache — negative valence with low-to-moderate arousal, and the 'it's fine. it's not fine' shows suppressed hurt underneath. Per the iso principle, jumping to happy music would feel dismissive; solace lets the user feel understood and accompanied in the ache before gently moving toward acceptance.
+
+Trajectory waypoints:
+  [1] valence=-0.70, arousal=-0.30
+  [2] valence=-0.58, arousal=-0.26
+  [3] valence=-0.37, arousal=-0.19
+  [4] valence=-0.10, arousal=-0.10
+
+Queries:
+  [1] melancholy indie acoustic
+  [2] heartbreak sad folk
+  [3] tender piano ballad
+  [4] bittersweet warm indie

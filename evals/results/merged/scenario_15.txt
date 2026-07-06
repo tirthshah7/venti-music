@@ -1,0 +1,21 @@
+=== Scenario 15: Caregiver depletion ===
+Vent: mom's chemo round three tomorrow. i'm holding it together for her but i'm not really holding it together.
+Context: caregiver
+Expected strategy: solace / mental_work
+
+Current emotion:  valence=-0.70, arousal=-0.20
+Target emotion:   valence=-0.20, arousal=-0.10
+Strategy chosen:  solace
+Reasoning:        You're carrying grief and anticipatory fear while performing steadiness for someone you love, which is a deeply isolating kind of pain. This isn't something to fix or escape — you need to feel understood and allowed to stop holding it together for a moment. Solace meets you where you are with warmth rather than forcing false brightness.
+
+Trajectory waypoints:
+  [1] valence=-0.70, arousal=-0.20
+  [2] valence=-0.60, arousal=-0.18
+  [3] valence=-0.43, arousal=-0.15
+  [4] valence=-0.20, arousal=-0.10
+
+Queries:
+  [1] melancholy piano solo
+  [2] sad indie acoustic
+  [3] comforting folk warmth
+  [4] gentle hopeful strings

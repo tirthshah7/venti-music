@@ -1,0 +1,21 @@
+=== Scenario 14: Rage at vendor ===
+Vent: stripe just held our payouts again, third time this quarter, support is useless
+Context: founder, cash flow stressed
+Expected strategy: discharge
+
+Current emotion:  valence=-0.60, arousal=+0.70
+Target emotion:   valence=-0.10, arousal=+0.20
+Strategy chosen:  discharge
+Reasoning:        This is repeated external frustration with high arousal — the third payout hold plus useless support is a classic sustained anger trigger, not sadness. Discharge lets that heated frustration out through intense music before gradually settling toward a calmer, more neutral state.
+
+Trajectory waypoints:
+  [1] valence=-0.69, arousal=+0.80
+  [2] valence=-0.60, arousal=+0.63
+  [3] valence=-0.35, arousal=+0.45
+  [4] valence=-0.10, arousal=+0.20
+
+Queries:
+  [1] aggressive rock catharsis
+  [2] hard rock anthem
+  [3] driving alt rock
+  [4] steady indie rock calm

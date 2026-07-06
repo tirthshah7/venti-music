@@ -1,0 +1,21 @@
+=== Scenario 3: Performance anxiety ===
+Vent: presentation in 20 minutes, hands shaking, can't remember any of my opening lines
+Context: important client meeting
+Expected strategy: revival / mental_work
+
+Current emotion:  valence=-0.50, arousal=+0.80
+Target emotion:   valence=+0.20, arousal=-0.10
+Strategy chosen:  revival
+Reasoning:        This is acute performance anxiety with racing thoughts and high physical arousal (shaking hands, blanking). The right move is a calming target that gently brings arousal down while restoring a sense of grounded confidence, so revival with a settling arc fits better than discharge or diversion.
+
+Trajectory waypoints:
+  [1] valence=-0.50, arousal=+0.80
+  [2] valence=-0.37, arousal=+0.63
+  [3] valence=-0.12, arousal=+0.31
+  [4] valence=+0.20, arousal=-0.10
+
+Queries:
+  [1] calm confident indie
+  [2] steady focus acoustic
+  [3] warm grounding ambient
+  [4] hopeful calm folk

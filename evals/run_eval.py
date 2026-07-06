@@ -1,7 +1,14 @@
 """
-Run the 15 eval-pack scenarios through Pulse's inference + trajectory pipeline.
+Run the 15 eval-pack scenarios through Venti's inference pipeline.
 No Spotify contact — just LLM emotion inference and deterministic trajectory generation.
+
+Two pipelines can be scored (see --pipeline):
+  two-call  — EmotionInference (infer) + generate_trajectory. The default and the
+              historical eval path. Writes to results/.
+  merged    — the single-call run_vent() used by the web flow. Writes to
+              results/merged/ so the two scorecards are recorded separately.
 """
+import argparse
 import json
 import sys
 import os
@@ -12,6 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pulse"))
 
 from venti_core.inference import EmotionInference
 from venti_core.trajectory import generate_trajectory
+from venti_core.llm.base import get_backend
+from venti_core.llm.vent_pipeline import run_vent
 
 SCENARIOS = [
     {
@@ -158,21 +167,70 @@ def run_scenario(inference: EmotionInference, scenario: dict) -> str:
     return "\n".join(lines)
 
 
-def main():
-    results_dir = Path(__file__).resolve().parent / "results"
-    results_dir.mkdir(exist_ok=True)
+def run_scenario_merged(backend, scenario: dict) -> str:
+    """Run a single scenario through the merged single-call run_vent() pipeline."""
+    sid = scenario["id"]
+    lines = []
+    lines.append(f"=== Scenario {sid}: {scenario['title']} ===")
+    lines.append(f"Vent: {scenario['vent']}")
+    lines.append(f"Context: {scenario['context'] or '(none)'}")
+    lines.append(f"Expected strategy: {scenario['expected']}")
+    lines.append("")
 
-    inference = EmotionInference()
-    all_outputs = []
+    try:
+        result = run_vent(scenario["vent"], backend)
+
+        lines.append(f"Current emotion:  valence={result.current_emotion.valence:+.2f}, arousal={result.current_emotion.arousal:+.2f}")
+        lines.append(f"Target emotion:   valence={result.target_emotion.valence:+.2f}, arousal={result.target_emotion.arousal:+.2f}")
+        lines.append(f"Strategy chosen:  {result.strategy.value}")
+        lines.append(f"Reasoning:        {result.reasoning}")
+        lines.append("")
+
+        lines.append("Trajectory waypoints:")
+        for i, wp in enumerate(result.trajectory):
+            lines.append(f"  [{i+1}] valence={wp.valence:+.2f}, arousal={wp.arousal:+.2f}")
+        lines.append("")
+
+        lines.append("Queries:")
+        for i, q in enumerate(result.queries):
+            lines.append(f"  [{i+1}] {q}")
+
+    except Exception as e:
+        lines.append(f"ERROR: {type(e).__name__}: {e}")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Run the Venti eval pack.")
+    parser.add_argument(
+        "--pipeline",
+        choices=["two-call", "merged"],
+        default="two-call",
+        help="two-call = EmotionInference + trajectory (default, writes results/); "
+             "merged = single-call run_vent (writes results/merged/)",
+    )
+    args = parser.parse_args()
+
+    base = Path(__file__).resolve().parent / "results"
+    results_dir = base / "merged" if args.pipeline == "merged" else base
+    results_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.pipeline == "merged":
+        backend = get_backend()
+    else:
+        inference = EmotionInference()
 
     for scenario in SCENARIOS:
         sid = scenario["id"]
-        print(f"Running scenario {sid}/15: {scenario['title']}...", flush=True)
+        print(f"Running scenario {sid}/15 [{args.pipeline}]: {scenario['title']}...", flush=True)
 
-        output = run_scenario(inference, scenario)
-        all_outputs.append((scenario, output))
+        if args.pipeline == "merged":
+            output = run_scenario_merged(backend, scenario)
+        else:
+            output = run_scenario(inference, scenario)
 
-        # Save individual result
         out_file = results_dir / f"scenario_{sid:02d}.txt"
         out_file.write_text(output)
         print(output)

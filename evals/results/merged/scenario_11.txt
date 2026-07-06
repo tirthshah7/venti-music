@@ -1,0 +1,21 @@
+=== Scenario 11: Pre-firing dread ===
+Vent: have to fire someone in an hour. logically i know it's the right call. i feel sick.
+Context: management duties
+Expected strategy: revival / mental_work
+
+Current emotion:  valence=-0.60, arousal=+0.30
+Target emotion:   valence=-0.10, arousal=-0.20
+Strategy chosen:  mental_work
+Reasoning:        This isn't simple sadness or frustration — you're grappling with a conflict between what you know is right and how it feels, sitting with anticipatory dread and moral weight. Mental_work lets you contemplate and steady yourself rather than suppress or distract, moving from queasy tension toward a grounded, resolved calm before you act.
+
+Trajectory waypoints:
+  [1] valence=-0.60, arousal=+0.30
+  [2] valence=-0.50, arousal=+0.20
+  [3] valence=-0.33, arousal=+0.03
+  [4] valence=-0.10, arousal=-0.20
+
+Queries:
+  [1] heavy atmospheric instrumental
+  [2] brooding post-rock
+  [3] contemplative ambient piano
+  [4] calm grounding instrumental
