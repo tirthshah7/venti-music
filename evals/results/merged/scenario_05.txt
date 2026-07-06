@@ -3,19 +3,19 @@ Vent: got the schema migration working, feeling like i can take on the rest of t
 Context: good momentum, mid-afternoon
 Expected strategy: entertainment
 
-Current emotion:  valence=+0.65, arousal=+0.55
-Target emotion:   valence=+0.75, arousal=+0.60
+Current emotion:  valence=+0.70, arousal=+0.50
+Target emotion:   valence=+0.80, arousal=+0.60
 Strategy chosen:  entertainment
-Reasoning:        You're already riding a genuine win — cracking a schema migration is no small thing, and that momentum is real. The goal here is to keep that confident, energized feeling alive rather than let it quietly fade as you move into the next task. Entertainment is the right call because your valence is already positive and you just need music that matches and sustains the vibe you've earned.
+Reasoning:        You're already riding a solid high after cracking that migration — valence is clearly positive and your energy is up. The right move here is to sustain and amplify that momentum rather than shift it anywhere. Entertainment keeps the good mood locked in while you roll into the rest of the sprint.
 
 Trajectory waypoints:
-  [1] valence=+0.62, arousal=+0.58
-  [2] valence=+0.68, arousal=+0.53
-  [3] valence=+0.62, arousal=+0.58
-  [4] valence=+0.68, arousal=+0.53
+  [1] valence=+0.67, arousal=+0.53
+  [2] valence=+0.72, arousal=+0.47
+  [3] valence=+0.67, arousal=+0.53
+  [4] valence=+0.72, arousal=+0.47
 
 Queries:
-  [1] confident indie rock
-  [2] upbeat alternative rock
-  [3] energetic indie pop
-  [4] feel good anthems
+  [1] feel good indie pop
+  [2] upbeat electronic focus
+  [3] energetic indie confidence
+  [4] driving synth pop euphoric

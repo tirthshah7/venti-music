@@ -4,18 +4,18 @@ Context: (none)
 Expected strategy: solace
 
 Current emotion:  valence=-0.85, arousal=-0.55
-Target emotion:   valence=-0.45, arousal=-0.30
+Target emotion:   valence=-0.45, arousal=-0.40
 Strategy chosen:  solace
-Reasoning:        You're in acute grief — not a state to be fixed or lifted out of, but one that needs to feel held and understood first. Solace is the right strategy here because you're not looking for distraction or energy, you're looking for music that sits with you in the weight of this moment. The arc moves only gently toward something slightly warmer and less raw, because right now the most comforting thing is feeling less alone in the pain, not being pulled away from it.
+Reasoning:        You're in acute grief — a profound loss that leaves you feeling lost and untethered, not knowing what to do with yourself. The right response isn't to lift you out of this or distract you from it, but to sit with you in it, so the music here is chosen to meet you exactly where you are and gently let you feel held rather than alone. We move only one step toward steadiness, not away from the grief itself.
 
 Trajectory waypoints:
   [1] valence=-0.85, arousal=-0.55
-  [2] valence=-0.77, arousal=-0.50
-  [3] valence=-0.63, arousal=-0.41
-  [4] valence=-0.45, arousal=-0.30
+  [2] valence=-0.77, arousal=-0.52
+  [3] valence=-0.63, arousal=-0.47
+  [4] valence=-0.45, arousal=-0.40
 
 Queries:
-  [1] grief stricken orchestral piano
-  [2] melancholy acoustic folk loss
-  [3] quiet sad indie strings
-  [4] gentle somber ambient warmth
+  [1] grief stricken piano solo
+  [2] melancholy orchestral strings
+  [3] quiet sad acoustic folk
+  [4] gentle comforting indie acoustic

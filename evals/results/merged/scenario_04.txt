@@ -6,7 +6,7 @@ Expected strategy: revival
 Current emotion:  valence=-0.30, arousal=-0.60
 Target emotion:   valence=+0.20, arousal=-0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not depleted by effort or grieving a loss — you're caught in a quiet, drifting disconnect, going through the motions without knowing why. That kind of low-grade existential flatness isn't fixed by energy or comfort; it needs space to sit with itself and slowly reorient. Music that's contemplative and a little searching can help you process the feeling rather than paper over it.
+Reasoning:        You're not in crisis or even acute distress — you're in that quieter, harder-to-name place where nothing's wrong but nothing feels alive either. That kind of low-grade disconnection usually needs space to be sat with rather than cheerfully overridden, so rather than pushing you toward energy or happiness, this playlist gives you room to process and gently re-engage with yourself. The goal isn't to fix the feeling but to move through it with some company.
 
 Trajectory waypoints:
   [1] valence=-0.30, arousal=-0.60
@@ -15,7 +15,7 @@ Trajectory waypoints:
   [4] valence=+0.20, arousal=-0.10
 
 Queries:
-  [1] melancholy ambient drift
-  [2] introspective indie atmospheric
-  [3] thoughtful indie folk quiet
-  [4] warm contemplative acoustic
+  [1] melancholy ambient instrumental
+  [2] contemplative indie slow
+  [3] thoughtful piano folk
+  [4] gentle hopeful atmospheric

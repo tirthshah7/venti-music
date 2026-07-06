@@ -3,19 +3,19 @@ Vent: mom's chemo round three tomorrow. i'm holding it together for her but i'm 
 Context: caregiver
 Expected strategy: solace / mental_work
 
-Current emotion:  valence=-0.75, arousal=-0.30
-Target emotion:   valence=-0.30, arousal=-0.10
+Current emotion:  valence=-0.75, arousal=-0.40
+Target emotion:   valence=-0.30, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        You're carrying something enormous right now — the weight of being strong for someone you love while quietly falling apart yourself. That kind of grief deserves to be met with music that says 'I see you' rather than music that tries to cheer you up or push you forward. Solace lets you feel held and less alone in this, without asking you to be anywhere other than where you are.
+Reasoning:        You're carrying something enormous right now — the weight of being strong for someone you love while quietly falling apart yourself. That kind of grief isn't loud, it's heavy and exhausted, and you don't need music that pushes you anywhere right now. Solace meets you exactly where you are: it says 'I know', and that's enough.
 
 Trajectory waypoints:
-  [1] valence=-0.75, arousal=-0.30
-  [2] valence=-0.66, arousal=-0.26
-  [3] valence=-0.51, arousal=-0.19
-  [4] valence=-0.30, arousal=-0.10
+  [1] valence=-0.75, arousal=-0.40
+  [2] valence=-0.66, arousal=-0.36
+  [3] valence=-0.51, arousal=-0.29
+  [4] valence=-0.30, arousal=-0.20
 
 Queries:
-  [1] sad piano quiet grief
-  [2] melancholy orchestral tender
-  [3] gentle indie folk heartache
-  [4] warm acoustic bittersweet hope
+  [1] sad piano grief
+  [2] melancholy indie folk quiet
+  [3] gentle acoustic longing
+  [4] warm soft piano comfort

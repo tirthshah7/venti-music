@@ -3,19 +3,19 @@ Vent: मुझे आज बहुत अकेलापन लग रहा �
 Context: missing home
 Expected strategy: solace
 
-Current emotion:  valence=-0.70, arousal=-0.50
-Target emotion:   valence=-0.10, arousal=-0.10
+Current emotion:  valence=-0.65, arousal=-0.55
+Target emotion:   valence=-0.10, arousal=-0.20
 Strategy chosen:  solace
-Reasoning:        You're feeling a deep, quiet loneliness and missing the people you love most — that kind of ache sits low and heavy, and it deserves to be felt, not rushed past. Solace works best here because you don't need distraction or energy right now; you need music that understands exactly how you feel and sits with you in it. Gradually, the playlist will move you toward a gentler warmth — not erasing the longing, but softening its edges a little.
+Reasoning:        You're feeling a deep loneliness and missing your family — that kind of ache sits low and quiet, not angry or restless, just heavy. Jumping to cheerful music would feel dismissive of something real, so instead the playlist starts by sitting with you in that feeling, letting you feel understood and less alone in it. From there it gently moves toward a warmer, softer place — not erasing the longing, just holding it a little more tenderly.
 
 Trajectory waypoints:
-  [1] valence=-0.70, arousal=-0.50
-  [2] valence=-0.58, arousal=-0.42
-  [3] valence=-0.37, arousal=-0.28
-  [4] valence=-0.10, arousal=-0.10
+  [1] valence=-0.65, arousal=-0.55
+  [2] valence=-0.54, arousal=-0.48
+  [3] valence=-0.35, arousal=-0.36
+  [4] valence=-0.10, arousal=-0.20
 
 Queries:
   [1] sad hindi acoustic longing
   [2] melancholy indian folk gentle
-  [3] warm nostalgic hindi indie
-  [4] soft hopeful hindustani folk
+  [3] warm nostalgic indie hindi
+  [4] soft hopeful acoustic comfort

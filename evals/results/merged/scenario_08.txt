@@ -3,19 +3,19 @@ Vent: she said she just wants to be friends. it's fine. it's not fine.
 Context: (none)
 Expected strategy: solace
 
-Current emotion:  valence=-0.65, arousal=-0.30
-Target emotion:   valence=-0.10, arousal=+0.10
+Current emotion:  valence=-0.70, arousal=-0.40
+Target emotion:   valence=-0.20, arousal=+0.10
 Strategy chosen:  solace
-Reasoning:        That quiet contradiction — 'it's fine, it's not fine' — is grief doing its thing, and the last thing you need is someone trying to cheer you up right now. You're sitting with a low, heavy ache, not rage, so the iso principle says meet you exactly there before nudging anywhere else. Solace lets you feel genuinely understood rather than talked out of something real.
+Reasoning:        You're sitting with that particular ache of rejection wrapped in a forced smile — 'it's fine, it's not fine' is exactly the feeling of grief that hasn't been allowed to land yet. Solace is the right move here because you don't need to be cheered up, you need music that understands the specific weight of this moment and sits with you in it. The iso principle applies: we start where you actually are, not where you think you should be.
 
 Trajectory waypoints:
-  [1] valence=-0.65, arousal=-0.30
-  [2] valence=-0.54, arousal=-0.22
-  [3] valence=-0.35, arousal=-0.08
-  [4] valence=-0.10, arousal=+0.10
+  [1] valence=-0.70, arousal=-0.40
+  [2] valence=-0.60, arousal=-0.30
+  [3] valence=-0.43, arousal=-0.13
+  [4] valence=-0.20, arousal=+0.10
 
 Queries:
-  [1] heartbreak sad indie
-  [2] melancholy acoustic longing
-  [3] bittersweet indie folk
-  [4] gentle hopeful acoustic
+  [1] sad indie heartbreak acoustic
+  [2] melancholy folk unrequited love
+  [3] quiet indie emotional longing
+  [4] gentle bittersweet indie pop

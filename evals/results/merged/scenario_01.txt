@@ -3,19 +3,19 @@ Vent: third hour debugging this kafka thing and i can't even tell what's broken 
 Context: backend work
 Expected strategy: discharge
 
-Current emotion:  valence=-0.70, arousal=+0.75
-Target emotion:   valence=-0.10, arousal=+0.30
+Current emotion:  valence=-0.70, arousal=+0.60
+Target emotion:   valence=-0.10, arousal=+0.20
 Strategy chosen:  discharge
-Reasoning:        Three hours deep in a Kafka rabbit hole puts you in that specific kind of high-arousal frustration where your brain is buzzing but nothing is clicking — that's not sadness, it's accumulated tension that needs somewhere to go before you can think clearly again. Jumping straight to calm focus music would feel jarring and wrong right now, so we start by matching that frantic, grinding energy and letting it out. From there the playlist walks you down gradually toward a steadier, lower-arousal state where debugging might actually feel tractable again.
+Reasoning:        Three hours deep in a Kafka rabbit hole with no clear culprit is a textbook high-arousal frustration — you're not sad, you're wound up and grinding against something that won't cooperate. Discharge lets that tension out first rather than papering over it with cheerful music, which would just feel wrong right now. From there the arc brings you down to a calmer, steadier focus so you can actually think again.
 
 Trajectory waypoints:
-  [1] valence=-0.80, arousal=+0.85
-  [2] valence=-0.70, arousal=+0.68
-  [3] valence=-0.40, arousal=+0.53
-  [4] valence=-0.10, arousal=+0.30
+  [1] valence=-0.80, arousal=+0.70
+  [2] valence=-0.70, arousal=+0.54
+  [3] valence=-0.40, arousal=+0.40
+  [4] valence=-0.10, arousal=+0.20
 
 Queries:
   [1] hard rock frustration
-  [2] heavy riff driven rock
-  [3] indie rock mid tempo grind
-  [4] lo fi focus instrumental
+  [2] heavy driving rock
+  [3] indie rock tension release
+  [4] calm focus instrumental

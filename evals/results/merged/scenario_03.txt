@@ -3,19 +3,19 @@ Vent: presentation in 20 minutes, hands shaking, can't remember any of my openin
 Context: important client meeting
 Expected strategy: revival / mental_work
 
-Current emotion:  valence=-0.70, arousal=+0.85
+Current emotion:  valence=-0.60, arousal=+0.85
 Target emotion:   valence=+0.10, arousal=+0.30
 Strategy chosen:  revival
-Reasoning:        You're in a high-arousal panic state right now — shaking hands and blanking on words are classic acute anxiety responses, not frustration, so discharge would pour fuel on the fire. What you need is something that actively walks your nervous system back down to a calm, collected place where you can actually access what you already know. Revival with a calming target is the move here: music that acknowledges the tension but gradually pulls your arousal down to a steady, grounded focus before you walk in.
+Reasoning:        You're in acute pre-performance anxiety — high arousal but with a panicked, destabilizing quality rather than productive energy, so discharge would push you further into the red. What you need is a gentle downregulation that brings your nervous system back to a steady, grounded state you can actually present from. Revival works here to bleed off the shaky-hands intensity and ease you toward calm focus without flattening you completely.
 
 Trajectory waypoints:
-  [1] valence=-0.70, arousal=+0.85
-  [2] valence=-0.55, arousal=+0.74
-  [3] valence=-0.26, arousal=+0.55
+  [1] valence=-0.60, arousal=+0.85
+  [2] valence=-0.47, arousal=+0.74
+  [3] valence=-0.22, arousal=+0.55
   [4] valence=+0.10, arousal=+0.30
 
 Queries:
-  [1] tense cinematic tension build
-  [2] calm electronic ambient focus
-  [3] steady acoustic instrumental focus
-  [4] warm confident indie calm
+  [1] anxious indie piano calming
+  [2] acoustic mellow focus
+  [3] warm ambient guitar
+  [4] gentle instrumental focus

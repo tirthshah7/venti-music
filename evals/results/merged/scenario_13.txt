@@ -3,19 +3,19 @@ Vent: first day back after a week off. don't want to be here. don't want to be a
 Context: back at work
 Expected strategy: mental_work / solace
 
-Current emotion:  valence=-0.40, arousal=-0.50
-Target emotion:   valence=+0.10, arousal=-0.10
+Current emotion:  valence=-0.40, arousal=-0.60
+Target emotion:   valence=+0.10, arousal=-0.20
 Strategy chosen:  mental_work
-Reasoning:        You're not burned out or devastated — you're caught in a quiet, restless ambivalence, not quite wanting this but not wanting anything else either. That kind of suspended, low-energy disconnection isn't something energy or distraction can fix; it needs space to just sit with itself. Music that contemplates and drifts alongside you is more honest to where you are than anything that tries to cheer you up.
+Reasoning:        You're not depleted by effort or stung by a specific loss — you're caught in a kind of existential flatness where neither staying nor leaving feels right, which is the hallmark of ambivalent disconnection rather than tiredness or sadness. That 'nowhere feels right' quality calls for sitting with the feeling and gently reappraising it rather than escaping it or lifting your energy artificially. Contemplative music that acknowledges the grey without forcing resolution is the honest companion for this particular mood.
 
 Trajectory waypoints:
-  [1] valence=-0.40, arousal=-0.50
-  [2] valence=-0.30, arousal=-0.42
-  [3] valence=-0.13, arousal=-0.28
-  [4] valence=+0.10, arousal=-0.10
+  [1] valence=-0.40, arousal=-0.60
+  [2] valence=-0.30, arousal=-0.52
+  [3] valence=-0.13, arousal=-0.38
+  [4] valence=+0.10, arousal=-0.20
 
 Queries:
-  [1] ambient melancholy instrumental
-  [2] slow atmospheric post-rock
-  [3] contemplative indie folk
+  [1] melancholy ambient piano
+  [2] introspective indie folk
+  [3] atmospheric post-rock quiet
   [4] gentle thoughtful indie

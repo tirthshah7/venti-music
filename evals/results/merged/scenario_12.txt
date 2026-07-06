@@ -4,18 +4,18 @@ Context: personal milestone
 Expected strategy: revival / entertainment
 
 Current emotion:  valence=+0.50, arousal=+0.85
-Target emotion:   valence=+0.70, arousal=+0.20
+Target emotion:   valence=+0.70, arousal=+0.30
 Strategy chosen:  revival
-Reasoning:        You're in a high-arousal positive state — excited but overstimulated and restless, which is really just your nervous system running hot on anticipation. The goal isn't to damp the joy, but to bring your body down from the ceiling so you can actually be present for the biggest two days ahead. A gentle, warm descent will let the happiness settle into something you can actually feel.
+Reasoning:        You're in a high-arousal positive state — excited but overwhelmed, buzzing with nervous energy that's tipping into chaos. The goal isn't to dampen the joy, just to bring your nervous system down a notch so you can actually be present for the moment you've been building toward. A gentle, grounding arc from bright and energetic down to warm and calm will help you land softly without losing the magic.
 
 Trajectory waypoints:
   [1] valence=+0.50, arousal=+0.85
-  [2] valence=+0.54, arousal=+0.72
-  [3] valence=+0.61, arousal=+0.50
-  [4] valence=+0.70, arousal=+0.20
+  [2] valence=+0.54, arousal=+0.74
+  [3] valence=+0.61, arousal=+0.55
+  [4] valence=+0.70, arousal=+0.30
 
 Queries:
-  [1] euphoric indie pop upbeat
-  [2] warm celebratory acoustic
-  [3] gentle feel good folk
-  [4] calm joyful ambient
+  [1] upbeat indie pop celebratory
+  [2] warm acoustic feel-good
+  [3] gentle folk heartfelt
+  [4] calm ambient acoustic warm

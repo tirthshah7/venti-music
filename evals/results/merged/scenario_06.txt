@@ -3,19 +3,19 @@ Vent: i keep thinking about whether i should be doing something more meaningful 
 Context: late evening, alone
 Expected strategy: mental_work / solace
 
-Current emotion:  valence=-0.40, arousal=-0.20
-Target emotion:   valence=+0.10, arousal=+0.10
+Current emotion:  valence=-0.30, arousal=-0.20
+Target emotion:   valence=+0.20, arousal=+0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not depleted or angry — you're stuck in a slow, circling kind of questioning that's been running for weeks, which is the hallmark of unresolved existential ambivalence. Trying to escape it or cheer you out of it would just push it underground, so the right move is to sit with it and let music give that restlessness a shape. The goal isn't resolution — it's the feeling of being accompanied through the question itself.
+Reasoning:        You're not depleted or escaping — you're genuinely wrestling with something that matters to you, and that kind of sustained existential questioning needs space to breathe, not a detour around it. The weeks-long rumination suggests you're not stuck from exhaustion but from unresolved meaning-making, which is exactly what mental_work is for. Sitting with contemplative music can help you process from the inside rather than pushing the feeling away.
 
 Trajectory waypoints:
-  [1] valence=-0.40, arousal=-0.20
-  [2] valence=-0.30, arousal=-0.14
-  [3] valence=-0.13, arousal=-0.04
-  [4] valence=+0.10, arousal=+0.10
+  [1] valence=-0.30, arousal=-0.20
+  [2] valence=-0.20, arousal=-0.14
+  [3] valence=-0.03, arousal=-0.04
+  [4] valence=+0.20, arousal=+0.10
 
 Queries:
-  [1] introspective indie folk
-  [2] contemplative ambient folk
-  [3] atmospheric post-rock thoughtful
-  [4] hopeful ambient instrumental
+  [1] introspective ambient piano
+  [2] atmospheric post-rock reflection
+  [3] thoughtful indie folk acoustic
+  [4] hopeful contemplative instrumental

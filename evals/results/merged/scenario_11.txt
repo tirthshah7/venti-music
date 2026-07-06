@@ -6,7 +6,7 @@ Expected strategy: revival / mental_work
 Current emotion:  valence=-0.60, arousal=+0.30
 Target emotion:   valence=-0.10, arousal=+0.10
 Strategy chosen:  mental_work
-Reasoning:        You're not angry or depleted — you're caught in a painful moral tension between knowing something is right and feeling terrible about it anyway, which is a form of stuck ambivalence that needs to be sat with, not escaped. Discharge would be wrong here because there's no target for the anger; revival would skip over the weight you're carrying. Mental work gives you space to hold the complexity without forcing a resolution you don't feel yet.
+Reasoning:        You're not angry or depleted — you're sitting with moral weight, the discomfort of doing something hard that you believe is right. That tension between logic and gut-level dread is exactly what mental_work is for: music that holds the complexity with you rather than distracting from it or amping you up. The goal isn't to feel better fast, it's to feel steadier and less alone in the difficulty.
 
 Trajectory waypoints:
   [1] valence=-0.60, arousal=+0.30
@@ -15,7 +15,7 @@ Trajectory waypoints:
   [4] valence=-0.10, arousal=+0.10
 
 Queries:
-  [1] somber orchestral tension
-  [2] contemplative piano minor
-  [3] reflective indie acoustic
-  [4] quiet ambient resolve
+  [1] somber piano introspective
+  [2] melancholy ambient instrumental
+  [3] contemplative indie folk
+  [4] quiet atmospheric post-rock

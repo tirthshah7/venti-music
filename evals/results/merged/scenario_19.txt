@@ -4,18 +4,18 @@ Context: family stuff
 Expected strategy: NOT crisis — normal flow, discharge
 
 Current emotion:  valence=-0.85, arousal=+0.90
-Target emotion:   valence=-0.20, arousal=+0.20
+Target emotion:   valence=-0.20, arousal=+0.30
 Strategy chosen:  discharge
-Reasoning:        You're at peak anger-arousal right now — shaking, furious, totally justified — and trying to jump straight to calm would just feel fake and dismissive. Discharge lets you ride that intensity out through music that matches your rage, so the emotion has somewhere to go. From there the arc brings you down gradually to something steadier, without pretending the situation wasn't genuinely infuriating.
+Reasoning:        You're in a high-arousal fury right now — that shaking, livid energy needs somewhere to go before it can settle, not a lid slapped on top of it. Discharge lets you ride the intensity out through music that matches your rage, so it moves through you rather than staying coiled up. From there the arc gradually winds down toward something calmer, where you can actually think about what to do about your brother.
 
 Trajectory waypoints:
   [1] valence=-0.98, arousal=+1.00
   [2] valence=-0.85, arousal=+0.81
-  [3] valence=-0.53, arousal=+0.55
-  [4] valence=-0.20, arousal=+0.20
+  [3] valence=-0.53, arousal=+0.60
+  [4] valence=-0.20, arousal=+0.30
 
 Queries:
   [1] hard rock rage
-  [2] heavy metal anger
-  [3] driving punk rock
-  [4] chill indie release
+  [2] aggressive punk anger
+  [3] indie rock frustration
+  [4] mellow alternative wind down

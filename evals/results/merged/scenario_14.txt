@@ -4,18 +4,18 @@ Context: founder, cash flow stressed
 Expected strategy: discharge
 
 Current emotion:  valence=-0.75, arousal=+0.78
-Target emotion:   valence=-0.15, arousal=+0.20
+Target emotion:   valence=-0.10, arousal=+0.20
 Strategy chosen:  discharge
-Reasoning:        You're dealing with repeated, systemic frustration from something outside your control that directly affects your livelihood — that's not just annoyance, it's high-arousal anger with a legitimate target. Discharge lets you ride that intensity out through music rather than swallow it, so the energy has somewhere to go. From there the arc walks you down to something steadier, where you can think clearly again instead of stewing.
+Reasoning:        You're dealing with a concrete, external frustration that keeps repeating — this isn't just stress, it's justified anger at a system that's failing you again. Jumping straight to calm or happy music would feel dismissive, so first you need something that matches and releases that high-arousal frustration before gradually stepping down. Discharge lets the anger out so it doesn't just simmer.
 
 Trajectory waypoints:
   [1] valence=-0.86, arousal=+0.88
   [2] valence=-0.75, arousal=+0.70
-  [3] valence=-0.45, arousal=+0.49
-  [4] valence=-0.15, arousal=+0.20
+  [3] valence=-0.42, arousal=+0.49
+  [4] valence=-0.10, arousal=+0.20
 
 Queries:
   [1] hard rock frustration
-  [2] aggressive punk drive
-  [3] gritty indie rock
-  [4] mellow indie chill
+  [2] aggressive punk rock
+  [3] indie rock release
+  [4] calm indie guitar

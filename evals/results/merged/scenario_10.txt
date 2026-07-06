@@ -3,19 +3,19 @@ Vent: saturday afternoon, nothing planned, brain feels empty
 Context: weekend
 Expected strategy: entertainment / strong_sensation
 
-Current emotion:  valence=-0.20, arousal=-0.70
+Current emotion:  valence=-0.20, arousal=-0.80
 Target emotion:   valence=+0.50, arousal=+0.30
 Strategy chosen:  entertainment
-Reasoning:        You're not depleted from exertion — you're understimulated, that particular flat, hollow Saturday feeling where nothing is pulling at you. This calls for entertainment: music that adds color and novelty to fill the blankness, gently drawing you into a better headspace without demanding anything from you. The arc starts slow and hazy to meet you where you are, then gradually brightens into something that makes the afternoon feel like it actually has a vibe.
+Reasoning:        You're not depleted by effort or hurting from something — you're just understimulated, drifting through a free afternoon with nothing grabbing your attention. That empty-brain Saturday feeling calls for music that introduces colour and interest rather than energy for its own sake. The goal is to gently draw you into a good mood by giving your mind something enjoyable to latch onto.
 
 Trajectory waypoints:
-  [1] valence=-0.23, arousal=-0.67
-  [2] valence=-0.18, arousal=-0.72
-  [3] valence=-0.23, arousal=-0.67
-  [4] valence=-0.18, arousal=-0.72
+  [1] valence=-0.23, arousal=-0.78
+  [2] valence=-0.18, arousal=-0.83
+  [3] valence=-0.23, arousal=-0.78
+  [4] valence=-0.18, arousal=-0.83
 
 Queries:
-  [1] lo-fi dreamy chill
-  [2] indie pop hazy afternoon
-  [3] feel good indie folk
-  [4] upbeat sunshine indie pop
+  [1] lo-fi indie chill
+  [2] warm bedroom pop
+  [3] sunny indie folk
+  [4] feel good indie pop
