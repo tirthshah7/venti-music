@@ -39,3 +39,7 @@ pulse/data/sessions/*.json
 
 # Build outputs and reports
 reports/
+
+# Local audit artifacts stay local — a diagnostic maps where tokens/secrets live
+# on this machine; never publish that floor plan.
+DIAGNOSTIC_REPORT.md
