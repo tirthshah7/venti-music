@@ -9,7 +9,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pulse.inference import EmotionInference, InferenceError
+from venti_core.inference import EmotionInference, InferenceError
 
 
 def test_clean_json():

@@ -7,11 +7,11 @@ import sys
 import os
 from pathlib import Path
 
-# Add pulse/ to the Python path so we can import pulse.pulse modules
+# Add pulse/ to the Python path so we can import venti_core modules
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "pulse"))
 
-from pulse.inference import EmotionInference
-from pulse.trajectory import generate_trajectory
+from venti_core.inference import EmotionInference
+from venti_core.trajectory import generate_trajectory
 
 SCENARIOS = [
     {

@@ -7,8 +7,8 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pulse.models import EmotionState, MMRStrategy
-from pulse.trajectory import generate_trajectory
+from venti_core.models import EmotionState, MMRStrategy
+from venti_core.trajectory import generate_trajectory
 
 
 def test_iso_principle_starts_at_current():
