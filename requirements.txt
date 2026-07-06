@@ -1,0 +1,10 @@
+# Deploy-time install manifest (T5.3a).
+#
+# Railway's builder needs a Python marker at the repo root to select the
+# Python toolchain (pulse/pyproject.toml is nested, so it doesn't count);
+# its default install phase reads this file. railway.json's buildCommand
+# then runs the same two steps explicitly and is the authoritative install.
+# Local dev is unchanged: keep using pulse/.venv with `pip install -e pulse/`
+# and `pip install -r web/requirements.txt`.
+-e ./pulse
+-r web/requirements.txt

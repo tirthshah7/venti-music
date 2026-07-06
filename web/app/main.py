@@ -69,10 +69,20 @@ def configure_logging() -> None:
     root.setLevel(logging.INFO)
     # Route uvicorn's own loggers through the JSON handler too, so every
     # line Railway captures is parseable.
-    for name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
+    for name in ("uvicorn", "uvicorn.error"):
         uv_logger = logging.getLogger(name)
         uv_logger.handlers[:] = []
         uv_logger.propagate = True
+    # "uvicorn.access" is special: the production start command (T5.3a)
+    # passes --no-access-log, which uvicorn implements by stripping the
+    # logger's handlers AND its propagation before this module is imported.
+    # Re-enabling propagation here would resurrect per-request lines — and
+    # with them client IPs — in Railway's captured logs. Reroute it to the
+    # JSON handler only when access logging is actually on.
+    access = logging.getLogger("uvicorn.access")
+    if access.handlers or access.propagate:
+        access.handlers[:] = []
+        access.propagate = True
 
 
 configure_logging()

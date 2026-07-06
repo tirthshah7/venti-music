@@ -118,6 +118,35 @@ def test_session_guard_strips_unexpected_keys(main_module):
     assert tiny_client.get("/read").json() == {"oauth_state": "abc"}
 
 
+def test_configure_logging_respects_no_access_log(main_module):
+    # T5.3a: the production start command passes --no-access-log, which
+    # uvicorn implements by stripping uvicorn.access's handlers AND its
+    # propagation BEFORE our module imports. configure_logging() must not
+    # resurrect the logger (access lines carry client IPs into Railway's
+    # captured logs) — but must still reroute it to JSON when it's on.
+    access = logging.getLogger("uvicorn.access")
+    saved = (access.handlers[:], access.propagate)
+    try:
+        # Disabled state (as uvicorn leaves it under --no-access-log).
+        access.handlers[:] = []
+        access.propagate = False
+        main_module.configure_logging()
+        assert access.propagate is False
+        assert not access.handlers
+        assert not access.hasHandlers()  # what uvicorn's protocol checks
+
+        # Enabled state (uvicorn's default: own handler, no propagation) —
+        # rerouted to the root JSON handler.
+        access.handlers[:] = [logging.NullHandler()]
+        access.propagate = False
+        main_module.configure_logging()
+        assert access.propagate is True
+        assert not access.handlers
+    finally:
+        access.handlers[:], access.propagate = saved
+        main_module.configure_logging()
+
+
 def test_json_log_formatter(main_module):
     record = logging.LogRecord(
         name="venti.web",

@@ -179,6 +179,45 @@ The only risky phase. The prompts are the product; they move unchanged. Only the
 
 **T5.3 — Deploy (manual + Claude Code assist):** Railway project → set all env vars → `railway up` (or GitHub deploy from `web` branch) → verify /healthz → run one real vent end-to-end → confirm Spotify callback works on the railway.app domain → confirm spend alert email arrives when you set a $1 test threshold, then set it back.
 
+**T5.3a — Deploy configuration (done, in-repo):**
+
+Start config is `railway.json` (not a Procfile): it carries the custom build
+command, the `/healthz` healthcheck, and the restart policy in one
+schema-checked file — a Procfile can only express the start command. Three
+files at the repo root:
+
+- `railway.json` — build: `pip install -e pulse/ && pip install -r
+  web/requirements.txt`; start: `uvicorn web.app.main:app --host 0.0.0.0
+  --port 8000 --proxy-headers --forwarded-allow-ips="*" --no-access-log`
+  (port 8000 fixed — the Railway domain already targets it); healthcheck
+  `/healthz`; restart on failure, max 3 retries.
+- `requirements.txt` — root marker so Railway's builder selects the Python
+  toolchain (`pulse/pyproject.toml` is nested and doesn't count); resolves to
+  the same two install steps. `railway.json`'s buildCommand is authoritative.
+- `.python-version` — pins 3.13 to match local dev (`venti-music` requires
+  ≥3.10; without the pin the build image's default Python decides).
+
+`venti_core` resolves at runtime through the editable install — no `sys.path`
+bootstraps anywhere in `web/app/` or `venti_core/` (verified: the exact start
+command boots from the repo root under a scrubbed environment, `PYTHONPATH`
+unset, and serves `/healthz` + the frontend). Note `--no-access-log` is
+load-bearing for privacy: it keeps per-request lines (client IPs) out of
+Railway's captured logs, and `main.py`'s logging setup deliberately respects
+it (regression-tested).
+
+Production env vars (validated fail-fast at startup by `web/app/config.py`;
+names match `.env.example`):
+
+| Var | Required | Production value |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | yes | Anthropic API key (Claude API backend) |
+| `SPOTIFY_CLIENT_ID` | yes | from the Spotify developer dashboard app |
+| `SPOTIFY_CLIENT_SECRET` | yes | from the Spotify developer dashboard app |
+| `SPOTIFY_REDIRECT_URI` | yes | `https://<railway-domain>/api/auth/callback` — must byte-match an entry in the Spotify dashboard's redirect-URI allowlist |
+| `APP_SECRET` | yes | long random string signing the session cookie — generate fresh for prod (`python -c "import secrets; print(secrets.token_urlsafe(48))"`), never reuse the local one |
+| `LLM_BACKEND` | no | leave unset (defaults to `api`; `cli` is local-dev only and would fail on Railway) |
+| `ANTHROPIC_MODEL` | no | leave unset (defaults to `claude-sonnet-4-6`, the eval-gated production model) — setting anything else re-triggers the T5.4 eval gates |
+
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
 - [ ] Rate limits verified by hand (6th vent in an hour blocked)
