@@ -1,0 +1,151 @@
+"""
+Venti web app — FastAPI skeleton + guardrails (build spec T3.1).
+
+Wires up, in order of appearance: fail-fast settings, structured JSON
+logging to stdout (Railway's log capture is the beta's entire analytics
+system), a slowapi rate limiter keyed by client IP (per-route limits
+arrive with the T3.2 routers), an itsdangerous-signed session cookie
+(HttpOnly, Secure, SameSite=Lax) hard-limited to four keys, GET /healthz,
+and the static frontend at "/".
+
+Privacy invariant (build rule 5): raw vent text never touches a log line
+or disk on the server. The logger is event-shaped on purpose — handlers
+log `log.info("<event>", extra={...fields})`, never request bodies.
+"""
+import json
+import logging
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
+from starlette.middleware.sessions import SessionMiddleware
+
+from web.app.config import MissingConfigError, get_settings
+
+try:
+    settings = get_settings()
+except MissingConfigError as exc:
+    # SystemExit prints the message without a traceback and exits 1.
+    raise SystemExit(str(exc)) from None
+
+
+# --- Structured JSON logging (one object per line, stdout) -----------------
+
+# Attributes every LogRecord carries; anything else on the record came in
+# via `extra=` and belongs in the JSON line. "color_message" is uvicorn's
+# ANSI-formatted duplicate of the message — noise in JSON.
+_LOG_RESERVED = frozenset(vars(logging.makeLogRecord({}))) | {
+    "message", "asctime", "taskName", "color_message",
+}
+
+
+class JsonLogFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        entry = {
+            "ts": datetime.fromtimestamp(record.created, tz=timezone.utc)
+            .isoformat(timespec="milliseconds"),
+            "level": record.levelname.lower(),
+            "logger": record.name,
+            "event": record.getMessage(),
+        }
+        for key, value in record.__dict__.items():
+            if key not in _LOG_RESERVED and not key.startswith("_"):
+                entry[key] = value
+        if record.exc_info:
+            entry["exc_info"] = self.formatException(record.exc_info)
+        return json.dumps(entry, default=str)
+
+
+def configure_logging() -> None:
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(JsonLogFormatter())
+    root = logging.getLogger()
+    root.handlers[:] = [handler]
+    root.setLevel(logging.INFO)
+    # Route uvicorn's own loggers through the JSON handler too, so every
+    # line Railway captures is parseable.
+    for name in ("uvicorn", "uvicorn.error", "uvicorn.access"):
+        uv_logger = logging.getLogger(name)
+        uv_logger.handlers[:] = []
+        uv_logger.propagate = True
+
+
+configure_logging()
+log = logging.getLogger("venti.web")
+
+
+# --- Session cookie guardrail ----------------------------------------------
+
+# The spec allows the session to contain AT MOST these keys. Anything else
+# is a bug (or worse, vent text drifting into a cookie), so it is stripped
+# before signing rather than trusted.
+ALLOWED_SESSION_KEYS = frozenset({
+    "spotify_access_token",
+    "spotify_refresh_token",
+    "expires_at",
+    "oauth_state",
+})
+
+
+class SessionKeyAllowlistMiddleware:
+    """Deletes non-allowlisted session keys just before the response
+    starts, i.e. before the outer SessionMiddleware signs the cookie.
+    Must sit INSIDE SessionMiddleware (be added to the app first)."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        async def guarded_send(message):
+            if message["type"] == "http.response.start":
+                session = scope.get("session") or {}
+                for key in set(session) - ALLOWED_SESSION_KEYS:
+                    del session[key]
+                    log.warning(
+                        "session_key_stripped", extra={"key": key},
+                    )
+            await send(message)
+
+        await self.app(scope, receive, guarded_send)
+
+
+# --- App assembly -----------------------------------------------------------
+
+app = FastAPI(title="Venti")
+
+# Per-route limits (@limiter.limit) come with the T3.2 routers; the
+# limiter itself and the 429 handler are wired here.
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Ordering: the allowlist guard is added FIRST so SessionMiddleware (added
+# last = outermost) has already deserialized scope["session"] when the
+# guard runs, and signs the guard-filtered dict on the way out.
+app.add_middleware(SessionKeyAllowlistMiddleware)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.app_secret,
+    same_site="lax",
+    https_only=True,  # Secure flag; browsers still accept it on 127.0.0.1
+)
+
+
+@app.get("/healthz")
+def healthz() -> dict:
+    return {"status": "ok"}
+
+
+# Mounted last so explicit routes above win; everything else falls through
+# to the single-page frontend (real UI lands in Phase 4).
+_STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
+app.mount("/", StaticFiles(directory=_STATIC_DIR, html=True), name="static")
