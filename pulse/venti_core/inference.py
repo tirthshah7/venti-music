@@ -6,14 +6,8 @@ CLI for free local dev on a Max plan, or the Anthropic API for hosting. The
 prompt encodes the psychology research so the model acts as a trained
 mood-regulation reasoner, not a generic sentiment classifier.
 """
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from .models import EmotionState, MMRStrategy
-
-if TYPE_CHECKING:
-    from web.app.llm.base import LLMBackend
+from .llm.base import LLMBackend, extract_json, get_backend
 
 
 INFERENCE_PROMPT_TEMPLATE = """You are an emotion-inference engine grounded in music psychology research.
@@ -89,11 +83,8 @@ class EmotionInference:
     get_backend().
     """
 
-    def __init__(self, backend: "LLMBackend | None" = None):
-        if backend is None:
-            from web.app.llm.base import get_backend
-            backend = get_backend()
-        self.backend = backend
+    def __init__(self, backend: LLMBackend | None = None):
+        self.backend = backend if backend is not None else get_backend()
 
     def infer(self, vent_text: str, context: str = "") -> dict:
         """
@@ -101,8 +92,6 @@ class EmotionInference:
         Raises LLMError if the backend fails or its output can't be parsed;
         InferenceError if the parsed JSON is missing keys or names a bad strategy.
         """
-        from web.app.llm.base import extract_json
-
         prompt = INFERENCE_PROMPT_TEMPLATE.format(
             vent_text=vent_text,
             context=context or "none provided",

@@ -9,14 +9,8 @@ energy=Y." Instead, we use the LLM to convert each waypoint into search terms
 that approximate that emotional coordinate, and use Spotify's plain /search
 endpoint (which is not deprecated and still works for new apps).
 """
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 from .models import EmotionState, MMRStrategy
-
-if TYPE_CHECKING:
-    from web.app.llm.base import LLMBackend
+from .llm.base import LLMBackend, extract_json, get_backend
 
 
 QUERY_PROMPT_TEMPLATE = """You are a music search query generator.
@@ -71,11 +65,8 @@ class QueryGenerationError(RuntimeError):
 
 
 class QueryGenerator:
-    def __init__(self, backend: "LLMBackend | None" = None):
-        if backend is None:
-            from web.app.llm.base import get_backend
-            backend = get_backend()
-        self.backend = backend
+    def __init__(self, backend: LLMBackend | None = None):
+        self.backend = backend if backend is not None else get_backend()
 
     def generate_queries(
         self,
@@ -83,8 +74,6 @@ class QueryGenerator:
         strategy: MMRStrategy,
     ) -> list[str]:
         """Returns one search query string per waypoint."""
-        from web.app.llm.base import extract_json
-
         waypoints_text = "\n".join(
             f"  Waypoint {i+1}: valence={wp.valence:+.2f}, arousal={wp.arousal:+.2f}"
             for i, wp in enumerate(trajectory)

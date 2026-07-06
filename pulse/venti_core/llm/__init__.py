@@ -1,7 +1,8 @@
 """Transport-agnostic LLM inference for Venti.
 
-Public API re-exported for convenience:
-    from web.app.llm import get_backend, extract_json, LLMBackend
+Lives inside the engine so venti_core has no dependency on the web layer.
+Public API:
+    from venti_core.llm import get_backend, extract_json, LLMBackend
 """
 from .base import (
     LLMBackend,

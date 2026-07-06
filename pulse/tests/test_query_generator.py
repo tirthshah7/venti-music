@@ -5,11 +5,7 @@ query-count validation. No real LLM call — a fake backend returns canned JSON.
 import os
 import sys
 
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_PULSE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-for _p in (_REPO_ROOT, _PULSE_DIR):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from venti_core.models import EmotionState, MMRStrategy
 from venti_core.query_generator import QueryGenerator, QueryGenerationError

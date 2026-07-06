@@ -8,15 +8,6 @@ import os
 import sys
 import argparse
 from datetime import datetime
-from pathlib import Path
-
-# venti_core routes LLM calls through the sibling `web.app.llm` package (see
-# inference.py). When Venti runs from its source checkout — via the `vent`
-# console script — the repo root isn't on sys.path, so the sibling `web`
-# package can't be found. Add it here so the CLI keeps working end-to-end.
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
 
 from .models import VentSession
 from .inference import EmotionInference

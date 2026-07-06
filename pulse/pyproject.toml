@@ -9,6 +9,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+api = ["anthropic"]
 
 [project.scripts]
 vent = "venti_core.cli:main"

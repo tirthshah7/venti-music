@@ -9,15 +9,11 @@ the output formats a model produces in practice (clean JSON, fenced, preamble).
 import os
 import sys
 
-# Put the repo root (for `web`) and the pulse dir (for `venti_core`) on the path
-# so the imports below work regardless of where the tests are invoked from.
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_PULSE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-for _p in (_REPO_ROOT, _PULSE_DIR):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+# Put the pulse dir on the path so `venti_core` imports regardless of where the
+# tests are invoked from.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from web.app.llm.base import extract_json, get_backend, LLMError, LLMUnavailableError
+from venti_core.llm.base import extract_json, get_backend, LLMError, LLMUnavailableError
 from venti_core.inference import EmotionInference, InferenceError
 
 
