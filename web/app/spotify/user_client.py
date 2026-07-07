@@ -137,8 +137,11 @@ def create_playlist(
         created.raise_for_status()
         playlist = created.json()
 
+        # /items, not /tracks — same Feb 2026 migration as the create call:
+        # the /tracks spelling 403s for Development Mode apps. Body and
+        # snapshot_id response are unchanged.
         added = client.post(
-            f"{API_BASE}/playlists/{playlist['id']}/tracks",
+            f"{API_BASE}/playlists/{playlist['id']}/items",
             headers=headers,
             json={"uris": track_uris},
         )
