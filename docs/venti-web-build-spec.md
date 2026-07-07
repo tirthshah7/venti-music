@@ -253,6 +253,18 @@ Spotify embeds without saving; success criterion 2 (mean rating > +0.5
 across ≥30 rated sessions) needs those sessions, and a save-gated rating
 would both shrink and upward-bias the sample.
 
+**T5.9 — Rating analytics without a database:** ratings ARE stored — as
+structured log lines (`event: rating`, strategy + score, nothing else),
+per the no-database rule. Two operational requirements during the beta:
+(1) **export the Railway logs at least weekly** — retention is 7 days on
+Hobby / 30 on Pro, and the beta window is 14 days, so unexported Hobby
+logs lose rating data mid-beta; (2) run `python tools/rating_report.py
+<export-file...>` over the accumulated exports — it dedupes overlapping
+exports and prints the beta scorecard (sessions, saves, crisis declines,
+mean rating overall + per strategy, and the criterion-2 gate). Criterion 1
+(return rate) is deliberately not derivable from logs — no user identity
+exists in them; it comes from personal follow-ups.
+
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
 - [ ] Rate limits verified by hand (6th vent in an hour blocked)
