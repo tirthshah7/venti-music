@@ -232,6 +232,14 @@ February 2026 migration guide):
   `{"uris": [...]}` body, same `snapshot_id` response).
 - Search: `limit` max is now 10 (default 5) — our app client asks for 5,
   already compliant.
+- Visibility: the create-body `"public": false` flag is unreliably applied
+  (long-standing Spotify quirk — playlists come out labeled "Public
+  Playlist" anyway). Every save therefore issues
+  `PUT /v1/playlists/{id}` with `{"public": false}` immediately after
+  creation, before any tracks go in; if that PUT fails, the save fails.
+  Platform caveat: Spotify's API "private" means off-profile and out of
+  search — anyone with the link can still open the playlist; true
+  invite-only privacy exists only as a toggle in the Spotify app.
 
 Spotify failure log lines carry `spotify_path` (which API call failed)
 alongside status and error body — that field is what localized the second

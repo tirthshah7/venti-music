@@ -127,6 +127,12 @@ def test_create_playlist_is_private_and_returns_url(transport):
                 "id": "pl-1",
                 "external_urls": {"spotify": "https://open.spotify.com/playlist/pl-1"},
             })
+        if path == "/v1/playlists/pl-1":
+            # Visibility enforcement: the create-body flag is unreliable
+            # (Spotify quirk), so a Change Details PUT must follow.
+            assert request.method == "PUT"
+            assert json.loads(request.content) == {"public": False}
+            return httpx.Response(200)
         if path == "/v1/playlists/pl-1/items":
             body = json.loads(request.content)
             assert body["uris"] == ["spotify:track:a", "spotify:track:b"]
@@ -145,7 +151,7 @@ def test_create_playlist_is_private_and_returns_url(transport):
         description=user_client.PLAYLIST_DESCRIPTION,
     )
     assert url == "https://open.spotify.com/playlist/pl-1"
-    assert len(seen) == 2  # create + add-tracks; no /me lookup needed
+    assert len(seen) == 3  # create + visibility PUT + add items; no /me lookup
     assert all(r.headers["Authorization"] == "Bearer acc" for r in seen)
     # user-API calls never carry the client secret
     assert all("test-client-secret" not in str(r.headers) for r in seen)
@@ -197,6 +203,8 @@ def test_create_playlist_uses_no_deprecated_endpoints(transport):
             return httpx.Response(201, json={
                 "id": "pl", "external_urls": {"spotify": "u"},
             })
+        if path == "/v1/playlists/pl":
+            return httpx.Response(200)
         if path == "/v1/playlists/pl/items":
             return httpx.Response(201, json={"snapshot_id": "snap"})
         raise AssertionError(f"unexpected request: {path}")
@@ -207,7 +215,10 @@ def test_create_playlist_uses_no_deprecated_endpoints(transport):
         expires_at=int(time.time()) + 3600,
     )
     user_client.create_playlist(token, "n", ["spotify:track:a"], "d")
-    assert [r.url.path for r in seen] == ["/v1/me/playlists", "/v1/playlists/pl/items"]
+    # create → force off-profile visibility → then (and only then) tracks.
+    assert [r.url.path for r in seen] == [
+        "/v1/me/playlists", "/v1/playlists/pl", "/v1/playlists/pl/items",
+    ]
 
 
 def test_exchange_code_logs_granted_scope_not_tokens(transport, caplog):

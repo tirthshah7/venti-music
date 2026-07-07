@@ -137,6 +137,20 @@ def create_playlist(
         created.raise_for_status()
         playlist = created.json()
 
+        # The create-body "public" flag is unreliably applied — a
+        # long-standing Spotify quirk (playlists come out flagged public
+        # anyway; spotipy#1072). Change Playlist Details is what sticks,
+        # so visibility is enforced explicitly, BEFORE any tracks go in:
+        # if the playlist can't be taken off-profile, fail the save
+        # rather than fill it. (API "private" = off profile + out of
+        # search; link access is a Spotify platform given.)
+        visibility = client.put(
+            f"{API_BASE}/playlists/{playlist['id']}",
+            headers=headers,
+            json={"public": False},
+        )
+        visibility.raise_for_status()
+
         # /items, not /tracks — same Feb 2026 migration as the create call:
         # the /tracks spelling 403s for Development Mode apps. Body and
         # snapshot_id response are unchanged.
