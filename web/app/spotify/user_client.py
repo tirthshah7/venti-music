@@ -101,8 +101,8 @@ def refresh(refresh_token: str) -> TokenSet:
 def fetch_identity(token: TokenSet) -> dict:
     """GET /v1/me — the account this token acts as. Returns the raw /me
     JSON (id, display_name, ...). Used at connect time for the T5.6
-    spotify_identity log line; create_playlist makes its own /me call in
-    its own request flow and never reuses this result."""
+    spotify_identity log line; playlist creation itself needs no user id
+    (POST /me/playlists) and never calls this."""
     with _http() as client:
         me = client.get(
             f"{API_BASE}/me",
@@ -122,14 +122,12 @@ def create_playlist(
     account; returns its open.spotify.com URL."""
     headers = {"Authorization": f"Bearer {token.access_token}"}
     with _http() as client:
-        # user_id comes from THIS flow's /me response — never from any
-        # cached, configured, or session-stored value (T5.6 rule).
-        me = client.get(f"{API_BASE}/me", headers=headers)
-        me.raise_for_status()
-        user_id = me.json()["id"]
-
+        # POST /me/playlists per Spotify's Feb 2026 Web API migration: the
+        # old POST /users/{user_id}/playlists returns a bare 403 for
+        # Development Mode apps since 2026-03-09, regardless of token,
+        # scope, or allowlist. /me/playlists needs no user_id at all.
         created = client.post(
-            f"{API_BASE}/users/{user_id}/playlists",
+            f"{API_BASE}/me/playlists",
             headers=headers,
             # "public": False is a permanent product rule AND all that
             # playlist-modify-private permits — Spotify defaults to public,

@@ -456,7 +456,7 @@ def test_playlist_refreshes_expired_token(client, monkeypatch):
 
 def _spotify_error(status, body=None):
     """An httpx.HTTPStatusError as raise_for_status would produce it."""
-    api_request = httpx.Request("POST", "https://api.spotify.com/v1/me")
+    api_request = httpx.Request("POST", "https://api.spotify.com/v1/me/playlists")
     response = httpx.Response(status, json=body or {}, request=api_request)
     return httpx.HTTPStatusError("boom", request=api_request, response=response)
 
@@ -490,6 +490,7 @@ def test_playlist_spotify_403_passes_through_and_logs_body(
     assert line.name == "venti.web.playlist"
     assert line.spotify_status == 403
     assert "User not registered in the Developer Dashboard" in line.spotify_error
+    assert line.spotify_path == "/v1/me/playlists"  # which call failed
 
     # Session not cleared: the retry is another 403, not 401 not-connected.
     retry = client.post("/api/playlist", json=payload)

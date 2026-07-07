@@ -219,6 +219,14 @@ names match `.env.example`):
 | `ANTHROPIC_MODEL` | no | leave unset (defaults to `claude-sonnet-4-6`, the eval-gated production model) — setting anything else re-triggers the T5.4 eval gates |
 | `RATELIMIT_BYPASS_TOKEN` | no | leave unset except while running the T5.4 manual checks: when set, requests carrying the same value in an `X-Debug-Token` header skip rate limiting (T5.5). Generate a random value, never log or commit it, remove it after testing |
 
+**T5.7 — Spotify Feb 2026 migration (done):** playlist creation uses
+`POST /v1/me/playlists`. The old `POST /v1/users/{user_id}/playlists` returns a
+bare 403 for Development Mode apps since 2026-03-09 regardless of token, scope,
+or allowlist — this was the prod "can't save a playlist" incident. No user-id
+lookup is needed for creation anymore; `GET /v1/me` remains only for the
+connect-time `spotify_identity` log line. Spotify failure log lines now carry
+`spotify_path` (which API call failed) alongside status and error body.
+
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
 - [ ] Rate limits verified by hand (6th vent in an hour blocked)

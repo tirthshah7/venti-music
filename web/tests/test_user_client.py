@@ -118,9 +118,7 @@ def test_refresh_adopts_rotated_refresh_token_when_present(transport):
 def test_create_playlist_is_private_and_returns_url(transport):
     def handler(request):
         path = request.url.path
-        if path == "/v1/me":
-            return httpx.Response(200, json={"id": "user-42"})
-        if path == "/v1/users/user-42/playlists":
+        if path == "/v1/me/playlists":
             body = json.loads(request.content)
             assert body["public"] is False
             assert body["name"] == "Venti — Solace — Jul 6"
@@ -147,7 +145,7 @@ def test_create_playlist_is_private_and_returns_url(transport):
         description=user_client.PLAYLIST_DESCRIPTION,
     )
     assert url == "https://open.spotify.com/playlist/pl-1"
-    assert len(seen) == 3
+    assert len(seen) == 2  # create + add-tracks; no /me lookup needed
     assert all(r.headers["Authorization"] == "Bearer acc" for r in seen)
     # user-API calls never carry the client secret
     assert all("test-client-secret" not in str(r.headers) for r in seen)
@@ -161,9 +159,7 @@ def test_create_playlist_body_is_exactly_name_public_false_description(transport
 
     def handler(request):
         path = request.url.path
-        if path == "/v1/me":
-            return httpx.Response(200, json={"id": "u1"})
-        if path == "/v1/users/u1/playlists":
+        if path == "/v1/me/playlists":
             captured.update(json.loads(request.content))
             return httpx.Response(201, json={
                 "id": "pl", "external_urls": {"spotify": "u"},
@@ -186,22 +182,23 @@ def test_create_playlist_body_is_exactly_name_public_false_description(transport
     }
 
 
-def test_create_playlist_user_id_is_fresh_from_me_every_call(transport):
-    # T5.6 (b): the POST path uses THIS call's /me id. If Spotify's answer
-    # changes between calls, the path follows — nothing is cached.
-    current = {"id": "user-first"}
-
+def test_create_playlist_never_uses_user_id_path(transport):
+    # Spotify's Feb 2026 migration: POST /users/{user_id}/playlists 403s
+    # for Development Mode apps (since 2026-03-09). Creation must post to
+    # /v1/me/playlists and must not need a /me lookup at all.
     def handler(request):
         path = request.url.path
-        if path == "/v1/me":
-            return httpx.Response(200, json={"id": current["id"]})
-        if path == f"/v1/users/{current['id']}/playlists":
+        if path.startswith("/v1/users/") or path == "/v1/me":
+            raise AssertionError(
+                f"deprecated user-id path used (Feb 2026 migration): {path}"
+            )
+        if path == "/v1/me/playlists":
             return httpx.Response(201, json={
                 "id": "pl", "external_urls": {"spotify": "u"},
             })
         if path == "/v1/playlists/pl/tracks":
             return httpx.Response(201, json={"snapshot_id": "snap"})
-        raise AssertionError(f"unexpected request (stale user_id?): {path}")
+        raise AssertionError(f"unexpected request: {path}")
 
     seen = transport(handler)
     token = TokenSet(
@@ -209,14 +206,7 @@ def test_create_playlist_user_id_is_fresh_from_me_every_call(transport):
         expires_at=int(time.time()) + 3600,
     )
     user_client.create_playlist(token, "n", ["spotify:track:a"], "d")
-    current["id"] = "user-second"
-    user_client.create_playlist(token, "n", ["spotify:track:a"], "d")
-
-    playlist_posts = [r.url.path for r in seen if r.url.path.startswith("/v1/users/")]
-    assert playlist_posts == [
-        "/v1/users/user-first/playlists",
-        "/v1/users/user-second/playlists",
-    ]
+    assert [r.url.path for r in seen] == ["/v1/me/playlists", "/v1/playlists/pl/tracks"]
 
 
 def test_exchange_code_logs_granted_scope_not_tokens(transport, caplog):

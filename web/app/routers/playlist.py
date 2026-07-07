@@ -92,6 +92,9 @@ def playlist(request: Request, body: PlaylistRequest) -> dict:
         )
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
+        # Which Spotify call failed (create vs add-tracks) — API paths
+        # only, no user content. One log line should pinpoint the culprit.
+        spotify_path = exc.request.url.path
         if status == 403:
             # Dev-mode allowlist miss or insufficient scope. Spotify's error
             # body here is app diagnostics (status + error JSON), never user
@@ -101,12 +104,20 @@ def playlist(request: Request, body: PlaylistRequest) -> dict:
             error_body = exc.response.text
             log.error(
                 "playlist_spotify_403",
-                extra={"spotify_status": status, "spotify_error": error_body},
+                extra={
+                    "spotify_status": status,
+                    "spotify_error": error_body,
+                    "spotify_path": spotify_path,
+                },
             )
             raise HTTPException(status_code=403, detail=FORBIDDEN_MESSAGE) from None
         log.error(
             "playlist_failed",
-            extra={"error_type": type(exc).__name__, "spotify_status": status},
+            extra={
+                "error_type": type(exc).__name__,
+                "spotify_status": status,
+                "spotify_path": spotify_path,
+            },
         )
         if status in (400, 401):
             # Token revoked/invalidated mid-save — the session is no good.
