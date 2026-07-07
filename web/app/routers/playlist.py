@@ -24,6 +24,10 @@ router = APIRouter()
 
 NOT_CONNECTED_MESSAGE = "connect spotify first — then saving works."
 RECONNECT_MESSAGE = "your spotify connection expired — reconnect and try again."
+FORBIDDEN_MESSAGE = (
+    "spotify wouldn't allow the save — if your invite is new, your account "
+    "may not be on the beta allowlist yet."
+)
 SAVE_FAILED_MESSAGE = "couldn't save the playlist — try again in a moment."
 
 TrackUri = Annotated[str, StringConstraints(pattern=r"^spotify:track:[0-9A-Za-z]+$")]
@@ -41,10 +45,29 @@ def playlist(request: Request, body: PlaylistRequest) -> dict:
     if token is None:
         raise HTTPException(status_code=401, detail=NOT_CONNECTED_MESSAGE)
 
+    # T5.5 error semantics: 401 is reserved for "your session is no good"
+    # (missing above, or the refresh below fails) — the frontend answers it
+    # by re-authenticating. Spotify's own 403 passes through as 403: it's an
+    # app-level denial that re-authenticating cannot fix.
     try:
         if token.is_expired():
             token = user_client.refresh(token.refresh_token)
             store_token_in_session(request.session, token)
+    except httpx.HTTPStatusError as exc:
+        log.error(
+            "playlist_refresh_failed",
+            extra={
+                "error_type": type(exc).__name__,
+                "spotify_status": exc.response.status_code,
+            },
+        )
+        clear_token_in_session(request.session)
+        raise HTTPException(status_code=401, detail=RECONNECT_MESSAGE) from None
+    except Exception as exc:
+        log.error("playlist_failed", extra={"error_type": type(exc).__name__})
+        raise HTTPException(status_code=502, detail=SAVE_FAILED_MESSAGE) from None
+
+    try:
         playlist_url = user_client.create_playlist(
             token,
             user_client.playlist_name(body.strategy_label.strip()),
@@ -53,13 +76,24 @@ def playlist(request: Request, body: PlaylistRequest) -> dict:
         )
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
+        if status == 403:
+            # Dev-mode allowlist miss or insufficient scope. Spotify's error
+            # body here is app diagnostics (status + error JSON), never user
+            # content — log it whole so the allowlist case is diagnosable
+            # from Railway logs alone. The session stays: it's valid, just
+            # not allowed, and clearing it would misdirect people to OAuth.
+            error_body = exc.response.text
+            log.error(
+                "playlist_spotify_403",
+                extra={"spotify_status": status, "spotify_error": error_body},
+            )
+            raise HTTPException(status_code=403, detail=FORBIDDEN_MESSAGE) from None
         log.error(
             "playlist_failed",
             extra={"error_type": type(exc).__name__, "spotify_status": status},
         )
-        if status in (400, 401, 403):
-            # invalid_grant on refresh, or a revoked/insufficient token —
-            # the stored session is no good, make the user reconnect.
+        if status in (400, 401):
+            # Token revoked/invalidated mid-save — the session is no good.
             clear_token_in_session(request.session)
             raise HTTPException(status_code=401, detail=RECONNECT_MESSAGE) from None
         raise HTTPException(status_code=502, detail=SAVE_FAILED_MESSAGE) from None

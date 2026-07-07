@@ -50,6 +50,16 @@ def test_crisis_screen_copy_and_resources(source):
     assert 'setScreen("screen-crisis")' in source
 
 
+def test_save_403_shows_message_and_never_redirects(source):
+    # T5.5: 401 = re-authenticate (redirect to /api/auth/login); 403 =
+    # Spotify said no at the app level — friendly line, no redirect. The
+    # 403 branch must exist and must not contain the login redirect.
+    assert "resp.status === 403" in source
+    handler_403 = source.split("resp.status === 403", 1)[1].split("return;", 1)[0]
+    assert "/api/auth/login" not in handler_403
+    assert "window.location" not in handler_403
+
+
 def test_uses_spotify_embeds_lazily(source):
     assert "open.spotify.com/embed/track/" in source
     assert 'loading = "lazy"' in source or 'loading="lazy"' in source

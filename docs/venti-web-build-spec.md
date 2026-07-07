@@ -217,6 +217,7 @@ names match `.env.example`):
 | `APP_SECRET` | yes | long random string signing the session cookie — generate fresh for prod (`python -c "import secrets; print(secrets.token_urlsafe(48))"`), never reuse the local one |
 | `LLM_BACKEND` | no | leave unset (defaults to `api`; `cli` is local-dev only and would fail on Railway) |
 | `ANTHROPIC_MODEL` | no | leave unset (defaults to `claude-sonnet-4-6`, the eval-gated production model) — setting anything else re-triggers the T5.4 eval gates |
+| `RATELIMIT_BYPASS_TOKEN` | no | leave unset except while running the T5.4 manual checks: when set, requests carrying the same value in an `X-Debug-Token` header skip rate limiting (T5.5). Generate a random value, never log or commit it, remove it after testing |
 
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend

@@ -584,6 +584,15 @@ async function savePlaylist({ redirectOn401 }) {
       $("save-note").textContent = COPY.notConnected;
       return;
     }
+    if (resp.status === 403) {
+      // Spotify said no at the app level (beta allowlist, scopes) —
+      // logging in again won't change its mind, so never redirect.
+      const body = await resp.json().catch(() => null);
+      btn.disabled = false;
+      $("save-note").textContent =
+        (body && typeof body.detail === "string" && body.detail) || COPY.notConnected;
+      return;
+    }
     if (resp.status === 429) throw { copy: COPY.saveRateLimited };
     if (!resp.ok) {
       const body = await resp.json().catch(() => null);

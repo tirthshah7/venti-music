@@ -83,6 +83,12 @@ def configure_logging() -> None:
     if access.handlers or access.propagate:
         access.handlers[:] = []
         access.propagate = True
+    # slowapi's "ratelimit ... exceeded" warning embeds the rate-limit key —
+    # the client IP — and would propagate into Railway's captured logs
+    # (confirmed there, T5.5). Drop everything below ERROR so storage
+    # failures still surface; the anonymous ratelimit_exceeded event below
+    # replaces the warning.
+    logging.getLogger("slowapi").setLevel(logging.ERROR)
 
 
 configure_logging()
@@ -135,7 +141,21 @@ app = FastAPI(title="Venti")
 # Per-route limits (@limiter.limit) live on the routers; the limiter
 # itself (web.app.rate_limit) and the 429 handler are wired here.
 app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
+def rate_limit_handler(request, exc: RateLimitExceeded):
+    # Anonymous by design (T5.5): the path and the limit that tripped,
+    # never the client IP or any other identifying field. This replaces
+    # slowapi's own warning, which is level-suppressed in
+    # configure_logging because it embeds the IP.
+    log.info(
+        "ratelimit_exceeded",
+        extra={"path": request.url.path, "limit": str(exc.detail)},
+    )
+    return _rate_limit_exceeded_handler(request, exc)
+
+
+app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
 
 # Ordering: the allowlist guard is added FIRST so SessionMiddleware (added
 # last = outermost) has already deserialized scope["session"] when the

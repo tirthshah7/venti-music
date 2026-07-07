@@ -11,6 +11,7 @@ import time
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import httpx
 import pytest
 
 from venti_core.llm.vent_pipeline import VentPipelineError, VentResult
@@ -132,6 +133,56 @@ def test_vent_rate_limit_5_per_hour(client, vent_mocks):
     for _ in range(5):
         assert client.post("/api/vent", json={"text": "hi"}).status_code == 200
     assert client.post("/api/vent", json={"text": "hi"}).status_code == 429
+
+
+def test_ratelimit_bypass_honored_when_env_set(client, vent_mocks, monkeypatch):
+    # T5.5: matching X-Debug-Token skips the limit entirely (and consumes
+    # nothing); a wrong token is just a normal, limited request.
+    monkeypatch.setenv("RATELIMIT_BYPASS_TOKEN", "open-sesame")
+
+    for _ in range(8):  # well past the 5/hour limit
+        response = client.post(
+            "/api/vent", json={"text": "hi"},
+            headers={"X-Debug-Token": "open-sesame"},
+        )
+        assert response.status_code == 200
+
+    # Bypassed requests consumed nothing: five clean ones still fit...
+    for _ in range(5):
+        assert client.post("/api/vent", json={"text": "hi"}).status_code == 200
+    # ...and a WRONG token does not bypass the now-tripped limit.
+    blocked = client.post(
+        "/api/vent", json={"text": "hi"}, headers={"X-Debug-Token": "wrong"},
+    )
+    assert blocked.status_code == 429
+
+
+def test_ratelimit_bypass_noop_when_env_unset(client, vent_mocks, monkeypatch):
+    monkeypatch.delenv("RATELIMIT_BYPASS_TOKEN", raising=False)
+    headers = {"X-Debug-Token": "open-sesame"}
+    for _ in range(5):
+        assert client.post("/api/vent", json={"text": "hi"}, headers=headers).status_code == 200
+    assert client.post("/api/vent", json={"text": "hi"}, headers=headers).status_code == 429
+
+
+def test_ratelimit_trip_logs_anonymous_event_only(client, vent_mocks, caplog):
+    # T5.5: slowapi's own warning embeds the rate-limit key (the client IP —
+    # "testclient" under TestClient) and must not surface; our replacement
+    # event carries the path and limit, nothing identifying.
+    with caplog.at_level(logging.DEBUG):
+        for _ in range(5):
+            assert client.post("/api/vent", json={"text": "hi"}).status_code == 200
+        blocked = client.post("/api/vent", json={"text": "hi"})
+
+    assert blocked.status_code == 429
+    assert not [r for r in caplog.records if r.name == "slowapi"]
+    for record in caplog.records:
+        assert "testclient" not in str(record.__dict__)  # the would-be leaked key
+
+    event = next(r for r in caplog.records if r.getMessage() == "ratelimit_exceeded")
+    assert event.path == "/api/vent"
+    assert event.limit  # e.g. "5 per 1 hour"
+    assert not hasattr(event, "key")
 
 
 def test_vent_success_never_logs_text(client, vent_mocks, caplog):
@@ -355,6 +406,72 @@ def test_playlist_refreshes_expired_token(client, monkeypatch):
     )
     assert response.status_code == 200
     assert used["token"].access_token == "refreshed-access"
+
+
+def _spotify_error(status, body=None):
+    """An httpx.HTTPStatusError as raise_for_status would produce it."""
+    api_request = httpx.Request("POST", "https://api.spotify.com/v1/me")
+    response = httpx.Response(status, json=body or {}, request=api_request)
+    return httpx.HTTPStatusError("boom", request=api_request, response=response)
+
+
+def test_playlist_spotify_403_passes_through_and_logs_body(
+    client, monkeypatch, caplog
+):
+    # T5.5: Spotify's app-level 403 (dev-mode allowlist, scopes) is NOT a
+    # session problem — it returns 403 with the full Spotify error body
+    # logged, and the session survives (re-auth can't fix an allowlist miss).
+    from web.app.routers import playlist as playlist_router
+    from web.app.spotify import user_client
+
+    _connect_spotify(client, monkeypatch, _token(int(time.time()) + 3600))
+
+    spotify_body = {"error": {"status": 403, "message": "User not registered in the Developer Dashboard"}}
+
+    def raise_403(token, name, track_uris, description):
+        raise _spotify_error(403, spotify_body)
+
+    monkeypatch.setattr(user_client, "create_playlist", raise_403)
+    payload = {"track_uris": [VALID_URI], "strategy_label": "Diversion"}
+
+    with caplog.at_level(logging.DEBUG):
+        response = client.post("/api/playlist", json=payload)
+
+    assert response.status_code == 403
+    assert response.json()["detail"] == playlist_router.FORBIDDEN_MESSAGE
+
+    line = next(r for r in caplog.records if r.getMessage() == "playlist_spotify_403")
+    assert line.name == "venti.web.playlist"
+    assert line.spotify_status == 403
+    assert "User not registered in the Developer Dashboard" in line.spotify_error
+
+    # Session not cleared: the retry is another 403, not 401 not-connected.
+    retry = client.post("/api/playlist", json=payload)
+    assert retry.status_code == 403
+
+
+def test_playlist_refresh_failure_is_401_and_clears_session(client, monkeypatch):
+    # T5.5: 401 is reserved for session problems — a failed token refresh
+    # (Spotify's invalid_grant is a 400) sends the user back through OAuth.
+    from web.app.routers import playlist as playlist_router
+    from web.app.spotify import user_client
+
+    _connect_spotify(client, monkeypatch, _token(expires_at=100))  # expired
+
+    def failing_refresh(refresh_token):
+        raise _spotify_error(400, {"error": "invalid_grant"})
+
+    monkeypatch.setattr(user_client, "refresh", failing_refresh)
+    payload = {"track_uris": [VALID_URI], "strategy_label": "Solace"}
+
+    response = client.post("/api/playlist", json=payload)
+    assert response.status_code == 401
+    assert response.json()["detail"] == playlist_router.RECONNECT_MESSAGE
+
+    # Session cleared: the retry fails as not-connected, before any refresh.
+    retry = client.post("/api/playlist", json=payload)
+    assert retry.status_code == 401
+    assert retry.json()["detail"] == playlist_router.NOT_CONNECTED_MESSAGE
 
 
 def test_playlist_rejects_malformed_uris(client):
