@@ -22,8 +22,10 @@ Thumbs.db
 .vscode/
 *.swp
 
-# Claude Code local settings
-.claude/
+# Claude Code local settings — but project skills are versioned: they
+# carry the production methodology across models and sessions
+.claude/*
+!.claude/skills/
 
 # Environment files
 .env

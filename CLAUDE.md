@@ -15,3 +15,8 @@ to every change, regardless of task.
   columns, and nothing text-shaped may ever be passed to
   `store.record_event`.
 - Never open `.env`, `.spotify_cache`, or any file holding live tokens.
+- Before any nontrivial change, load the `venti-discipline` skill
+  (`.claude/skills/venti-discipline/SKILL.md`) — it is the production
+  methodology (process, coding standards, testing gates, shipping rules,
+  current phase). If a change alters the methodology, update that skill
+  in the same commit.
