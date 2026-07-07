@@ -328,7 +328,7 @@ under the 2025–26 developer-program changes.
 
 No accounts. No database (amended by T5.10: a metadata-only SQLite event
 store for analytics — still no accounts, no history page, and no vent text
-at rest). No history page. No mood trends. No mobile app. No SoundCloud adapter (filed as a future issue: "demo mode via SoundCloud in-browser streams"). No Pulse integration. Each of these is a Phase-6+ conversation that happens only after 25 real users produce two weeks of ratings.
+at rest). No history page. No mood trends. No mobile app. No SoundCloud adapter (filed as a future issue: "demo mode via SoundCloud in-browser streams"). No Pulse integration. Each of these is a Phase-6+ conversation that happens only after 25 real users produce two weeks of ratings. Those conversations are pre-drafted in `docs/roadmap-pathways.md` (added 2026-07-07) — a ledger of options with gates and sketches, not commitments; items graduate from there into this spec via T-numbered amendments only.
 
 ## Success criteria for the beta (decided now, so we can't move goalposts later)
 
