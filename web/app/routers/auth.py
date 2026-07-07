@@ -19,6 +19,10 @@ from web.app.spotify import user_client
 from web.app.spotify.user_client import TokenSet
 
 log = logging.getLogger("venti.web.auth")
+# T5.6: playlist-403 diagnostics (token_granted, spotify_identity) are
+# grouped under the playlist logger even when emitted from the auth flow,
+# so one logger name finds the whole story in Railway logs.
+playlist_log = logging.getLogger("venti.web.playlist")
 
 router = APIRouter()
 
@@ -91,4 +95,22 @@ def callback(
         raise HTTPException(status_code=502, detail=EXCHANGE_FAILED_MESSAGE) from None
 
     store_token_in_session(request.session, token)
+
+    # T5.6 identity logging: which Spotify account just connected — the
+    # fastest way to check a playlist 403 against the dev-mode allowlist.
+    # Best-effort by design: a failed /me must never break the connect.
+    try:
+        identity = user_client.fetch_identity(token)
+        playlist_log.info(
+            "spotify_identity",
+            extra={
+                "spotify_user_id": identity.get("id"),
+                "display_name": identity.get("display_name"),
+            },
+        )
+    except Exception as exc:
+        playlist_log.warning(
+            "spotify_identity_failed", extra={"error_type": type(exc).__name__}
+        )
+
     return RedirectResponse("/?connected=1", status_code=302)

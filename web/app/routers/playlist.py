@@ -8,7 +8,9 @@ from typing import Annotated
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field, StringConstraints
+from pydantic import BaseModel, Field, StringConstraints, field_validator
+
+from venti_core.models import MMRStrategy
 
 from web.app.rate_limit import limiter
 from web.app.routers.auth import (
@@ -16,6 +18,7 @@ from web.app.routers.auth import (
     store_token_in_session,
     token_from_session,
 )
+from web.app.routers.vent import strategy_label as label_for_strategy
 from web.app.spotify import user_client
 
 log = logging.getLogger("venti.web.playlist")
@@ -32,10 +35,23 @@ SAVE_FAILED_MESSAGE = "couldn't save the playlist — try again in a moment."
 
 TrackUri = Annotated[str, StringConstraints(pattern=r"^spotify:track:[0-9A-Za-z]+$")]
 
+# The playlist name interpolates strategy_label, and the name goes to
+# Spotify — so the label must be one of OUR seven labels, byte-for-byte,
+# never client free text (T5.6: no vent-derived text in Spotify artifacts).
+VALID_STRATEGY_LABELS = frozenset(label_for_strategy(s) for s in MMRStrategy)
+
 
 class PlaylistRequest(BaseModel):
     track_uris: list[TrackUri] = Field(min_length=1, max_length=10)
     strategy_label: str = Field(min_length=1, max_length=40)
+
+    @field_validator("strategy_label")
+    @classmethod
+    def _canonical_label_only(cls, value: str) -> str:
+        value = value.strip()
+        if value not in VALID_STRATEGY_LABELS:
+            raise ValueError("unknown strategy label")
+        return value
 
 
 @router.post("/api/playlist")

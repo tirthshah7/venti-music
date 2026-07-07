@@ -14,8 +14,10 @@ Security properties (non-negotiable, build spec T2.2):
   appears in the authorize URL handed to the browser, nor in any
   api.spotify.com call.
 - Scopes: playlist-modify-private. Nothing else.
-- No code path persists or logs a token.
+- No code path persists or logs a token. The T5.6 diagnostics log the
+  granted scope STRING and the /me identity — never token material.
 """
+import logging
 import os
 import secrets
 import time
@@ -25,6 +27,11 @@ from urllib.parse import urlencode
 
 import httpx
 from pydantic import BaseModel
+
+# The playlist-403 diagnostics (T5.6) all live under one logger so a prod
+# incident is grep-able in Railway logs by a single name, even though the
+# events are emitted from the auth flow.
+log = logging.getLogger("venti.web.playlist")
 
 AUTHORIZE_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
@@ -74,7 +81,12 @@ def exchange_code(code: str) -> TokenSet:
         "code": code,
         "redirect_uri": _redirect_uri(),
     })
-    return _to_token_set(resp.json())
+    payload = resp.json()
+    # T5.6: the granted scope is the prime diagnostic for playlist 403s —
+    # a token granted without playlist-modify-private authenticates fine
+    # (GET /me works) but cannot create a private playlist.
+    log.info("token_granted", extra={"scope": payload.get("scope", "")})
+    return _to_token_set(payload)
 
 
 def refresh(refresh_token: str) -> TokenSet:
@@ -84,6 +96,20 @@ def refresh(refresh_token: str) -> TokenSet:
     })
     # Spotify may omit refresh_token on refresh; the old one stays valid.
     return _to_token_set(resp.json(), fallback_refresh_token=refresh_token)
+
+
+def fetch_identity(token: TokenSet) -> dict:
+    """GET /v1/me — the account this token acts as. Returns the raw /me
+    JSON (id, display_name, ...). Used at connect time for the T5.6
+    spotify_identity log line; create_playlist makes its own /me call in
+    its own request flow and never reuses this result."""
+    with _http() as client:
+        me = client.get(
+            f"{API_BASE}/me",
+            headers={"Authorization": f"Bearer {token.access_token}"},
+        )
+        me.raise_for_status()
+        return me.json()
 
 
 def create_playlist(
@@ -96,6 +122,8 @@ def create_playlist(
     account; returns its open.spotify.com URL."""
     headers = {"Authorization": f"Bearer {token.access_token}"}
     with _http() as client:
+        # user_id comes from THIS flow's /me response — never from any
+        # cached, configured, or session-stored value (T5.6 rule).
         me = client.get(f"{API_BASE}/me", headers=headers)
         me.raise_for_status()
         user_id = me.json()["id"]
@@ -103,6 +131,9 @@ def create_playlist(
         created = client.post(
             f"{API_BASE}/users/{user_id}/playlists",
             headers=headers,
+            # "public": False is a permanent product rule AND all that
+            # playlist-modify-private permits — Spotify defaults to public,
+            # which 403s under our scope. Never rely on the default.
             json={"name": name, "public": False, "description": description},
         )
         created.raise_for_status()

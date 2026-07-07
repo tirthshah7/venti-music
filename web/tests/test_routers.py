@@ -82,8 +82,8 @@ def _token(expires_at):
 
 
 def _connect_spotify(client, monkeypatch, token, callback_path="/api/auth/callback"):
-    """Run the real login/callback flow with a stubbed code exchange, so
-    the client's session cookie ends up holding `token`."""
+    """Run the real login/callback flow with a stubbed code exchange and
+    identity fetch, so the client's session cookie ends up holding `token`."""
     from web.app.spotify import user_client
 
     login = client.get("/api/auth/login", follow_redirects=False)
@@ -91,6 +91,11 @@ def _connect_spotify(client, monkeypatch, token, callback_path="/api/auth/callba
     state = parse_qs(urlparse(login.headers["location"]).query)["state"][0]
 
     monkeypatch.setattr(user_client, "exchange_code", lambda code: token)
+    monkeypatch.setattr(
+        user_client,
+        "fetch_identity",
+        lambda token: {"id": "user-test", "display_name": "Test User"},
+    )
     callback = client.get(
         f"{callback_path}?code=fake-code&state={state}",
         follow_redirects=False,
@@ -335,6 +340,47 @@ def test_callback_alias_rejects_state_mismatch(client):
     assert response.status_code == 403
 
 
+def test_connect_logs_spotify_identity(client, monkeypatch, caplog):
+    # T5.6: connecting logs who connected, under the playlist logger —
+    # the fastest allowlist check when a playlist 403 shows up in prod.
+    with caplog.at_level(logging.INFO):
+        _connect_spotify(client, monkeypatch, _token(int(time.time()) + 3600))
+    line = next(r for r in caplog.records if r.getMessage() == "spotify_identity")
+    assert line.name == "venti.web.playlist"
+    assert line.spotify_user_id == "user-test"
+    assert line.display_name == "Test User"
+    # Never token material.
+    assert "access-1" not in str(line.__dict__)
+    assert "refresh-1" not in str(line.__dict__)
+
+
+def test_identity_fetch_failure_never_breaks_connect(client, monkeypatch, caplog):
+    from web.app.spotify import user_client
+
+    login = client.get("/api/auth/login", follow_redirects=False)
+    state = parse_qs(urlparse(login.headers["location"]).query)["state"][0]
+    monkeypatch.setattr(
+        user_client, "exchange_code",
+        lambda code: _token(int(time.time()) + 3600),
+    )
+
+    def exploding_identity(token):
+        raise _spotify_error(500)
+
+    monkeypatch.setattr(user_client, "fetch_identity", exploding_identity)
+
+    with caplog.at_level(logging.INFO):
+        callback = client.get(
+            f"/api/auth/callback?code=fake-code&state={state}",
+            follow_redirects=False,
+        )
+    # The connect still succeeds; the failure is a log line, not an error.
+    assert callback.status_code == 302
+    assert callback.headers["location"] == "/?connected=1"
+    failed = next(r for r in caplog.records if r.getMessage() == "spotify_identity_failed")
+    assert failed.error_type == "HTTPStatusError"
+
+
 def test_callback_user_declined(client):
     login = client.get("/api/auth/login", follow_redirects=False)
     state = parse_qs(urlparse(login.headers["location"]).query)["state"][0]
@@ -483,6 +529,44 @@ def test_playlist_rejects_malformed_uris(client):
         },
     )
     assert response.status_code == 422
+
+
+def test_playlist_rejects_vent_derived_strategy_label(client, monkeypatch):
+    # T5.6: strategy_label reaches the Spotify playlist name, so it must be
+    # one of OUR seven labels — a client echoing vent text gets a 422, and
+    # nothing user-written can ever reach a Spotify artifact.
+    _connect_spotify(client, monkeypatch, _token(int(time.time()) + 3600))
+    response = client.post(
+        "/api/playlist",
+        json={
+            "track_uris": [VALID_URI],
+            "strategy_label": "my cat died and im not ok",  # fits max_length=40
+        },
+    )
+    assert response.status_code == 422
+
+
+def test_playlist_name_and_description_are_static_format_only(client, monkeypatch):
+    # T5.6 (d): what goes to Spotify is exactly app name + canonical label
+    # + date, and the fixed description — no user-provided content.
+    from web.app.spotify import user_client
+
+    _connect_spotify(client, monkeypatch, _token(int(time.time()) + 3600))
+
+    sent = {}
+
+    def capture_create(token, name, track_uris, description):
+        sent.update(name=name, description=description)
+        return "https://open.spotify.com/playlist/abc"
+
+    monkeypatch.setattr(user_client, "create_playlist", capture_create)
+    response = client.post(
+        "/api/playlist",
+        json={"track_uris": [VALID_URI], "strategy_label": "Discharge"},
+    )
+    assert response.status_code == 200
+    assert re.fullmatch(r"Venti — Discharge — [A-Z][a-z]{2} \d{1,2}", sent["name"])
+    assert sent["description"] == user_client.PLAYLIST_DESCRIPTION
 
 
 # --- POST /api/rating ---------------------------------------------------------
