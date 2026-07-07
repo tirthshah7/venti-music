@@ -31,10 +31,35 @@ No invite goes out until the T5.4 beta gate checklist in the build spec is
 fully checked (evals, rate limits verified by hand, no vent text in logs,
 cookie flags, $50 Anthropic hard cap, allowlist populated).
 
+## Two tiers (Feb 2026 Spotify policy: 5 allowlist slots, not 25)
+
+Spotify's February 2026 developer update caps development-mode apps at
+**5 authorized users total** (the owner takes one slot, leaving 4), one
+Client ID, and requires the owner to keep Premium active. This gates only
+the save-to-Spotify path — `/api/vent` and `/api/rating` are auth-free by
+design — so the beta stays 25 people, in two tiers:
+
+- **Core testers (~21):** vent, listen in the embedded players, rate.
+  They are never asked for a Spotify email, never connect, never save.
+  Criteria 1–3 are all measurable from this tier alone.
+- **Save-enabled testers (4):** occupy the allowlist slots; everything
+  core testers do, plus OAuth connect and saving private playlists. This
+  tier is the only source of save-path data (save rate, OAuth friction,
+  the 403 path), so the slots should go to people who will actually
+  return multiple times and would genuinely keep playlists.
+
+Slot strategy: assign 2–3 slots up front to your highest-conviction
+repeat users; **hold at least one slot open through week 1** and award it
+to the most engaged core tester — you'll know engagement before spending
+it, and being upgraded is a nice touch for them. Slots can technically be
+rotated (remove + add in User Management), but removing an active tester
+mid-beta is unfriendly; treat assignments as one-way unless someone goes
+fully silent. Keep the owner's Premium subscription active for the whole
+window — dev-mode apps stop functioning without it under the 2026 policy.
+
 ## Invite in waves, not all at once
 
-Spotify dev mode caps the allowlist at 25. Don't spend all 25 slots on
-day 1:
+Don't onboard all 25 core testers on day 1:
 
 - **Wave 1 (5–8 people):** the contacts most likely to actually engage and
   give direct feedback. Their first sessions will surface onboarding
@@ -54,11 +79,13 @@ Each person moves through these states; the tester sheet tracks the state.
 2. **Invited** — personal email sent (template A; add the B paragraph for
    psychologists). Individual emails, never BCC blasts — these are
    professional contacts, and the ask is personal.
-3. **Accepted** — they replied with their Spotify account email.
-4. **Allowlisted** — you added that email in the Spotify Developer
-   Dashboard (app → Settings → User Management) *before* sending access.
-   This is what makes "Save to Spotify" work; skipping it produces a 403
-   on their first save and a bad first impression.
+3. **Accepted** — they replied yes. Save-enabled invitees only: the reply
+   must include their Spotify account email.
+4. **Allowlisted** *(save-enabled tier only)* — you added that email in
+   the Spotify Developer Dashboard (app → User Management) *before*
+   sending access. This is what makes "Save to Spotify" work; skipping it
+   produces a 403 on their first save and a bad first impression. Core
+   testers skip this state entirely.
 5. **Onboarded** — welcome email sent (template C) with the URL and the
    three-line instructions.
 6. **Active** — they've confirmed (or mentioned) a first session.
@@ -73,7 +100,8 @@ Each person moves through these states; the tester sheet tracks the state.
 
 ## Tester sheet columns
 
-Name · profession/why invited · email · Spotify account email ·
+Name · profession/why invited · email · **tier (core / save-enabled)** ·
+Spotify account email (save tier only) ·
 allowlisted (date) · invited (date) · onboarded (date) · first session
 (self-reported date) · second session? (Y/N — **this is criterion 1**) ·
 follow-up date · "reveal lands"? (Y/N + their words — **criterion 3**) ·
@@ -105,11 +133,16 @@ Placeholders in angle brackets. Keep them short — busy professionals.
 > tap the rating after each session, and give me 15 minutes of your
 > impressions near the end.
 >
-> If you're in, reply with the email address of your Spotify account —
-> I need to add it to the beta allowlist so saving playlists works.
+> If you're in, just reply and I'll send you the link.
 >
 > Thanks either way,
 > <you>
+
+*Save-enabled invitees only — replace the "just reply" line with:*
+
+> If you're in, reply with the email address of your Spotify account —
+> Spotify limits how many accounts can save playlists from a beta app,
+> and I'd like one of those slots to be yours.
 
 ### B — extra paragraph for psychologists (insert before "The ask")
 
@@ -137,7 +170,8 @@ Placeholders in angle brackets. Keep them short — busy professionals.
 > 2. Listen — and tap the rating row ("did the music move you?") after
 >    every session, even if you skip everything else. Those ratings are
 >    the beta's entire success metric.
-> 3. "Save to Spotify" is optional; it creates a private playlist on your
+> 3. *(save-enabled testers only — omit this line for core testers)*
+>    "Save to Spotify" is optional; it creates a private playlist on your
 >    account (connect with the Spotify email you gave me).
 >
 > Use it whenever you actually have something to vent about over the next
@@ -198,7 +232,9 @@ volume/service loss.
 
 The scorecard *is* the ops dashboard for a 25-person beta: sessions, mean
 latency, save rate, crisis declines, rating count/mean/distribution,
-per-strategy means, and the criterion-2 gate line. No web dashboard gets
+per-strategy means, and the criterion-2 gate line. Read the save rate
+against the save-enabled tier only — at most 4 testers can save, so a low
+overall save-per-vent percentage is expected and not a signal. No web dashboard gets
 built for this — revisit only after the beta, if the criteria hold and
 someone other than the owner needs to read the numbers.
 

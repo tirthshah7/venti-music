@@ -306,6 +306,22 @@ beta metrics.
 **Gate passed — all items verified by owner 2026-07-07.** The URL is
 cleared for wave-1 invites; the beta runs per `docs/beta-playbook.md`.
 
+**T5.11 — Allowlist is 5 users, not 25 (Feb 2026 Spotify policy,
+discovered at onboarding 2026-07-07):** Spotify's February 2026 developer
+update — the same policy wave as the T5.7 API migration — caps
+development-mode apps at one Client ID, a maximum of **5 authorized
+users** (down from 25; existing user lists were grandfathered, Venti's
+wasn't), and requires the app owner to keep Premium active for the app to
+function. Impact is confined to the save path: `/api/vent` and
+`/api/rating` are auth-free by design, so the 25-tester beta and all
+three success criteria proceed unchanged. The beta is restructured into
+two tiers (see the playbook): ~21 core testers (vent, listen in embeds,
+rate) and 4 save-enabled testers on the allowlist slots beside the owner.
+The T5.4 allowlist checklist item is amended accordingly: "populated"
+now means the save-enabled slots, not 25. Extended quota remains the
+post-beta conversation, noting it has become materially harder to obtain
+under the 2025–26 developer-program changes.
+
 ---
 
 ## What we are NOT building (hold the line)
