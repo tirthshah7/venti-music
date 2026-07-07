@@ -296,12 +296,15 @@ authoritative analytics record; log retention no longer threatens the
 beta metrics.
 
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
-- [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
-- [ ] Rate limits verified by hand (6th vent in an hour blocked)
-- [ ] No vent text in any log line (grep Railway logs after test session)
-- [ ] Cookie flags verified (HttpOnly, Secure)
-- [ ] Anthropic hard limit $50 set
-- [ ] The 25-user allowlist populated in Spotify dashboard with your first invitees
+- [x] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
+- [x] Rate limits verified by hand (6th vent in an hour blocked)
+- [x] No vent text in any log line (grep Railway logs after test session)
+- [x] Cookie flags verified (HttpOnly, Secure)
+- [x] Anthropic hard limit $50 set
+- [x] The 25-user allowlist populated in Spotify dashboard with your first invitees
+
+**Gate passed — all items verified by owner 2026-07-07.** The URL is
+cleared for wave-1 invites; the beta runs per `docs/beta-playbook.md`.
 
 ---
 
