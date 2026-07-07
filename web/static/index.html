@@ -288,17 +288,20 @@
     <div id="saved-area" hidden>
       <h2>saved.</h2>
       <a id="open-playlist" class="open-playlist" href="#" target="_blank" rel="noopener">open your playlist</a>
+    </div>
 
-      <div id="rating-block">
-        <p>did the music move you?</p>
-        <div class="rating-row" id="rating-row">
-          <span class="edge">worse</span>
-          <!-- rating buttons injected -->
-          <span class="edge">better</span>
-        </div>
-        <div id="rating-done" hidden>
-          <p>noted. come back whenever.</p>
-        </div>
+    <!-- Rating lives OUTSIDE the saved area: listening happens in the
+         embeds whether or not anyone saves, and the efficacy metric
+         (spec success criterion 2) needs those sessions too. -->
+    <div id="rating-block">
+      <p>did the music move you?</p>
+      <div class="rating-row" id="rating-row">
+        <span class="edge">worse</span>
+        <!-- rating buttons injected -->
+        <span class="edge">better</span>
+      </div>
+      <div id="rating-done" hidden>
+        <p>noted. come back whenever.</p>
       </div>
     </div>
 
@@ -457,6 +460,7 @@ function renderReveal(data) {
   $("save-btn").disabled = false;
   $("save-note").textContent = "";
   $("saved-area").hidden = true;
+  resetRatingBlock();
   $("reset-btn").hidden = false;
 
   setScreen("screen-result");
@@ -614,6 +618,16 @@ function showSaved(playlistUrl) {
 }
 
 /* ---------- rating ---------- */
+/* Fresh row per session: a new reveal re-arms the rating even if the
+   previous session was rated. Rating is per-session feedback, not a
+   save reward — it must work when nobody connects Spotify. */
+function resetRatingBlock() {
+  $("rating-row").hidden = false;
+  $("rating-block").querySelector("p").hidden = false;
+  $("rating-done").hidden = true;
+  document.querySelectorAll(".rate").forEach((b) => (b.disabled = false));
+}
+
 (function buildRatingRow() {
   const row = $("rating-row");
   const better = row.querySelector(".edge:last-child");

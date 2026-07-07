@@ -245,6 +245,14 @@ Spotify failure log lines carry `spotify_path` (which API call failed)
 alongside status and error body — that field is what localized the second
 403 to the add-tracks call in one log line.
 
+**T5.8 — Rating decoupled from saving (amends T4.1 State 4):** the
+"did the music move you?" row now renders on the reveal screen for every
+session, below the save area, and re-arms on each new vent. Saving only
+gates the playlist link, never the rating. Rationale: people listen in the
+Spotify embeds without saving; success criterion 2 (mean rating > +0.5
+across ≥30 rated sessions) needs those sessions, and a save-gated rating
+would both shrink and upward-bias the sample.
+
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
 - [ ] Rate limits verified by hand (6th vent in an hour blocked)

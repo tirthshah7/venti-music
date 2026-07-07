@@ -50,6 +50,17 @@ def test_crisis_screen_copy_and_resources(source):
     assert 'setScreen("screen-crisis")' in source
 
 
+def test_rating_available_without_saving(source):
+    # T5.8: rating is per-session feedback, not a save reward — sessions
+    # listened to via the embeds but never saved must still be ratable
+    # (spec success criterion 2 needs ≥30 rated sessions). The block
+    # lives OUTSIDE #saved-area, and every reveal re-arms it.
+    saved_area = source.split('id="saved-area"')[1].split("</div>")[0]
+    assert "rating" not in saved_area  # nothing rating-shaped inside
+    assert '<div id="rating-block">' in source  # present, never hidden
+    assert "resetRatingBlock" in source
+
+
 def test_save_403_shows_message_and_never_redirects(source):
     # T5.5: 401 = re-authenticate (redirect to /api/auth/login); 403 =
     # Spotify said no at the app level — friendly line, no redirect. The
