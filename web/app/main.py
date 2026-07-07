@@ -176,12 +176,13 @@ def healthz() -> dict:
 
 # Imported here, not at the top, so the fail-fast settings check above
 # runs before the routers' import chain (venti_core, spotipy, anthropic).
-from web.app.routers import auth, playlist, rating, vent  # noqa: E402
+from web.app.routers import admin, auth, playlist, rating, vent  # noqa: E402
 
 app.include_router(vent.router)
 app.include_router(auth.router)
 app.include_router(playlist.router)
 app.include_router(rating.router)
+app.include_router(admin.router)
 
 # Mounted last so the routes above win; everything else falls through
 # to the single-page frontend (real UI lands in Phase 4).

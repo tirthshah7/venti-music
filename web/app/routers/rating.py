@@ -1,10 +1,11 @@
 """
-POST /api/rating — one structured log line per rating, nothing stored.
+POST /api/rating — one structured log line + one event row per rating.
 
-This log line IS the beta's entire analytics system; Railway log export
-is the query interface. Deliberate: no database until the beta proves we
-need one. Strategy is validated against the MMR enum so the analytics
-stream can't be polluted with arbitrary strings.
+The SQLite event store (T5.10, web.app.store) is the durable record —
+the beta's efficacy metric lives or dies on these rows. The log line
+remains for live ops visibility. Strategy is validated against the MMR
+enum so the analytics stream can't be polluted with arbitrary strings;
+no free text exists anywhere in this path.
 """
 import logging
 
@@ -12,6 +13,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
 from venti_core.models import MMRStrategy
+
+from web.app import store
 
 log = logging.getLogger("venti.web.rating")
 
@@ -31,4 +34,5 @@ def rating(body: RatingRequest) -> dict:
         "rating",
         extra={"strategy": body.strategy.value, "rating": body.rating},
     )
+    store.record_event("rating", strategy=body.strategy.value, rating=body.rating)
     return {"ok": True}

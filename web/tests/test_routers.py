@@ -602,6 +602,82 @@ def test_rating_validates_bounds_and_strategy(client):
     )
 
 
+# --- T5.10 event store + admin export -----------------------------------------
+
+
+def test_vent_and_rating_write_event_rows_but_never_text(client, vent_mocks):
+    import os
+
+    from web.app import store
+
+    assert client.post("/api/vent", json={"text": MARKER}).status_code == 200
+    assert (
+        client.post("/api/rating", json={"rating": 2, "strategy": "diversion"})
+        .status_code == 200
+    )
+
+    events = store.export_events()
+    assert [e["event"] for e in events] == ["vent", "rating"]
+    vent_row, rating_row = events
+    assert vent_row["strategy"] == "diversion"
+    assert vent_row["n_tracks"] == 4
+    assert isinstance(vent_row["latency_ms"], int)
+    assert rating_row["rating"] == 2
+
+    # The invariant, byte-level: the vent text is nowhere in the DB file.
+    with open(os.environ["DATABASE_PATH"], "rb") as f:
+        assert MARKER.encode() not in f.read()
+
+
+def test_crisis_writes_minimal_event_row(client, main_module, monkeypatch):
+    from venti_core.llm.vent_pipeline import CrisisIndicated
+    from web.app import store
+    from web.app.routers import vent as vent_router
+
+    monkeypatch.setattr(vent_router, "get_llm_backend", lambda: None)
+    monkeypatch.setattr(vent_router, "run_vent", lambda text, backend: CrisisIndicated())
+
+    assert client.post("/api/vent", json={"text": MARKER}).status_code == 200
+    (row,) = store.export_events()
+    assert row["event"] == "crisis_declined"
+    assert row["strategy"] is None and row["rating"] is None
+    assert row["n_tracks"] is None and row["latency_ms"] is None
+
+
+def test_db_failure_never_breaks_a_vent(client, vent_mocks, monkeypatch, tmp_path):
+    blocker = tmp_path / "not-a-dir"
+    blocker.write_text("file, not directory")
+    monkeypatch.setenv("DATABASE_PATH", str(blocker / "venti.db"))
+    response = client.post("/api/vent", json={"text": "rough day"})
+    assert response.status_code == 200  # analytics must never break the product
+
+
+def test_admin_export_hidden_without_env_and_gated_by_token(
+    client, vent_mocks, monkeypatch
+):
+    from tools.rating_report import parse_records
+
+    monkeypatch.delenv("ADMIN_EXPORT_TOKEN", raising=False)
+    assert client.get("/api/admin/export").status_code == 404  # feature off
+
+    monkeypatch.setenv("ADMIN_EXPORT_TOKEN", "letmein")
+    assert client.get("/api/admin/export").status_code == 403  # no token
+    assert (
+        client.get("/api/admin/export", headers={"X-Admin-Token": "wrong"})
+        .status_code == 403
+    )
+
+    client.post("/api/vent", json={"text": "hi"})
+    client.post("/api/rating", json={"rating": 1, "strategy": "diversion"})
+    response = client.get(
+        "/api/admin/export", headers={"X-Admin-Token": "letmein"}
+    )
+    assert response.status_code == 200
+    # The export is JSONL that tools/rating_report.py parses directly.
+    records, _ = parse_records(response.text.splitlines())
+    assert [r["event"] for r in records] == ["vent", "rating"]
+
+
 # --- Privacy invariant (grep-level, per build spec Phase 3) -------------------
 
 
@@ -620,13 +696,21 @@ def test_privacy_no_file_writes_and_no_text_in_logger_calls():
     logger_call_with_text = (
         r"log\.(?:debug|info|warning|error|critical|exception)\([^)]*text"
     )
+    # T5.10: store.py is the ONE sanctioned datastore (metadata-only
+    # schema, pinned by test_store.py) — and no record_event call anywhere
+    # may reference anything named *text*.
+    store_call_with_text = r"record_event\([^)]*text"
     checked = 0
     for path in sorted(app_dir.rglob("*.py")):
         source = path.read_text()
-        for pattern in file_or_db_writes:
-            assert not re.search(pattern, source), f"{pattern!r} found in {path}"
+        if path.name != "store.py":
+            for pattern in file_or_db_writes:
+                assert not re.search(pattern, source), f"{pattern!r} found in {path}"
         assert not re.search(logger_call_with_text, source), (
             f"logger call referencing text in {path}"
         )
+        assert not re.search(store_call_with_text, source), (
+            f"event-store call referencing text in {path}"
+        )
         checked += 1
-    assert checked >= 8  # main, config, rate_limit, 2 spotify, 4 routers-ish
+    assert checked >= 8  # main, config, rate_limit, store, 2 spotify, 5 routers-ish

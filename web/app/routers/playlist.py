@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field, StringConstraints, field_validator
 
 from venti_core.models import MMRStrategy
 
+from web.app import store
 from web.app.rate_limit import limiter
 from web.app.routers.auth import (
     clear_token_in_session,
@@ -129,4 +130,5 @@ def playlist(request: Request, body: PlaylistRequest) -> dict:
         raise HTTPException(status_code=502, detail=SAVE_FAILED_MESSAGE) from None
 
     log.info("playlist_created", extra={"n_tracks": len(body.track_uris)})
+    store.record_event("playlist_created", n_tracks=len(body.track_uris))
     return {"playlist_url": playlist_url}

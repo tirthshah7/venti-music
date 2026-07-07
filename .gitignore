@@ -33,6 +33,10 @@ Thumbs.db
 # Spotify OAuth cache — NEVER commit, contains live tokens
 .spotify_cache
 
+# Local event store (T5.10) — metadata-only by schema, but it's runtime
+# data, not source
+data/
+
 # Session data — keep examples only, ignore real sessions
 pulse/data/sessions/*.json
 !pulse/data/sessions/example_*.json

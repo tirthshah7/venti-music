@@ -20,6 +20,7 @@ from venti_core.llm.base import LLMBackend, get_backend
 from venti_core.llm.vent_pipeline import CrisisIndicated, run_vent
 from venti_core.models import MMRStrategy
 
+from web.app import store
 from web.app.rate_limit import limiter
 from web.app.spotify.app_client import AppSpotifyClient
 
@@ -78,6 +79,7 @@ def vent(request: Request, body: VentRequest) -> dict:
             # T5.1: event name + the record's own timestamp, nothing else —
             # no strategy, no latency, and (as everywhere here) never the text.
             log.info("crisis_declined")
+            store.record_event("crisis_declined")
             return {"crisis": True}
         tracks = get_app_client().find_tracks_for_queries(result.queries)
     except Exception as exc:
@@ -94,6 +96,12 @@ def vent(request: Request, body: VentRequest) -> dict:
             "n_tracks": len(tracks),
             "latency_ms": latency_ms,
         },
+    )
+    store.record_event(
+        "vent",
+        strategy=result.strategy.value,
+        n_tracks=len(tracks),
+        latency_ms=latency_ms,
     )
     return {
         "strategy": result.strategy.value,

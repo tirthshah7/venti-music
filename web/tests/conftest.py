@@ -18,6 +18,13 @@ _REQUIRED_ENV = {
 }
 
 
+@pytest.fixture(autouse=True)
+def _isolated_event_store(monkeypatch, tmp_path):
+    """Every test writes its event rows (T5.10) to a throwaway SQLite file —
+    never the repo-local data/venti.db a dev server may be using."""
+    monkeypatch.setenv("DATABASE_PATH", str(tmp_path / "venti-test.db"))
+
+
 @pytest.fixture()
 def required_env(monkeypatch):
     """The five required env vars, set to dummies. Returns name → value."""

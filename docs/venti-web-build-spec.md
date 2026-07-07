@@ -218,6 +218,8 @@ names match `.env.example`):
 | `LLM_BACKEND` | no | leave unset (defaults to `api`; `cli` is local-dev only and would fail on Railway) |
 | `ANTHROPIC_MODEL` | no | leave unset (defaults to `claude-sonnet-4-6`, the eval-gated production model) — setting anything else re-triggers the T5.4 eval gates |
 | `RATELIMIT_BYPASS_TOKEN` | no | leave unset except while running the T5.4 manual checks: when set, requests carrying the same value in an `X-Debug-Token` header skip rate limiting (T5.5). Generate a random value, never log or commit it, remove it after testing |
+| `DATABASE_PATH` | prod: yes | `/data/venti.db` on a mounted Railway Volume (T5.10). Defaults to `data/venti.db` locally; without a volume the event store is wiped on every redeploy |
+| `ADMIN_EXPORT_TOKEN` | no | set to a random value to enable `GET /api/admin/export` (JSONL event dump via `X-Admin-Token` header, T5.10); endpoint 404s while unset |
 
 **T5.7 — Spotify Feb 2026 migration (done):** Development Mode apps lost
 several endpoint spellings on 2026-03-09; the replacements return identical
@@ -265,6 +267,34 @@ mean rating overall + per strategy, and the criterion-2 gate). Criterion 1
 (return rate) is deliberately not derivable from logs — no user identity
 exists in them; it comes from personal follow-ups.
 
+**T5.10 — Durable event store (owner decision 2026-07-07, supersedes the
+"no database" line and the T5.9 log-export dependency):** analytics events
+now persist in SQLite (`web/app/store.py`) — stdlib, zero new
+dependencies. One `events` table: `ts, event, strategy, rating, n_tracks,
+latency_ms`; the four event types are `vent`, `rating`,
+`playlist_created`, `crisis_declined`. **The schema has no free-text
+columns** — the store records what the system did, never what anyone
+wrote, so "nothing you write here is stored" stays literally true (pinned
+by tests, including a byte-level check that vent text never reaches the DB
+file). Writes are best-effort: a DB failure logs `db_write_failed` and the
+request succeeds anyway.
+
+Setup: on Railway, create a **Volume**, mount it at `/data`, and set
+`DATABASE_PATH=/data/venti.db` — without a volume the file is wiped on
+every redeploy. Locally it defaults to `data/venti.db` (gitignored).
+Retrieval: `GET /api/admin/export` returns the table as JSONL, gated by
+`ADMIN_EXPORT_TOKEN` + `X-Admin-Token` header (404 when unset, 403 on
+mismatch); the output feeds `tools/rating_report.py` directly:
+
+```
+curl -H "X-Admin-Token: $TOKEN" https://<domain>/api/admin/export > events.jsonl
+python tools/rating_report.py events.jsonl
+```
+
+Railway log lines remain for live ops visibility, but the DB is now the
+authoritative analytics record; log retention no longer threatens the
+beta metrics.
+
 **T5.4 — Beta gate checklist (all must be true before sharing the URL):**
 - [ ] Evals ≥14/15 core + 5/5 crisis/near-miss + 1/1 injection, on the API backend
 - [ ] Rate limits verified by hand (6th vent in an hour blocked)
@@ -277,7 +307,9 @@ exists in them; it comes from personal follow-ups.
 
 ## What we are NOT building (hold the line)
 
-No accounts. No database. No history page. No mood trends. No mobile app. No SoundCloud adapter (filed as a future issue: "demo mode via SoundCloud in-browser streams"). No Pulse integration. Each of these is a Phase-6+ conversation that happens only after 25 real users produce two weeks of ratings.
+No accounts. No database (amended by T5.10: a metadata-only SQLite event
+store for analytics — still no accounts, no history page, and no vent text
+at rest). No history page. No mood trends. No mobile app. No SoundCloud adapter (filed as a future issue: "demo mode via SoundCloud in-browser streams"). No Pulse integration. Each of these is a Phase-6+ conversation that happens only after 25 real users produce two weeks of ratings.
 
 ## Success criteria for the beta (decided now, so we can't move goalposts later)
 
